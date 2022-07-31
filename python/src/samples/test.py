@@ -30,10 +30,10 @@ def get_plans(context):
         try:
             for plan in test_client.get_plans(project):
                 emit("Test Plan {}: {} ({})".format(plan.id, plan.name, plan.area.name))
-            if INPUT_PLAN_ID in test_client.get_plans(project):
-                print('Plan ID entered by user is valid')
-            else:
-                print('Plan ID entered by user is invalid')
+                if INPUT_PLAN_ID in test_client.get_plans(project):
+                    print('Plan ID entered by user is valid')
+                else:
+                    print('Plan ID entered by user is invalid')
         except Exception as e:
             emit("Project '{}' raised error: {}".format(project, e))
 
@@ -50,11 +50,11 @@ def get_test_suites_for_plan(context):
                             suite.id, suite.name, plan.id, plan.name
                         )
                     )
-                if INPUT_SUITE_ID != '':
-                    if INPUT_SUITE_ID in test_client.get_test_suites_for_plan(project, plan.id):
-                        print('Suite ID entered by user is invalid')
-                    else:
-                        print('Suite ID entered by user is invalid')
+                    if INPUT_SUITE_ID != '':
+                        if INPUT_SUITE_ID in test_client.get_test_suites_for_plan(project, plan.id):
+                            print('Suite ID entered by user is invalid')
+                        else:
+                            print('Suite ID entered by user is invalid')
 
         except Exception as e:
             emit("Project '{}' raised error: {}".format(project, e))
