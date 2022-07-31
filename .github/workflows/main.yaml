@@ -21,4 +21,4 @@ jobs:
             plan_id: 185
             suite_id: 9832
             feature_wise_test_suites: yes
-            features_path: features
+            feature_path: features
