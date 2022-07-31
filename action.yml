@@ -29,7 +29,7 @@ outputs:
 
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/enricomi/publish-unit-test-result-action:v2.0.0'
+  image: 'Dockerfile'
 
 branding:
   icon: 'check-circle'
