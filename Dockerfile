@@ -12,7 +12,7 @@ LABEL com.github.actions.color="green"
 RUN dotnet tool install -g Pickles.CommandLine --version 3.0.1
 
 ENV PYTHONUNBUFFERED=1
-RUN apk add --update --no-cache python3 && ln -sf python3.12 /usr/bin/python
+RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
 RUN python3 -m ensurepip
 RUN pip3 install --no-cache --upgrade pip setuptools
 
@@ -27,4 +27,5 @@ RUN apk add --no-cache build-base libffi-dev; \
 COPY python/ /action/
 COPY python/connect.py /action/
 
+CMD "pip install -r /action/requirements.txt"
 ENTRYPOINT ["python", "/action/connect.py"]
