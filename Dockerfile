@@ -28,4 +28,10 @@ COPY python/ /action/
 COPY python/connect.py /action/
 
 CMD "pip install -r /action/requirements.txt"
-ENTRYPOINT ["python", "/action/connect.py"]
+CMD "export PATH="$PATH:/root/.dotnet/tools""
+#ENV ROOT=/app
+#RUN mkdir -p $ROOT
+#WORKDIR $ROOT
+COPY ./entrypoint.sh /entrypoint.sh
+RUN ["chmod", "+x", "/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
