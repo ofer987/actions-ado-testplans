@@ -1,4 +1,4 @@
-FROM python:3.11-rc-alpine
+FROM mcr.microsoft.com/azure-cli
 
 LABEL repository="https://github.com/PavanMudigonda/cucumber-azure-devops-sync"
 LABEL homepage="https://github.com/PavanMudigonda/cucumber-azure-devops-sync"
@@ -17,7 +17,6 @@ RUN apk add --no-cache build-base libffi-dev; \
 COPY /python /action/
 
 CMD "pip install -r /action/src/requirements.txt"
-CMD "export PATH="$PATH:/root/.dotnet/tools""
 ENV ROOT=/action
 RUN mkdir -p $ROOT
 WORKDIR $ROOT
