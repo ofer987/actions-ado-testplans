@@ -17,7 +17,7 @@ RUN apk add --no-cache build-base libffi-dev; \
 
 COPY /python /action/
 
-CMD "pip install -r /action/src/requirements.txt"
+CMD "pip install -r /action/requirements.txt"
 CMD "export PATH="$PATH:/root/.dotnet/tools""
 ENV ROOT=/action
 RUN mkdir -p $ROOT
