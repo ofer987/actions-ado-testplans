@@ -10,4 +10,4 @@ python src/runner.py config pat --set-to ${INPUT_ADO_PAT}
 ls -R
 
 # RUN ADO TEST MODULE
-python src/runner.py run test all
+python src/runner.py run all all
