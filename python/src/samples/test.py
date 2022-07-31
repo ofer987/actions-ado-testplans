@@ -5,7 +5,7 @@ import datetime
 import logging
 
 from samples import resource
-from ado_utils import emit
+from utils import emit
 
 
 logger = logging.getLogger(__name__)

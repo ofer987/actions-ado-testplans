@@ -3,7 +3,7 @@ import os
 import pathlib
 import sys
 
-from ado_utils import emit
+from utils import emit
 
 
 DEFAULT_CONFIG_FILE_NAME = "azure-devops-runner-config.json"

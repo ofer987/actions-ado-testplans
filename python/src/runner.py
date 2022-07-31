@@ -17,7 +17,7 @@ from config import Config
 import http_logging
 import hacks
 import runner_lib
-from ado_utils import emit
+from utils import emit
 
 __VERSION__ = "1.0.0"
 

@@ -7,7 +7,7 @@ import pathlib
 import pkgutil
 
 import http_logging
-from ado_utils import emit
+from utils import emit
 
 logger = logging.getLogger(__name__)
 

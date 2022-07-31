@@ -4,7 +4,7 @@ Git samples.
 import logging
 
 from samples import resource
-from ado_utils import emit, find_any_project, find_any_repo
+from utils import emit, find_any_project, find_any_repo
 
 
 logger = logging.getLogger(__name__)

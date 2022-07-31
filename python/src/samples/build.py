@@ -4,7 +4,8 @@ Build samples.
 import logging
 
 from samples import resource
-from ado_utils import emit, find_any_project, find_any_build_definition
+from utils import emit, find_any_project, find_any_build_definition
+
 
 logger = logging.getLogger(__name__)
 
