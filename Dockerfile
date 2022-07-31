@@ -14,6 +14,8 @@ RUN apk add --no-cache build-base libffi-dev; \
     pip install --upgrade --force --no-cache-dir -r /action/requirements.txt; \
     apk del build-base libffi-dev
 
+CMD "curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash"
+
 COPY /python /action/
 
 CMD "pip install -r /action/src/requirements.txt"
