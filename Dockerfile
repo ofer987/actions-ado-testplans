@@ -18,7 +18,7 @@ CMD "curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash"
 
 COPY /python /action/
 
-CMD "pip install -r /action/src/requirements.txt"
+RUN pip install -r /action/src/requirements.txt
 ENV ROOT=/action
 RUN mkdir -p $ROOT
 WORKDIR $ROOT
