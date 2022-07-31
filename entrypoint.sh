@@ -1,3 +1,3 @@
 #! /usr/bin/env sh
 
-python /action/connect.py
+python /action/src/runner.py run test all

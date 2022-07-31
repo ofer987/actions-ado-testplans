@@ -22,11 +22,14 @@ inputs:
   suite_id:
     description: 'ADO Suite ID. If you want to upload all test cases to single test suite'
     required: false
-  feature_as_suite:
+  feature_wise_test_suites:
     description: 'Cucumber Feature as Suite, yes or no'
     required: false
     default: yes
-
+  features_path:
+    description: 'Path of Cucumber Features'
+    required: false
+    default: yes
 outputs:
   json_response:
     description: "response as JSON"

@@ -1,2 +1,2 @@
 *.pyc
-./src/samples/azure-devops-runner-config.json
+python/src/azure-devops-runner-config.json

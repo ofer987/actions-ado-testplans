@@ -20,3 +20,5 @@ jobs:
             project_id: ${{ secrets.PROJECT_ID }}
             plan_id: 185
             suite_id: 9832
+            feature_wise_test_suites: yes
+            features_path: features
