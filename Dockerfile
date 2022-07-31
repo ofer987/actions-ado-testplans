@@ -9,7 +9,6 @@ LABEL com.github.actions.description="Cucumber to Azure DevOps Sync"
 LABEL com.github.actions.icon="check-circle"
 LABEL com.github.actions.color="green"
 
-COPY src/requirements.txt /action/
 RUN apk add --no-cache build-base libffi-dev; \
     pip install --upgrade --force --no-cache-dir pip && \
     pip install --upgrade --force --no-cache-dir -r /action/requirements.txt; \
@@ -17,7 +16,7 @@ RUN apk add --no-cache build-base libffi-dev; \
 
 COPY /python /action/
 
-CMD "pip install -r /action/requirements.txt"
+CMD "pip install -r /action/src/requirements.txt"
 CMD "export PATH="$PATH:/root/.dotnet/tools""
 ENV ROOT=/action
 RUN mkdir -p $ROOT
