@@ -16,7 +16,7 @@ jobs:
         uses: ./
         with:
             ado_pat: ${{ secrets.ADO_PAT }}
-            ado_org_url: ${{ secrets.ADO_ORG_URL }}
+            ado_org_url: https://dev.azure.com/tr-ihn-sandbox
             project_id: ${{ secrets.PROJECT_ID }}
             plan_id: 185
             suite_id: 9832
