@@ -12,7 +12,7 @@ jobs:
       - name: Checkout Git Repo
         uses: actions/checkout@v3
 
-      - name: Create Test Results History
+      - name: Cucumber to ADO Sync
         uses: ./
         with:
             ado_pat: ${{ secrets.ADO_PAT }}
