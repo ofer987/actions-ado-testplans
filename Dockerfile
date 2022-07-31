@@ -9,7 +9,7 @@ LABEL com.github.actions.description="Cucumber to Azure DevOps Sync"
 LABEL com.github.actions.icon="check-circle"
 LABEL com.github.actions.color="green"
 
-RUN dotnet tool install -g Pickles.CommandLine
+RUN dotnet tool install -g Pickles.CommandLine --version 3.0.1
 
 ENV PYTHONUNBUFFERED=1
 RUN apk add --update --no-cache python3 && ln -sf python3.12 /usr/bin/python
