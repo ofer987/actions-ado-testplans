@@ -1,15 +1,21 @@
 from azure.devops.connection import Connection
 from msrest.authentication import BasicAuthentication
 import pprint
-import configparser
+import logging
+import os
+import sys
+import traceback
+from io import TextIOWrapper
+from typing import Mapping, Any, Optional
 
-config = configparser.RawConfigParser()
-config.read('../../ADO.properties')
-print();
 
-# Fill in with your personal access token and org URL
-personal_access_token = config.get('ADO', 'ADO_PAT')
-organization_url = config.get('ADO', 'ADO_ORG_URL')
+# GitHub Actions environment file variable names
+# https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
+ENV_FILE_VAR_NAME = 'GITHUB_ENV'
+PATH_FILE_VAR_NAME = 'GITHUB_PATH'
+JOB_SUMMARY_FILE_VAR_NAME = 'GITHUB_STEP_SUMMARY'
+personal_access_token = 'INPUT_ADO_PAT'
+organization_url = 'INPUT_ADO_ORG_URL'
 
 # Create a connection to the org
 credentials = BasicAuthentication('', personal_access_token)

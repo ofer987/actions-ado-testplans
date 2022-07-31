@@ -8,4 +8,4 @@ PyGithub==1.55
 requests==2.27.1
 urllib3==1.26.11
 azure-devops==6.0.0b4
-configparser
+dotenv-config
