@@ -1,0 +1,22 @@
+name: test
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Git Repo
+        uses: actions/checkout@v3
+
+      - name: Create Test Results History
+        uses: ./
+        with:
+            ado_pat: ${{ secrets.ADO_PAT }}
+            ado_org_url: ${{ secrets.ADO_ORG_URL }}
+            project_id: ${{ secrets.PROJECT_ID }}
+            plan_id: 185
+            suite_id: 9832
