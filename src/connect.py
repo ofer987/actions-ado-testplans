@@ -8,7 +8,6 @@ import traceback
 from io import TextIOWrapper
 from typing import Mapping, Any, Optional
 
-
 # GitHub Actions environment file variable names
 # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
 ENV_FILE_VAR_NAME = 'GITHUB_ENV'

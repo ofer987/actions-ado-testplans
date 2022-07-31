@@ -20,8 +20,12 @@ inputs:
     description: 'ADO Plan ID'
     required: true
   suite_id:
-    description: 'ADO Suite ID'
+    description: 'ADO Suite ID. If you want to upload all test cases to single test suite'
     required: false
+  feature_as_suite:
+    description: 'Cucumber Feature as Suite, yes or no'
+    required: false
+    default: yes
 
 outputs:
   json_response:
