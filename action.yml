@@ -6,7 +6,7 @@ inputs:
   github_token:
     description: 'GitHub API Access Token'
     default: ${{ github.token }}
-    required: false
+    required: true
   ado_pat:
     description: 'Azure DevOps PAT'
     required: true
@@ -15,28 +15,13 @@ inputs:
     required: true
   area_path:
     description: 'Area Path of ADO'
-    required: false
-    default: yes    
-  project_id:
-    description: 'ADO Project ID'
     required: true
-  plan_id:
-    description: 'ADO Plan ID'
-    required: true
-  suite_id:
-    description: 'ADO Suite ID. If you want to upload all test cases to single test suite'
-    required: false
-  feature_wise_test_suites:
-    description: 'Cucumber Feature as Suite, yes or no'
-    required: false
-    default: yes
+  project_name:
+    description: 'ADO Project Name'
+    required: true    
   feature_path:
     description: 'Path of Cucumber Features'
-    required: false
-    default: yes
-outputs:
-  json_response:
-    description: "response as JSON"
+    required: true
 
 runs:
   using: 'docker'

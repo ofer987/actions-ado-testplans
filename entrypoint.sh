@@ -7,7 +7,7 @@ cd /action/dotnet
 ls -R
 
 # DOTNET BUILD
-dotnet build
+dotnet build GherkinSyncTool.sln
 
 # RUN APP
 dotnet ./GherkinSyncTool/bin/Debug/*/GherkinSyncTool.dll
