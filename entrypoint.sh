@@ -1,7 +1,4 @@
-#! /usr/bin/env sh
-
-# List
-ls -R
+#! /usr/bin/env bash
 
 # ADD DOTNET TO PATH
 cat << \EOF >> ~/.bash_profile
@@ -12,6 +9,4 @@ EOF
 # Gherkins Tool
 GherkinSyncTool
 
-# List
-ls -R
 
