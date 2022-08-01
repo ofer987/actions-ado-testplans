@@ -12,6 +12,7 @@ LABEL com.github.actions.color="green"
 COPY /dotnet /action/
 
 ENV ROOT=/action
+RUN export PATH="$PATH:/root/.dotnet/tools"
 RUN mkdir -p $ROOT
 WORKDIR $ROOT
 COPY ./entrypoint.sh /entrypoint.sh
