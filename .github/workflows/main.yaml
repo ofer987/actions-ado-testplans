@@ -24,8 +24,17 @@ jobs:
       - name: Checkout Git Repo
         uses: actions/checkout@v3
 
+      - uses: dorny/paths-filter@v2
+        id: pre-ado-sync
+        with:
+          base: ${{ env.GITHUB_SHA }}
+          filters: |
+            features:
+             - 'features/**'  # Enter 'feature_path' from previous step
+
         # run only if some file in 'src' folder was changed
       - name: Cucumber to ADO Sync
+        if: steps.pre-ado-sync.outputs.features == 'true'
         uses: tr/cicd_gh-actions-cucumber-azure-devops-sync@v0.1
         with:
             ado_pat: ${{ secrets.ADO_PAT }}
@@ -43,6 +52,9 @@ jobs:
           filters: |
             features:
              - 'features/**'  # Enter 'feature_path' from previous step
+
+      - name: shell print git status
+        run: git status
 
       #  Commit Cucumber Feature Files to triggering branch and all newly generated badge images to tr-cicd-resources branch
       - name: Commit badge images and README Markdown
