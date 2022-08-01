@@ -68,6 +68,7 @@ runs:
           # cd GST
           export PATH="$PATH:/root/.dotnet/tools";
           dotnet tool install --global GherkinSyncTool;
+          sudo -i
           cd /root/.dotnet/tools;
           ls -R;
           GherkinSyncTool sync --azuredevops;
