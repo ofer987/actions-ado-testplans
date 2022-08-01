@@ -13,6 +13,10 @@ inputs:
   ado_org_url:
     description: 'ADO Org URL'
     required: true
+  area_path:
+    description: 'Area Path of ADO'
+    required: false
+    default: yes    
   project_id:
     description: 'ADO Project ID'
     required: true

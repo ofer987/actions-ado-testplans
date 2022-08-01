@@ -1,3 +1,0 @@
-# if you just want the command-line samples experience, use this requirements file
-azure-devops==6.0.0b4
-pytest==7.1.2

@@ -1,2 +1,8 @@
 *.pyc
 python/src/azure-devops-runner-config.json
+.idea
+bin
+obj
+.vs
+.vscode
+*.user
