@@ -61,15 +61,15 @@ runs:
         with:
           files: 'appsettings.json'
         env:
+          FormattingSettings.TagIndentation: ${{ inputs.tag_indentation }}
           BaseDirectory: ${{ inputs.feature_path }}
           TagIdPrefix: ${{ inputs.tag_prefix_id }}
-          TagIndentation: ${{ inputs.tag_indentation }}
-          BaseUrl: ${{ inputs.ado_org_url }}
-          PersonalAccessToken: ${{ inputs.ADO_PAT }}
-          Project: ${{ inputs.project_name }}
-          Area: ${{ inputs.area_path }}
-          GherkinSyncToolId: ${{ inputs.cucumber_sync_tool_Id }}
-          SetThenStepsAsExpected: ${{ inputs.set_then_steps_as_expected}}
+          AzureDevopsSettings.BaseUrl: ${{ inputs.ado_org_url }}
+          AzureDevopsSettings.PersonalAccessToken: ${{ inputs.ADO_PAT }}
+          AzureDevopsSettings.Project: ${{ inputs.project_name }}
+          AzureDevopsSettings.Area: ${{ inputs.area_path }}
+          AzureDevopsSettings.GherkinSyncToolId: ${{ inputs.cucumber_sync_tool_Id }}
+          AzureDevopsSettings.SetThenStepsAsExpected: ${{ inputs.set_then_steps_as_expected}}
 
       - name: Run GST
         shell: sh
