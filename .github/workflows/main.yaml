@@ -14,12 +14,9 @@ jobs:
 
       - name: Cucumber to ADO Sync
         uses: ./
-        env:
-            PersonalAccessToken: ${{ secrets.ADO_PAT }}
-            BaseUrl: https://dev.azure.com/tr-ihn-sandbox
-            Project: Azure DevOps Training
-            BaseDirectory: features
-            TagIdPrefix: ADO-
-            Area: Azure DevOps Training
-            GherkinSyncToolId: GHAction
-            SetThenStepsAsExpected: false
+        with:
+            ado_pat: ${{ secrets.ADO_PAT }}
+            ado_org_url: https://dev.azure.com/tr-ihn-sandbox
+            project_name: Azure DevOps Training
+            feature_path: features
+            area_path: Azure DevOps Training

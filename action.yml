@@ -2,31 +2,73 @@ name: 'Cucumber to Azure DevOps Test Plans Sync'
 author: 'PavanMudigonda'
 description: 'A GitHub Action that Synchronizes test cases in Cucumber Feature Files to Azure DevOps Test Plans'
 
-# inputs:
-#   github_token:
-#     description: 'GitHub API Access Token'
-#     default: ${{ github.token }}
-#     required: true
-#   ado_pat:
-#     description: 'Azure DevOps PAT'
-#     required: true
-#   ado_org_url:
-#     description: 'ADO Org URL'
-#     required: true
-#   area_path:
-#     description: 'Area Path of ADO'
-#     required: true
-#   project_name:
-#     description: 'ADO Project Name'
-#     required: true    
-#   feature_path:
-#     description: 'Path of Cucumber Features'
-#     required: true
-
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
-
 branding:
-  icon: 'check-circle'
-  color: 'green'
+  icon: 'repeat'
+  color: 'red'
+
+inputs:
+  github_token:
+    description: 'GitHub API Access Token'
+    default: ${{ github.token }}
+    required: false
+  ado_pat:
+    description: 'Azure DevOps PAT'
+    required: true
+  ado_org_url:
+    description: 'ADO Org URL'
+    required: true
+  area_path:
+    description: 'Area Path of ADO'
+    required: true
+  project_name:
+    description: 'ADO Project Name'
+    required: true    
+  feature_path:
+    description: 'Path of Cucumber Features'
+    required: true
+  set_then_steps_as_expected:
+    description: 'Path of Cucumber Features'
+    required: false
+    default: 'false'
+  cucumber_sync_tool_Id: 
+    description: 'Path of Cucumber Features'
+    required: false
+    default: 'GH-Actions'  
+  tag_prefix_id: 
+    description: 'Path of Cucumber Features'
+    required: false
+    default: 'ADO-'
+  tag_indentation:
+    description: 'Tag Indentation'
+    required: false
+    default: '2'  
+runs:
+  using: 'composite'    
+  steps:
+      - name: Set up .NET 5
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "5.0.x"
+
+      - name: Set up TR Artifactory
+        shell: sh
+        run: |
+          nuget sources Add -Name Artifactory -Source https://tr1.jfrog.io/artifactory/api/nuget/nuget
+          nuget setapikey ${{ env.ARTIFACTORY_USER }}:${{ secrets.ARTIFACTORY_TOKEN }} -Source Artifactory  
+
+      - name: Notification
+        shell: bash
+        env: 
+          BaseDirectory: ${{ inputs.feature_path }}
+          TagIdPrefix: ${{ inputs.tag_prefix_id }}
+          TagIndentation: ${{ inputs.tag_indentation }}
+          BaseUrl: ${{ inputs.ado_org_url }}
+          PersonalAccessToken: ${{ inputs.ADO_PAT }}
+          Project: ${{ inputs.project_name }}
+          Area: ${{ inputs.area_path }}
+          GherkinSyncToolId: ${{ inputs.cucumber_sync_tool_Id }}
+          SetThenStepsAsExpected: ${{ inputs.set_then_steps_as_expected}}
+        run:
+          GherkinSyncTool sync --azuredevops
+
+
