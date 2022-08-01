@@ -7,7 +7,8 @@ LABEL com.github.actions.description="Cucumber to Azure DevOps Sync"
 LABEL com.github.actions.icon="check-circle"
 LABEL com.github.actions.color="green"
 COPY /dotnet /action/
-RUN mkdir -p $HOME/dotnet && tar zxf dotnet-sdk-5.0.408-linux-musl-x64.tar.gz -C $HOME/dotnet
+RUN mkdir -p $HOME/dotnet
+RUN tar zxf dotnet-sdk-5.0.408-linux-musl-x64.tar.gz -C $HOME/dotnet
 RUN export DOTNET_ROOT=$HOME/dotnet
 RUN export PATH=$PATH:$HOME/dotnet
 RUN export PATH="$PATH:/root/.dotnet/tools"
