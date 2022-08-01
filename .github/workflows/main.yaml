@@ -18,6 +18,5 @@ jobs:
             ado_pat: ${{ secrets.ADO_PAT }}
             ado_org_url: https://dev.azure.com/tr-ihn-sandbox
             project_name: Azure DevOps Training
-            project_id: ${{ secrets.PROJECT_ID }}
             feature_path: features
             area_path: Azure DevOps Training
