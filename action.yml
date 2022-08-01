@@ -72,9 +72,8 @@ runs:
           SetThenStepsAsExpected: ${{ inputs.set_then_steps_as_expected}}
 
       - name: Run GST
-        shell: bash
+        shell: pwsh
         run: |
-          ls -R;
           GherkinSyncTool sync --azuredevops;
 
 
