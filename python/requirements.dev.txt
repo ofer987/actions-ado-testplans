@@ -1,3 +1,0 @@
-# if you want to run tests, you'll need pytest
-pytest==3.5.0
--r requirements.txt
