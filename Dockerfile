@@ -11,4 +11,4 @@ RUN dotnet tool install --global GherkinSyncTool
 # COPY ./entrypoint.sh /entrypoint.sh
 # RUN ["chmod", "+x", "/entrypoint.sh"]
 # ENTRYPOINT ["/entrypoint.sh"]
-ENTRYPOINT ["/bin/bash", “-c” "GherkinSyncTool"]
+ENTRYPOINT ["/bin/sh", “-c” "GherkinSyncTool"]
