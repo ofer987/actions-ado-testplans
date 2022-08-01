@@ -4,15 +4,18 @@ Feature: Statutory Reporting Page
     The purpose of this feature is to test the ONESOURCE Statutory Reporting product
 
     @osr
+  @ADO-15604
     Scenario: NGWF_SC11_Click on Home icon
         # Given the user is logged-in to ONESOURCE
         Then the user click on Homepage icon and validate Homepage is landed
 
     @osr
+  @ADO-15605
     Scenario: NGWF_SC12_Click on Statutory Reporting Tile
         Given I am in the Statutory Reporting Page
 
     @osr
+  @ADO-15606
     Scenario Outline: NGWF_SC13_Create OSR instance
         When I click on Add New Reporting Entities Button with "<Entity Name>"
         And I filter entity using "<Entity Name>"
@@ -25,6 +28,7 @@ Feature: Statutory Reporting Page
             | ename       |
 
     @osr
+  @ADO-15607
     Scenario Outline: NGWF_SC14_Validate the instance creation in Related Workflows
         When I click the highlighted icon should see two dropdown values
         And I click on Related Workflows button
@@ -36,6 +40,7 @@ Feature: Statutory Reporting Page
             | 12/31/2020 |
 
     @osr
+  @ADO-15608
     Scenario Outline: NGWF_SC15_Validate the instance creation in All Workflows
         When I click All workflows button
         And I select "Statutory Reporting" from Workflows dropdown

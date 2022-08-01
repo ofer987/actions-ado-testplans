@@ -2,6 +2,7 @@
 Feature: MySettings Scenarios
 
     @complete @fullreport @Smoke @UiReport
+  @ADO-15441
     Scenario: Launch The Application
         Given I am Logging to "Onesource" Application
         When I try to login to "OneSource" by providing username and password
@@ -13,6 +14,7 @@ Feature: MySettings Scenarios
     #Then verify whether the user logged out successfully
 
     @complete @UiReport
+  @ADO-15442
     Scenario: Change the backGround in the OneSource Application
         Given the user is in the dashboard
         When I select the background From the left Navigation
@@ -28,6 +30,7 @@ Feature: MySettings Scenarios
     #     And click on Homepage icon and validate Homepage is landed
 
     @complete @Smoke @fullreport @UiReport @endFeature
+  @ADO-15443
     Scenario: Change the language
         # Given I am in Dashboard
         Given I am in the ONESOURCE Home Page
@@ -55,6 +58,7 @@ Feature: MySettings Scenarios
     #        | Arabic             | تحديد اللغة          |
 
     @complete @endFeature @UiReport
+  @ADO-15444
     Scenario: Change Password
         Given the user is in the dashboard
         When I click on the MySettings button from dropdown

@@ -2,12 +2,14 @@
 Feature: One Source Hamburger Menu Scenarios
 
     @complete @UiReport
+  @ADO-15410
     Scenario: User is logged-in to ONESOURCE Home Page
         Given User logging to Onesource application
         When User login to OneSource by providing credentials
         Then Verify the user Logged in successfully
 
     @complete @UiReport
+  @ADO-15411
     Scenario Outline: Verify navigation to "<Links>" pages
         Given User navigates to ONESOURCE Home Page
         When User clicks the "<Links>"
@@ -19,6 +21,7 @@ Feature: One Source Hamburger Menu Scenarios
             | System Status     | Thomson Reuters Corporates Status |
 
     @complete @UiReport
+  @ADO-15412
     Scenario Outline: Verify the page title for "<Menu>" page
         Given User navigates to ONESOURCE Home Page
         When User clicks the PageLink "<Menu>"
@@ -49,6 +52,7 @@ Feature: One Source Hamburger Menu Scenarios
             | Indirect Tax Compliance      | ONESOURCE Home                          |
 
     @complete @UiReport @abcdef
+  @ADO-15413
     Scenario Outline: Verify the page window for "<Menu>" page
         Given User navigates to ONESOURCE Home Page
         When User clicks the Page "<Menu>"
@@ -69,6 +73,7 @@ Feature: One Source Hamburger Menu Scenarios
             # | Tax Provision – v2014.1 and below     | Error - Single Sign-On              |
 
     @complete @endFeature @UiReport
+  @ADO-15414
     Scenario: Verify the navigation to Fringe Benefits Tax
         Given User navigates to ONESOURCE Home Page
         When User clicks the Page

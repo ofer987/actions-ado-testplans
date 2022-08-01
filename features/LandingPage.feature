@@ -2,11 +2,13 @@
 Feature: Landing Page Scenarios
 
     @complete @Smoke @fullreport @landing2 @UiReport
+  @ADO-15571
     Scenario: OneSource Login
         Given I am Logging to "Onesource" Application
         When I try to login to "OneSource" by providing username and password
 
     @OneSourceAdmin @complete @Smoke @UiReport
+  @ADO-15572
     Scenario: Verify User Administration Page navigation
         Given I am in the ONESOURCE Home Page
         And I am in the Administration Page
@@ -14,6 +16,7 @@ Feature: Landing Page Scenarios
         And click on Homepage icon and validate Homepage is landed
 
     @complete1 @UiReport
+  @ADO-15573
     Scenario: Latest News Functionality
         Given the user is in the dashboard
         And click the Latest News tab
@@ -21,6 +24,7 @@ Feature: Landing Page Scenarios
         And click on Homepage icon and validate Homepage is landed
 
     @complete1 @activity @UiReport
+  @ADO-15574
     Scenario: Activity Card validations
         And click the Test Target Application and navigate to ActivityCardService
         And Add the Activity
@@ -31,24 +35,28 @@ Feature: Landing Page Scenarios
         And click on Homepage icon and validate Homepage is landed
 
     @complete1 @UiReport
+  @ADO-15575
     Scenario: Resources Functionality
         When click the Resources tab
         Then verify that "RESOURCES" displayed
         And click on Homepage icon and validate Homepage is landed
 
     @complete @UiRepor
+  @ADO-15576
     Scenario: University tab validations
         #When click the University tab
         Then validate that the university page opens
         Then click on Homepage icon and validate Homepage is landed
 
     @complete1 @Smoke  @fullreport @UiReport @endFeatur
+  @ADO-15577
     Scenario: Checkpoint tab validations
         When I click the checkpoint tab
         Then validate that the checkpoint page opens
         Then click on Homepage icon and validate Homepage is landed
 
     @complete1 @UiReport
+  @ADO-15578
     Scenario: Analytics tab validations
         When click the Analytics tab
         Then validate that the Analytics page opens
@@ -56,12 +64,14 @@ Feature: Landing Page Scenarios
 
     #OSCP 4741---- Digital Tax Reporting -- October release
     @complete @UiReport
+  @ADO-15579
     Scenario: Digital Tax Reporting tab validations
         When click the Digital Tax Reporting tile
         Then validate that the Digital Tax Reporting page opens
         Then click on Homepage icon and validate Homepage is landed
 
     @complete @landing @UiReport
+  @ADO-15580
     Scenario Outline: Verify that "<tile>" page opens
         Given User is in the ONESOURCE Homepage
         When User selects the "<tile>" tile
@@ -77,6 +87,7 @@ Feature: Landing Page Scenarios
             | AWS–ONESOURCE Trust TAX‎              | ONESOURCE Trust Tax         |
 
     @complete @landing2 @UiReport
+  @ADO-15581
     Scenario Outline: Verify the navigation of "<tile>" page
         Given User is in the ONESOURCE Homepage
         When User selects the "<tile>" tile
@@ -96,6 +107,7 @@ Feature: Landing Page Scenarios
             | Indirect Tax                | ONESOURCE Home                         |
     
     @fullreport @UiReport
+  @ADO-15582
     Scenario Outline: Verify "Browser not supported" Label on "<tile>" tile when browser not supported
         Given User is in the ONESOURCE Homepage
         When the "<tile>" tile is disabled
@@ -109,6 +121,7 @@ Feature: Landing Page Scenarios
             | Estimated Payments              | Browser not supported |            
 
     @fullreport @endFeature
+  @ADO-15583
     Scenario: Verify Help menu dropdown when a tile is clicked
         Given I am in the ONESOURCE Home Page
         And I am in the Administration Page
