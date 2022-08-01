@@ -9,19 +9,23 @@ Feature: Due Dates tab
     #      And the user is in the Calendar page
 
 
+  @ADO-15625
     Scenario: NGCAL_SC8_Navigate to Due dates tab
         When the user clicks on Due date section
 
 
+  @ADO-15626
     Scenario: NGCAL_SC9_Check the filter panel
         Then the filter should be opened
 
 
+  @ADO-15627
     Scenario: NGCAL_SC10_Hide the filter panel
         When the user hide the filter panel
         Then the filter panel should be hidden
 
 
+  @ADO-15628
     Scenario Outline: NGCAL_SC11_Filter the record
         When I click on Filter button to open Filter Panel
         When I enter "<Year>" for Year
@@ -34,6 +38,7 @@ Feature: Due Dates tab
             | 2025 | Afghanistan  | Fringe Benefits Tax |
 
 
+  @ADO-15629
     Scenario Outline: NGCAL_SC12_Add comment
         When the user clicks on Edit button
         When the user adds comment "<Comment>" in DD
@@ -46,11 +51,13 @@ Feature: Due Dates tab
             | New comment |
 
     
+  @ADO-15630
     Scenario: NGCAL_SC13_Verify DDP screen functionality in Edit panel
         #When the user clicks on Edit button
         Then validate Due dates properties page loaded
 
 
+  @ADO-15631
     Scenario Outline: NGCAL_SC14_Validate the Change Status flag
         When the user clicks on back button in Due date edit panel
         When the user selects the "<noOfRecords>" records
@@ -62,6 +69,7 @@ Feature: Due Dates tab
             | 1           | Completed  |
 
 
+  @ADO-15632
     Scenario: NGCAL_SC15_Validate the Delete Instance in SDD
         Given the user is in the Schedule Due Dates tab    
         When I click on Filter button to open Filter Panel
@@ -69,6 +77,7 @@ Feature: Due Dates tab
         Then the user should see the alert message
 
 
+  @ADO-15633
     Scenario: Logout of the ONESOURCE application
         When there are other tabs opened close them
         Then I logout from the application

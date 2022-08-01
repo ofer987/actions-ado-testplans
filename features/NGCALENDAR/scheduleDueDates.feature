@@ -4,12 +4,14 @@ Feature: Calendar page
     As a user, I want to be able to verify the smoke functionalities of Calendar page
 
 
+  @ADO-15634
     Scenario: User is logged-in to ONESOURCE Home Page
         Given the user is logged-in to ONESOURCE
         And the user is in the Calendar page
         And the user is in the Schedule Due Dates tab
 
 
+  @ADO-15635
     Scenario Outline: NGCAL_SC1_Check "<tabName>" tab in NextGen Calendar Page
         Then "<tabName>" tab should be present
 
@@ -22,15 +24,18 @@ Feature: Calendar page
             | Setup                |
 
 
+  @ADO-15636
     Scenario: NGCAL_SC2_Check the filter panel
         Then the filter should be opened
 
 
+  @ADO-15637
     Scenario: NGCAL_SC3_Hide the filter panel
         When the user hide the filter panel
         Then the filter panel should be hidden
 
 
+  @ADO-15638
     Scenario Outline: NGCAL_SC4_Display "<columnName>" column
         When the user selects "<columnName>" column in "<Tab>" tab
         Then "<columnName>" column should be displayed
@@ -40,6 +45,7 @@ Feature: Calendar page
             | Entity ID  | SDD |
 
 
+  @ADO-15639
     Scenario Outline: NGCAL_SC5_Hide "<columnName>" column
         When the user deselects "<columnName>" column in "<Tab>" tab
         Then "<columnName>" column should be hidden
@@ -49,6 +55,7 @@ Feature: Calendar page
             | Entity ID  | SDD |
 
 
+  @ADO-15640
     Scenario Outline: NGCAL_SC6_Create Calendar instance in Schedule Due Dates
         When I click on Add Row functionality with "<Year>" and "<Jurisdiction>"
         And I select Tax Types for "<Tax Type>"
@@ -61,6 +68,7 @@ Feature: Calendar page
             | 2025 | Afghanistan  | Swathi QA test | MVA      |
 
 
+  @ADO-15641
     Scenario Outline: NGCAL_SC7_Verify filter scenarios for Calendar product in Schedule Due Dates
         When I click on Filter button to open Filter Panel for SDD
         When I enter "<Year>" for Year for SDD

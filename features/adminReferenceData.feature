@@ -4,11 +4,13 @@ Feature: Admin Reference Data Page
     The purpose of this feature is to test the Reference Data pages
 
     @refData @UiReport
+  @ADO-15394
     Scenario: OneSource Login
         Given User logging to Onesource application
         When  User login to OneSource by providing credentials
 
     @refData @UiReport
+  @ADO-15395
     Scenario Outline: Reference data options validation "<optionLabel>"
         Given User navigates to ONESOURCE Home Page
         And   User is in the Administration Page
@@ -24,5 +26,6 @@ Feature: Admin Reference Data Page
             | Jurisdictions       | manageJurisdiction |
 
     @UiReport
+  @ADO-15396
     Scenario: logout of the application
         Given click the logout of the application

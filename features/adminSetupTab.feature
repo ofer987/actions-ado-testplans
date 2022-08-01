@@ -4,11 +4,13 @@ Feature: Admin Setup Page
     The purpose of this feature is to test the Admin Setup Page
 
     @complete @test @Smoke @fullreport @UiReport @chec
+  @ADO-15459
     Scenario: User is logged-in to ONESOURCE Home Page
         Given User logging to Onesource application
         When User login to OneSource by providing credentials
 
     @complete @Smoke @fullreport @UiReport
+  @ADO-15460
     Scenario: Verify the different tabs in Admin Setup Page
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -16,6 +18,7 @@ Feature: Admin Setup Page
         Then Verify Setup tab options displayed
 
     @complete @Smoke @fullreport @UiReport
+  @ADO-15461
     Scenario: Verify Minimum password length in Password Policy when you enter valid length
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -25,6 +28,7 @@ Feature: Admin Setup Page
 
     #OSCP ---5262 october release
     @complete @UiReport
+  @ADO-15462
     Scenario: Verify Restrict the number of times a character can be repeated
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -33,6 +37,8 @@ Feature: Admin Setup Page
         Then Maximum length value "255"
 
     @complete
+  @ADO-15463
+  @ADO-15464
     Scenario Outline: Verify Minimum password length in Password Policy when you enter invalid length
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -67,6 +73,7 @@ Feature: Admin Setup Page
             | User inactivity (in days)     | 401      | Lockout duration (in minutes) | 40       |
 
     @complete @test @fullreport
+  @ADO-15465
     Scenario: Verify 0 is not saved on saving a blank value for the Password Policy tab Minimum password age (in days) Field
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -82,6 +89,7 @@ Feature: Admin Setup Page
         Then Minimum password age should be "90"
 
     @complete @test @fullreport
+  @ADO-15466
     Scenario: Verify 0 is not saved on saving a blank value for the Password Policy tab Expiring password notification (in days) Field
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -97,6 +105,7 @@ Feature: Admin Setup Page
         Then Expiring password notification should be "30"
 
     @complete @test @fullreport
+  @ADO-15467
     Scenario: Verify 0 is not saved on saving a blank value for the Password Policy tab Restrict use of former passwords (in days) Field
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -112,6 +121,7 @@ Feature: Admin Setup Page
         Then Restrict use of former passwords should be "365"
 
     @complete @test @fullreport
+  @ADO-15468
     Scenario: Verify 0 is not saved on saving a blank value for the Password Policy tab Restrict the number of times a character can be repeated Field
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -127,6 +137,7 @@ Feature: Admin Setup Page
         Then Restrict the number of times a character can be repeated should be "255"
 
     @complete @test @fullreport
+  @ADO-15469
     Scenario: Verify 0 is not saved on saving a blank value for the Account Lockout Policy tab Lockout duration (in minutes) Field
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -144,6 +155,7 @@ Feature: Admin Setup Page
         Then Lockout duration should be "1440"
 
     @complete @test @fullreport
+  @ADO-15470
     Scenario: Verify 0 is not saved on saving a blank value for the Account Lockout Policy tab User inactivity (in days) Field
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -161,6 +173,7 @@ Feature: Admin Setup Page
         Then User inactivity should be "400"    
 
     @complete @Smoke @fullreport @UiReport
+  @ADO-15471
     Scenario: Verify MFA selection can be toggled ON and OFF
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -172,6 +185,7 @@ Feature: Admin Setup Page
         And "Multi-factor Authentication is OFF" should be displayed!
 
     @complete @UiReport
+  @ADO-15472
     Scenario Outline: Verify SSO Authentication selection can be toggled ON and OFF
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -188,6 +202,7 @@ Feature: Admin Setup Page
             | Single Sign-On Authentication |
 
     @fullreport
+  @ADO-15473
     Scenario: Verify ONESOURCE Sales & Use Tax Compliance
         Given User navigates to ONESOURCE Home Page
         When User is on Sales & Use Tax Compliance Page
@@ -196,11 +211,13 @@ Feature: Admin Setup Page
 
     # ---- OSCP-7975 ---- Start ----
     @fullreport
+  @ADO-15474
     Scenario: Single Sign-on Exemptions section should display when SSO is Off
         Given Navigate to Single Sign-On setting page
         Then  I should see Single Sign-On Exemptions section
 
     @fullreport
+  @ADO-15475
     Scenario: Single Sign-on Exemptions section should display when SSO is On
         Given Navigate to Single Sign-On setting page
         When  I turned SSO button ON
@@ -208,6 +225,7 @@ Feature: Admin Setup Page
         And   I turned SSO button OFF
 
     @fullreport
+  @ADO-15476
     Scenario: Verify comment - Select which users will be able to log in without using Single Sign-on - is added.
         Given Navigate to Single Sign-On setting page
         Then  I should see SSO exception question displayed
@@ -220,23 +238,27 @@ Feature: Admin Setup Page
     #   Then  I should see a disabled transfer button
 
     @fullreport
+  @ADO-15477
     Scenario: Verify Transfer button is enable in both tables when - select all - checkbox is selected from each table
         Given Navigate to Single Sign-On setting page
         When  Select groups from both table
         Then  I should see transfer buttons enabled in both tables
 
     @fullreport
+  @ADO-15478
     Scenario: Verify Transfer button is enable when single item is selected from each table
         Given Navigate to Single Sign-On setting page
         When  Select single item from both tables
         Then  I should see transfer buttons enabled in both tables
 
     @fullreport
+  @ADO-15479
     Scenario: Verify that user can select multiple items from both tables under SSO exception
         Given Navigate to Single Sign-On setting page
         Then  I should be able to select multiple item from both sso excetion tables
 
     @fullreport
+  @ADO-15480
     Scenario: Verify that user can uncheck multiple items from both tables under SSO exception
         Given Navigate to Single Sign-On setting page
         When  Select multiple item from both sso excetion tables
@@ -249,42 +271,49 @@ Feature: Admin Setup Page
     #   Then  I should be able to sort tables using Group names
 
     @fullreport
+  @ADO-15481
     Scenario: Verify that groups can be transferred from left to right table
         Given Navigate to Single Sign-On setting page
         When  I transfer one item from left to right
         Then  I should be able to see the item in the right table
 
     @fullreport
+  @ADO-15482
     Scenario: Verify that groups can be transferred from right to left table
         Given Navigate to Single Sign-On setting page
         When  I transfer one item from right to left
         Then  I should be able to see the item in the left table
 
     @fullreport
+  @ADO-15483
     Scenario: Verify that users can navigate between pages on Available Group table - Left table
         Given Navigate to Single Sign-On setting page
         When  I update Available Group table item to be displayed per page from 25 to 10
         Then  Available Group pagination should work if number of items greater than 10
 
     @fullreport
+  @ADO-15484
     Scenario: Verify that users can navigate between pages on Selected Group table - Right table
         Given Navigate to Single Sign-On setting page
         When  I update selected Group table item to be displayed per page from 25 to 10
         Then  Selected Group pagination should work if number of items greater than 10
 
     @fullreport
+  @ADO-15485
     Scenario: Verify users can go to different pages directly by entering the page number on  Available Group table
         Given Navigate to Single Sign-On setting page
         When  I update Available Group table item to be displayed per page from 25 to 10
         Then  I should be able to navigate to different page by entering the page number on Available Group table
 
     @fullreport
+  @ADO-15486
     Scenario: Verify users can go to different page directly by entering the page number on   selected Group table
         Given Navigate to Single Sign-On setting page
         When  I update selected Group table item to be displayed per page from 25 to 10
         Then  I should be able to navigate to different page by entering the page number on selected Group table
 
     @fullreport
+  @ADO-15487
     Scenario Outline: Verify that user can select items per page as 10,25,50,100 on both table sections
         Given Navigate to Single Sign-On setting page
         Then  I select item per page as "<count>" at position "<index>"
@@ -304,6 +333,7 @@ Feature: Admin Setup Page
 
     # ---- OSCP-8399 ---- Start ----
     @fullreport
+  @ADO-15488
     Scenario: Verify user can change the language to Japanese in the login page and SSO page is displayed in Japanese
         Given the user logged-in to Application
         When User try to change Language to "日本語" by clicking Dropdown
@@ -320,6 +350,7 @@ Feature: Admin Setup Page
         Then click logout of the application
 
     @fullreport
+  @ADO-15489
     Scenario:Verify user can change the language to Japanese under My Settings -> Language and SSO page is displayed in Japanese
         Given the user is logged-in to ONESOURCE
         When User clicks MySettings button from dropdown
@@ -331,6 +362,7 @@ Feature: Admin Setup Page
         Then click logout of the application
 
     @fullreport
+  @ADO-15490
     Scenario: Verify user can change the language to SimplifiedChinese in the login page and SSO page is displayed in SimplifiedChinese
         Given the user is logged-in to Application
         When User try to change Language to "简体中文" by clicking Dropdown
@@ -347,6 +379,7 @@ Feature: Admin Setup Page
         Then click logout of the application
 
     @fullreport
+  @ADO-15491
     Scenario:Verify user can change the language to Simplified Chinese under My Settings -> Language and SSO page is displayed in SimplifiedChinese
         Given the user is logged-in to ONESOURCE
         When User clicks MySettings button from dropdown
@@ -365,6 +398,7 @@ Feature: Admin Setup Page
 
     # ---- OSCP-8410 ---- Start ----
     @fullreport
+  @ADO-15492
     Scenario: Verify that users tab will display the list of Users who can bypass SSO
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -374,6 +408,7 @@ Feature: Admin Setup Page
         Then list of user should be displayed
 
     @fullreport
+  @ADO-15493
     Scenario: Verify the text present below User tab
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -383,6 +418,7 @@ Feature: Admin Setup Page
         Then text "This is a read-only list. To Allow users to bypass the Single Sign-on requirements, add them to an appropriate group." should be present below User tab
 
     @fullreport
+  @ADO-15494
     Scenario: Verify that users can go different page directly by entering the page number
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -393,6 +429,7 @@ Feature: Admin Setup Page
         Then users tab should be in "Page 2"
 
     @fullreport
+  @ADO-15495
     Scenario: Verify that user can select items per page as 10, 25, 50 ,100
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -407,6 +444,7 @@ Feature: Admin Setup Page
 
     # ---- OSCP-9236 ---- Start ----
     @test
+  @ADO-15496
     Scenario: Verify the shared user between Parent and Child accounts in External User Access selection
         Given user logged-in as parent
         When user request access to child
@@ -416,6 +454,7 @@ Feature: Admin Setup Page
         Then shared user should be able to switch to the child account successfully
     
     @test
+  @ADO-15497
     Scenario: Verify that shared user is removed from Parent account in External User Access selection
         Given user logged-in as parent
         When user remove shared user access
@@ -425,6 +464,7 @@ Feature: Admin Setup Page
         Then shared user cannot switch to child account 
      
     @test
+  @ADO-15498
     Scenario: Verify that User can share Multiple shared user accounts between Parent and Child accounts in External User Access selection 
         Given user logged-in as parent
         When user request access to child for more than one user
@@ -438,6 +478,7 @@ Feature: Admin Setup Page
         Then shared user should be able to switch to the child account successfully
     
     @test
+  @ADO-15499
     Scenario: Verify that User can reset all the settings from Child account in External User Access selection
         Given user logged-in as child
         When user remove shared user access for more than one user
@@ -449,6 +490,7 @@ Feature: Admin Setup Page
         Then shared user cannot switch to child account 
 
     @test
+  @ADO-15500
     Scenario: Verify that User can share Multiple shared user accounts between Parent and Child accounts in External User Access selection for Super Trust
         Given user logged-in as super trust
         When user request access to child for more than one user using super trust
@@ -462,6 +504,7 @@ Feature: Admin Setup Page
         Then shared user should be able to switch to the child account successfully
     
     @test
+  @ADO-15501
     Scenario: Verify that shared user is removed from Super Trust Parent account in External User Access selection
         Given user logged-in as super trust
         When user remove shared user access for more than one user using super trust
@@ -473,6 +516,7 @@ Feature: Admin Setup Page
     @UiReport 
     #-------OSPIRELQA-1303------Start---------
     @fullreport
+  @ADO-15502
     Scenario: Verify that toggle button text on  Support access tab changed to Account Access for Thomson Reuters Support
         Given Navigate to Support Access tab in Administration setup page
         Then Toggle button text should be "Account Access for Thomson Reuters Support"
@@ -480,6 +524,7 @@ Feature: Admin Setup Page
 
     #------ospirelqa-1304---Start----
     @fullreport @endFeature
+  @ADO-15503
     Scenario: Verify that MFA help page is loading as expected
         Given Navigate to Multi-Factor Auth tab in Administration setup page
         When User click on ? icon
@@ -487,5 +532,6 @@ Feature: Admin Setup Page
     #------ospirelqa-1304---End----
 
     @UiReport
+  @ADO-15504
     Scenario: logout of the application
         Given click the logout of the application

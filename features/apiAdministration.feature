@@ -4,10 +4,12 @@ Feature: API Admin tile
     The purpose of this feature is to perform a smoke test of the API Administration tile
 
 
+  @ADO-15565
     Scenario: User is logged-in to ONESOURCE Home Page
         Given the user is logged-in to ONESOURCE
 
 
+  @ADO-15566
     Scenario: Open Application Details Page in Applications page
         Given the user is in the ONESOURCE Home Page
         And the user is in the API Administration Page
@@ -15,6 +17,7 @@ Feature: API Admin tile
         Then all the application fields should be displayed
 
 
+  @ADO-15567
     Scenario: View products enabled for the company and all the Applications
         Given the user is in the ONESOURCE Home Page
         And the user is in the API Administration Page
@@ -23,6 +26,7 @@ Feature: API Admin tile
         Then applications should be displayed
 
 
+  @ADO-15568
     Scenario: Enter values for Limit %
         Given the user is in the ONESOURCE Home Page
         And the user is in the API Administration Page
@@ -32,6 +36,7 @@ Feature: API Admin tile
         Then the Limit % value should be displayed
 
 
+  @ADO-15569
     Scenario: Enter values for Reserve %
         Given the user is in the ONESOURCE Home Page
         And the user is in the API Administration Page
@@ -41,6 +46,7 @@ Feature: API Admin tile
         Then the Reserve % value should be displayed
 
 
+  @ADO-15570
     Scenario: Check the Alteryx table in Alteryx page
         Given the user is in the ONESOURCE Home Page
         And the user is in the API Administration Page

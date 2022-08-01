@@ -4,15 +4,18 @@ Feature: NextGen Indirect Tax Compliance Page
     The purpose of this feature is to test the ONESOURCE Indirect Tax Compliance product
 
 
+  @ADO-15598
     Scenario: NGWF_SC16_Click on Home icon
         #Given the user is logged-in to ONESOURCE
         Then the user click on Homepage icon and validate Homepage is landed
 
 
+  @ADO-15599
     Scenario: NGWF_SC17_User is logged-in to Indirect Tax Compliance Page
         Given I am in the Indirect Tax Compliance Page
 
 
+  @ADO-15600
     Scenario Outline: NGWF_SC18_Create ITC instance
         When I navigate to configuration tab and select Entity Manager
         And I should be able to create new Entity with "<Entity Name>" and "<Entity Short Name>"
@@ -30,6 +33,7 @@ Feature: NextGen Indirect Tax Compliance Page
             | ename       | sname             | ds           |
 
 
+  @ADO-15601
     Scenario Outline: NGWF_SC19_Validate the instance creation in Related Workflows
         When I click the highlighted icon should see two dropdown values
         And I click on Related Workflows button
@@ -41,6 +45,7 @@ Feature: NextGen Indirect Tax Compliance Page
             | 7/31/2020 |
 
 
+  @ADO-15602
     Scenario Outline: NGWF_SC20_Validate the instance creation in All Workflows
         When I click All workflows button
         When the user filter "Entity Short Name" column with keyword "<Entity Short Name>"
@@ -52,6 +57,7 @@ Feature: NextGen Indirect Tax Compliance Page
             | sname             |
 
 
+  @ADO-15603
     Scenario: Logout of the ONESOURCE application
         When there are other tabs opened close them
         Then I logout from the application

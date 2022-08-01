@@ -2,12 +2,14 @@
 Feature: Entities Critical Scenarios
 
     
+  @ADO-15613
     Scenario: OneSource Login
         Given User logging to Onesource application
         When User login to OneSource by providing credentials
         Then Verify the user Logged in successfully
 
     
+  @ADO-15614
     Scenario: Verify user is able to navigate to the Entity Page and adding entity
         Given User navigates to ONESOURCE Home Page
         When User on Administation page
@@ -15,6 +17,7 @@ Feature: Entities Critical Scenarios
         Then User adds new entity in entities page
 
     
+  @ADO-15615
     Scenario: Verify the above created entity by filtering the data
         Given User navigates to ONESOURCE Home Page
         When User on Administation page
@@ -23,6 +26,7 @@ Feature: Entities Critical Scenarios
         Then Verify the record in entities table
 
     
+  @ADO-15616
     Scenario: Creating entities Via import
         Given User navigates to ONESOURCE Home Page
         When User on Administation page
@@ -32,6 +36,7 @@ Feature: Entities Critical Scenarios
         Then Verify page navigated to entities
 
     
+  @ADO-15617
     Scenario: Exporting the entities
         Given User navigates to ONESOURCE Home Page
         When User on Administation page
@@ -42,6 +47,7 @@ Feature: Entities Critical Scenarios
         And User compare with baseline file
 
     
+  @ADO-15618
     Scenario: Deleting the entities
         Given User navigates to ONESOURCE Home Page
         When User on Administation page

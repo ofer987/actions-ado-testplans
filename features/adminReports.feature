@@ -3,12 +3,15 @@ Feature: Admin Reports Page
     The purpose of this feature is to test the Admin Reports Page
 
     @complete @Smoke @fullreport
+  @ADO-15400
     Scenario: User is logged-in to ONESOURCE Home Page
         Given User logging to Onesource application
         When User login to OneSource by providing credentials
         Then Verify the user Logged in successfully
 
     @complete @Smoke @fullreport @UiReport
+  @ADO-15401
+  @ADO-15402
     Scenario Outline: Verify that the User Details Reports can be opened
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -40,6 +43,7 @@ Feature: Admin Reports Page
             | Group Permissions |
 
     @complete @UiReport
+  @ADO-15403
     Scenario Outline: Verify that the reports are generated
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -52,6 +56,7 @@ Feature: Admin Reports Page
             | User Licenses |
 
     @complete @Smoke @fullreport
+  @ADO-15404
     Scenario: Verify that the Login History Reports can be downloaded
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -63,6 +68,9 @@ Feature: Admin Reports Page
         # And Verify Login History Report is correct
 
     @fullreport 
+  @ADO-15405
+  @ADO-15406
+  @ADO-15407
     Scenario: Verify that the Login History Reports can be downloaded for 90 days
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -95,6 +103,7 @@ Feature: Admin Reports Page
         Then Login History report should be downloaded
     
     @fullreport
+  @ADO-15408
     Scenario: Verify Login History returns all the users if there are multiple users with the same name
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
@@ -106,6 +115,7 @@ Feature: Admin Reports Page
         And Verify "Username" column all values as "Tittu Achenkunju" in downloaded file
 
     @fullreport @endFeature
+  @ADO-15409
     Scenario: Verify that the Login History Reports can be downloaded for 90 days(Negative scenario)
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page

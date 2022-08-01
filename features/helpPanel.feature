@@ -2,12 +2,17 @@
 Feature: Help Panel Scenarios
 
     @complete @fullreport @Smoke @UiReport
+  @ADO-15514
     Scenario: User is logged-in to ONESOURCE Home Page
         Given I am Logging to "Onesource" Application
         When I try to login to "OneSource" by providing username and password
         Then I clicked Help Icon
 
     @complete @Smoke @UiReport
+  @ADO-15515
+  @ADO-15516
+  @ADO-15517
+  @ADO-15518
     Scenario Outline: Validate Product info "<product>"
         When I select a "<product>"
         And  I search "<value>" product support content
@@ -119,6 +124,7 @@ Feature: Help Panel Scenarios
             | Transfer Pricing Documenter                  | LS2OXP                     |
 
     @complete @fullreport @UiReport
+  @ADO-15519
     Scenario Outline: Validate Search "<product>" product page
         When I select a "<product>"
         When I search "onesource" product support content
@@ -129,6 +135,7 @@ Feature: Help Panel Scenarios
             | Administration |
 
     @fullreport @UiReport
+  @ADO-15520
     Scenario Outline: Validate Technical Support with "<product>" product
         When I select a "<product>"
         When I click Technical Support
@@ -139,16 +146,19 @@ Feature: Help Panel Scenarios
             | Administration |
 
     @fullreport @UiReport
+  @ADO-15521
     Scenario: Validate Customer Center
         When I click Customer Center
         Then Customer Center page should be present
 
     @fullreport @UiReport
+  @ADO-15522
     Scenario: Validate Interactive Tour
         When I click Interactive Tour
         Then Interactive Tour page should be present
 
     @complete @UiReport
+  @ADO-15523
     Scenario Outline: Validate View or Create a Case Link Works in Help Panel
         When I select a "<product>"
         And I click Search Box
@@ -159,6 +169,7 @@ Feature: Help Panel Scenarios
             | Administration |
 
     @complete @UiReport
+  @ADO-15524
     Scenario Outline: Validate Ask the ONESOURCE Community Link Works in Help Panel
         When I select a "<product>"
         And I click Search Box and Ask the ONESOURCE Community Link
@@ -170,6 +181,7 @@ Feature: Help Panel Scenarios
             | DAC6 Reporter  |
 
     @complete @UiReport
+  @ADO-15525
     Scenario Outline: Validate All Other Support Options Link Works in Help Panel
         When I select a "<product>"
         And I click Search Box and All Other Support Options Link
@@ -180,6 +192,7 @@ Feature: Help Panel Scenarios
             | Administration |
 
     @complete @UiReport
+  @ADO-15526
     Scenario Outline: Validate Live Chat with Support Link Works in Help Panel
         When I select a "<product>"
         And I click Search Box and Live Chat with Support Link
@@ -196,11 +209,13 @@ Feature: Help Panel Scenarios
     #     And Validate Announcements section is listed and header is in bold
 
     @complete @UiReport @fullreport 
+  @ADO-15527
     Scenario: Verify ONESOURCE Help – Where to Start pdf loaded properly
         Then I clicked on ONESOURCE Help – Where to Start link
         And Validate ONESOURCE Help – Where to Start pdf loaded
 
     @complete @endFeature @UiReport @fullreport
+  @ADO-15528
     Scenario: Verify The link "ONESOURCE Help-Where to Start" appears for all products except Check point products
         Then I verify the help link for each product
          
