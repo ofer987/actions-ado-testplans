@@ -6,7 +6,9 @@ Feature: Accounts Critical Scenarios
         Given I am Logging to "Onesource" Application
         When I try to login to "OneSource" by providing username and password
         Given I am in the ONESOURCE Home Page
+   
 
+   
     @Smoke
     Scenario: Verify user is able to navigate to the Accounts Page
         And I am in the Administration Page
