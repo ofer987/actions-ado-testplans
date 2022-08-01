@@ -66,7 +66,10 @@ runs:
           # wget -O gst.tar.gz https://github.com/quantori/GherkinSyncTool/releases/download/3.13.0/GherkinSyncTool-linux-x64.tar.gz && tar -xf gst.tar.gz --strip-components=1
           # mv GherkinSyncTool-linux-x64 GST
           # cd GST
+          export PATH="$PATH:/root/.dotnet/tools"
           dotnet tool install --global GherkinSyncTool;
-          dotnet GherkinSyncTool sync --azuredevops;
+          cd $PATH
+          ls -R
+          GherkinSyncTool sync --azuredevops;
 
 
