@@ -37,7 +37,7 @@ inputs:
   tag_prefix_id: 
     description: 'Path of Cucumber Features'
     required: false
-    default: 'ADO-'
+    default: '@ADO-'
   tag_indentation:
     description: 'Tag Indentation'
     required: false
@@ -74,6 +74,7 @@ runs:
       - name: Run GST
         shell: sh
         run: |
+          cat appsettings.json
           chmod +x ./GherkinSyncTool;
           ./GherkinSyncTool;
 
