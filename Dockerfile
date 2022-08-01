@@ -7,6 +7,7 @@ LABEL com.github.actions.description="Cucumber to Azure DevOps Sync"
 LABEL com.github.actions.icon="check-circle"
 LABEL com.github.actions.color="green"
 RUN dotnet tool install --global GherkinSyncTool
-COPY ./entrypoint.sh /entrypoint.sh
-RUN ["chmod", "+x", "/entrypoint.sh"]
-ENTRYPOINT ["/entrypoint.sh"]
+RUN GherkinSyncTool
+# COPY ./entrypoint.sh /entrypoint.sh
+# RUN ["chmod", "+x", "/entrypoint.sh"]
+# ENTRYPOINT ["/entrypoint.sh"]
