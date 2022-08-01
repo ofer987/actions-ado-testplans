@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0
+FROM mcr.microsoft.com/dotnet/sdk:5.0
 LABEL repository="https://github.com/PavanMudigonda/cucumber-azure-devops-sync"
 LABEL homepage="https://github.com/PavanMudigonda/cucumber-azure-devops-sync"
 LABEL maintainer="Pavan Mudigonda <nagapavankumar.mudigonda@tr.com>"
@@ -12,4 +12,4 @@ RUN export PATH="$PATH:/root/.dotnet/tools"
 # COPY ./entrypoint.sh /entrypoint.sh
 # RUN ["chmod", "+x", "/entrypoint.sh"]
 # ENTRYPOINT ["/entrypoint.sh"]
-ENTRYPOINT ["/bin/sh", “-c” "GherkinSyncTool"]
+ENTRYPOINT ["/bin/sh", “-c” "gherkinsynctool"]
