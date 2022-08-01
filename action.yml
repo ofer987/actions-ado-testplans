@@ -72,6 +72,7 @@ runs:
           SetThenStepsAsExpected: ${{ inputs.set_then_steps_as_expected}}
 
       - name: Run GST
+        shell: sh
         run: |
           chmod +x ./GherkinSyncTool;
           ./GherkinSyncTool;
