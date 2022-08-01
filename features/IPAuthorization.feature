@@ -6,14 +6,14 @@ Feature: Admin IP Authorization Page
     @complete
   @ADO-15529
   @ADO-15539
-    Scenario: User is logged-in to ONESOURCE Home Page
+    Scenario: User is logged-in to ONESOURCE Home Page TEST CASE
         Given User logging to Onesource application
         When User login to OneSource by providing credentials
         Then Verify the user Logged in successfully
 
     @complete
   @ADO-15530
-    Scenario: : Verify Toggle and notes section
+    Scenario: : Verify Toggle and notes section TEST CASE
         Given User navigates to ONESOURCE Home Page
         And User is on Administration Page
         When User selects the Setup tab
