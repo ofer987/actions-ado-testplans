@@ -31,7 +31,7 @@ jobs:
             ado_pat: ${{ secrets.ADO_PAT }}
             ado_org_url: https://dev.azure.com/tr-ihn-sandbox
             project_name: 'Azure DevOps Training'
-            feature_path: 'test/features'
+            feature_path: 'features'
             area_path: 'Azure DevOps Training'
             set_then_steps_as_expected: false
             cucumber_sync_tool_id: ADO-Upload-Aug-1st-2022
