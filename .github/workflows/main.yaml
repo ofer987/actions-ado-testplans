@@ -41,7 +41,7 @@ jobs:
         with:
           filters: |
             features:
-             - ${{ env.feature_path }}
+             - 'features/**'  # Enter 'feature_path' from previous step
 
       #  Commit Cucumber Feature Files to triggering branch and all newly generated badge images to tr-cicd-resources branch
       - name: Commit badge images and README Markdown
