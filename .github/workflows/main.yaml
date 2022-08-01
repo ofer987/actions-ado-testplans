@@ -26,7 +26,6 @@ jobs:
         # run only if some file in 'src' folder was changed
       - name: Cucumber to ADO Sync
         uses: tr/cicd_gh-actions-cucumber-azure-devops-sync@v0.1
-        if: steps.changes.outputs.src == 'true'
         with:
             ado_pat: ${{ secrets.ADO_PAT }}
             ado_org_url: https://dev.azure.com/tr-ihn-sandbox
