@@ -50,12 +50,6 @@ runs:
         with:
           dotnet-version: "5.0.x"
 
-      - name: Set up TR Artifactory
-        shell: sh
-        run: |
-          nuget sources Add -Name Artifactory -Source https://tr1.jfrog.io/artifactory/api/nuget/nuget
-          nuget setapikey ${{ env.ARTIFACTORY_USER }}:${{ secrets.ARTIFACTORY_TOKEN }} -Source Artifactory  
-
       - name: Notification
         shell: bash
         env: 
