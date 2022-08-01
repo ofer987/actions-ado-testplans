@@ -30,10 +30,10 @@ inputs:
     description: 'Path of Cucumber Features'
     required: false
     default: 'false'
-  cucumber_sync_tool_Id: 
+  cucumber_sync_tool_id: 
     description: 'Path of Cucumber Features'
     required: false
-    default: 'GH-Actions'  
+    default: 'GH-Actions-Sync'  
   tag_prefix_id: 
     description: 'Path of Cucumber Features'
     required: false
@@ -68,7 +68,7 @@ runs:
           AzureDevopsSettings.PersonalAccessToken: ${{ inputs.ADO_PAT }}
           AzureDevopsSettings.Project: ${{ inputs.project_name }}
           AzureDevopsSettings.Area: ${{ inputs.area_path }}
-          AzureDevopsSettings.GherkinSyncToolId: ${{ inputs.cucumber_sync_tool_Id }}
+          AzureDevopsSettings.GherkinSyncToolId: ${{ inputs.cucumber_sync_tool_id }}
           AzureDevopsSettings.SetThenStepsAsExpected: ${{ inputs.set_then_steps_as_expected}}
 
       - name: Run GST
