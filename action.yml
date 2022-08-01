@@ -71,6 +71,9 @@ runs:
           Area: ${{ inputs.area_path }}
           GherkinSyncToolId: ${{ inputs.cucumber_sync_tool_Id }}
           SetThenStepsAsExpected: ${{ inputs.set_then_steps_as_expected}}
+
+      - name: Run GST
+        shell: bash
         run:
           GherkinSyncTool sync --azuredevops;
 
