@@ -52,7 +52,16 @@ runs:
 
       - name: Notification
         shell: bash
-        env: 
+        run:
+          wget -O gst.tar.gz https://github.com/quantori/GherkinSyncTool/releases/download/3.13.0/GherkinSyncTool-linux-x64.tar.gz && tar -xf gst.tar.gz --strip-components=1;
+          cd GherkinSyncTool-linux-x64;
+          pwd
+          export PATH="$PATH:/root/.dotnet/tools";
+
+      - uses: microsoft/variable-substitution@v1 
+        with:
+          files: 'GherkinSyncTool-linux-x64/appsettings.json'
+        env:
           BaseDirectory: ${{ inputs.feature_path }}
           TagIdPrefix: ${{ inputs.tag_prefix_id }}
           TagIndentation: ${{ inputs.tag_indentation }}
@@ -63,11 +72,6 @@ runs:
           GherkinSyncToolId: ${{ inputs.cucumber_sync_tool_Id }}
           SetThenStepsAsExpected: ${{ inputs.set_then_steps_as_expected}}
         run:
-          # wget -O gst.tar.gz https://github.com/quantori/GherkinSyncTool/releases/download/3.13.0/GherkinSyncTool-linux-x64.tar.gz && tar -xf gst.tar.gz --strip-components=1
-          # mv GherkinSyncTool-linux-x64 GST
-          # cd GST
-          export PATH="$PATH:/root/.dotnet/tools";
-          dotnet tool install --global GherkinSyncTool;
           GherkinSyncTool sync --azuredevops;
 
 
