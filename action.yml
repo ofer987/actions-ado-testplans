@@ -72,8 +72,8 @@ runs:
           SetThenStepsAsExpected: ${{ inputs.set_then_steps_as_expected}}
 
       - name: Run GST
-        shell: pwsh
         run: |
-          dotnet build
+          chmod +x ./GherkinSyncTool;
+          ./GherkinSyncTool;
 
 
