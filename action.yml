@@ -94,6 +94,15 @@ runs:
                   },
                   "defaultFeatureLanguage":"en-US"
                 },
+                "publishTestResults": {
+                  "testConfiguration": {
+                        "name": "Windows 10"
+                   },
+                   "testResult": {
+                   "filePath": "test-result.trx"
+                    },
+                    "runComment": "Acceptance test results"
+                     },
                 "synchronization": {
                   "disableLocalChanges": false,
                   "testCaseTagPrefix": "ADO",
