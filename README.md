@@ -43,9 +43,9 @@ This Action defines the following formal inputs.
 | **`ado_project_url`**  | true | None | ADO ORG URL. example https://dev.azure.com/ORG/PROJECT
 | **`area_path`**  | true | None | ADO Area Path. Example: \\Release 1
 | **`cucumber_path`**  | true | false | Provide path to folder where features are present.
-| **`cucumber_sync_tool_id`**  | true | None | GH-Actions-Sync-${{ github.run_id }}
-| **`cucumber_sync_tool_id`**  | true | None | GH-Actions-Sync-${{ github.run_id }}
-| **`test_suite_id`**  | true | None | Provide your Test Suite ID.
+| **`ado_iteration_path`**  | true | None | ADO Iteration Path. Example: \\Sprint 1
+| **`test_suite_id`**  | true | None | Provide your Test Suite ID. Either test_suite_id or test_suite_name to be entered but not both.
+| **`test_suite_name`**  | true | None | Provide your Test Suite Name. Either test_suite_id or test_suite_name to be entered but not both.
 | **`cucumber_path`**  | true | false | Provide path to folder where features are present.
 
 
