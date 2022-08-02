@@ -4,64 +4,55 @@ Feature: Login Page
     The purpose of this feature is to test the Login Page
 
     @complete @UiReport @Smoke
-  @ADO-15445
-    Scenario: [ADO-14094] OneSource Login
+    Scenario: OneSource Login
         Given User logging to Onesource application
         When User login to OneSource by providing credentials
 
     @complete @Smoke @UiReport
-  @ADO-15446
-    Scenario: [ADO-14095] OneSource Login and logout
+    Scenario: OneSource Login and logout
         Given click the logout of the application
         Then Verify the user Logged in successfully
         Then verify whether the user logged out successfully
 
     @complete @UiReport
-  @ADO-15447
-    Scenario: [ADO-14096] LoginPage Elements verification
+    Scenario: LoginPage Elements verification
         Given I am Logging to "Onesource" Application
         Then verify Information Icon is displayed
         And TRLogo in the footer is displayed
 
     @UiReport
-  @ADO-15448
-    Scenario: [ADO-14097] Forget Password Functionality
+    Scenario: Forget Password Functionality
         Given I am Logging to "Onesource" Application
         When I navigate to the Forget Password page and click the Next button
         Then Verify the error message to enter username and Email ID
 
     @ignore
-  @ADO-15449
-    Scenario: [ADO-14098] Forget Password Functionality
+    Scenario: Forget Password Functionality
         Given I am Logging to "Onesource" Application
         When I navigate to the Forget Password page, Enter details and click Next button
         Then Verify whether the success message displayed
 
     @ignore
-  @ADO-15450
-    Scenario: [ADO-14099] Login with Invalid Credentials
+    Scenario: Login with Invalid Credentials
         Given I am Logging to "Onesource" Application
         When I try to login to "OneSource" by providing invalid username and password
         Then Verify the Error POP UP Message for invalid login
 
     @HyperlinkCantAccessAccount @ignore
-  @ADO-15451
-    Scenario: [ADO-14100] Click on Hyperlink CantAccessAccount
+    Scenario: Click on Hyperlink CantAccessAccount
         Given I am Logging to "Onesource" Application
         When I try to to click on hyperlinkCantAccessAccount
         Then Verify that hyperlink Navigation
 
     @changeLanguage @complete @fullreport @UiReport @Smoke
-  @ADO-15452
-    Scenario: [ADO-14101] Change Language to English (Australia) and OneSource Login
+    Scenario: Change Language to English (Australia) and OneSource Login
         Given I am Logging to "Onesource" Application
         When I try to change Language to EnglishAustralia by clicking Dropdown
         When I try to login to "OneSource" by providing username and password
         Then Verify the user Logged in successfully after changing Language to EnglishAustralia
 
     @complete @UiReport
-  @ADO-15453
-    Scenario Outline: [ADO-14102] Hyperlinks Verification
+    Scenario Outline: Hyperlinks Verification
         Given User logging to Onesource application
         When I try to to click on "<hyperlink>"
         Then Verify that "<title>" Navigation
@@ -73,8 +64,7 @@ Feature: Login Page
             | PrivacyStatement | privacy-statement |
 
     @complete1 @complete @UiReport
-  @ADO-15454
-    Scenario Outline: [ADO-14103] Change Language and OneSource Login
+    Scenario Outline: Change Language and OneSource Login
         Given User logging to Onesource application
         When User try to change Language to "<product>" by clicking Dropdown
         And User login to OneSource by providing credentials
@@ -138,8 +128,7 @@ Feature: Login Page
             | Tiếng Việt               | Trang chủ ONESOURCE                  |
 
     @complete @fullreport @UiReport @Smoke
-  @ADO-15455
-    Scenario Outline: [ADO-14104] Verify Language changed from the Login page should be overridden for the next login
+    Scenario Outline: Verify Language changed from the Login page should be overridden for the next login
         Given User logging to Onesource application
         When User try to change Language to "<product>" by clicking Dropdown
         And User login to OneSource by providing credentials
@@ -152,8 +141,7 @@ Feature: Login Page
 
 
     @complete @fullreport @UiReport @Smoke
-  @ADO-15456
-    Scenario: [ADO-14105] Verify Language changed from the User Settings should be overridden by the language set on the login screen after the next login
+    Scenario: Verify Language changed from the User Settings should be overridden by the language set on the login screen after the next login
         Given the user is logged-in to ONESOURCE
         When User clicks MySettings button from dropdown
         And I click Language tab
@@ -162,14 +150,12 @@ Feature: Login Page
         Then Validate the language from dropdown and it should "English (India)"
 
     @complete @fullreport @UiReport @Smoke
-  @ADO-15457
-    Scenario: [ADO-14106] Verify user is taken to the onsourcetax home page if the URL at OSTarget is not whitelisted
+    Scenario: Verify user is taken to the onsourcetax home page if the URL at OSTarget is not whitelisted
         Given Launch the application with OSTarget and non whitelisted url
         Then Verify application redirect to Onesource login page
 
     @complete @fullreport @UiReport @Smoke
-  @ADO-15458
-    Scenario: [ADO-14107] Verify Administration tile is enabled when logged in user has any permissions for "Adjustments", "Clients" and "Reference Data"
+    Scenario: Verify Administration tile is enabled when logged in user has any permissions for "Adjustments", "Clients" and "Reference Data"
         Given Login to OneSource application using special credential with username id as "spl_un_oscp_10033" and password id as "spl_pwd_oscp_10033"
         Then Verify user is able to navigate to Admin tile
         And Verify application redirect to Onesource login page

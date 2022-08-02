@@ -8,86 +8,19 @@ on:
       - '**.md'
     tags-ignore:
       - '**'
-
 jobs:
-
   test:
     runs-on: ubuntu-latest
-    env:
-        GIT_USER_EMAIL: "actions@github.com"
-        GIT_USER_NAME: "GitHub Actions"
-        CUCUMBER_BRANCH_NAME: cucumber-ado-sync
-        TEMP_BADGE_BRANCH_NAME: temp-cucumber-ado-sync
-        CUCUMBER_ROOT_DIR: 'features/'
-
     steps:
       - name: Checkout Git Repo
         uses: actions/checkout@v3
-
-      - uses: dorny/paths-filter@v2
-        id: pre-ado-sync
-        with:
-          base: ${{ env.GITHUB_SHA }}
-          filters: |
-            features:
-             - 'features/**'  # Enter 'feature_path' from previous step
-
-        # run only if some file in 'src' folder was changed
       - name: Cucumber to ADO Sync
-        if: steps.pre-ado-sync.outputs.features == 'true'
-        uses: tr/cicd_gh-actions-cucumber-azure-devops-sync@v0.1
+        uses: ./
         with:
             ado_pat: ${{ secrets.ADO_PAT }}
-            ado_org_url: https://dev.azure.com/tr-ihn-sandbox
-            project_name: 'Azure DevOps Training'
-            feature_path: 'features'
-            area_path: 'Azure DevOps Training'
-            set_then_steps_as_expected: false
-            cucumber_sync_tool_id: ADO-Upload-Aug-1st-2022
-            tag_prefix_id: '@ADO-'
+            ado_project_url: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training
+            ado_area_path: '\\Release 1'
+            ado_iteration_path: '\\Sprint 1'
+            cucumber_root_dir: 'features'
+            test_suite_name: GH-Action-${{ github.run_id }}
 
-      - uses: dorny/paths-filter@v2
-        id: post-ado-sync
-        with:
-          filters: |
-            features:
-             - 'features/**'  # Enter 'feature_path' from previous step
-
-      - name: shell print git status
-        run: git status
-
-      #  Commit Cucumber Feature Files to triggering branch and all newly generated badge images to tr-cicd-resources branch
-      - name: Commit badge images and README Markdown
-        if: steps.post-ado-sync.outputs.features == 'true'
-        env:
-          GITHUB_REF_NAME: ${{ env.GITHUB_REF_NAME }}
-        run: |
-          git config --local user.email $GIT_USER_EMAIL
-          git config --local user.name $GIT_USER_NAME
-          if [ $GITHUB_REF_NAME != "main" ]
-          then
-            git pull --ff -q
-            git add ${{ env.CUCUMBER_ROOT_DIR }}
-            git commit -m 'Updated Cucumber Gherkins Features'
-            git push
-          fi
-          git add ${{ env.CUCUMBER_ROOT_DIR }}/
-          if [ `git branch -r --list "origin/${{ env.CUCUMBER_BRANCH_NAME }}"` ]
-          then
-              git checkout -b ${{ env.TEMP_CUCUMBER_BRANCH_NAME }}
-              git commit -m "Updated badge images"
-              if [ $GITHUB_REF_NAME == "main" ]
-              then
-                git stash
-              fi
-              git checkout ${{ env.CUCUMBER_BRANCH_NAME }}
-              git checkout ${{ env.TEMP_BADGE_BRANCH_NAME }} ${{ env.CUCUMBER_ROOT_DIR }}
-              git add ${{ env.CUCUMBER_ROOT_DIR }}/
-              git commit -m "Updated Cucumber Feature Files"
-              git push --force
-              git branch -D ${{ env.TEMP_CUCUMBER_BRANCH_NAME }}
-          else
-              git checkout -b ${{ env.CUCUMBER_BRANCH_NAME }}
-              git commit -m "Updated Cucumber Feature Files"
-              git push --set-upstream origin ${{ env.CUCUMBER_BRANCH_NAME }}
-          fi

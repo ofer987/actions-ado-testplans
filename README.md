@@ -8,7 +8,6 @@ This pattern is been created to provide a way to automatically upload Cucumber(B
 - If triggered branch is other than "main" then the updated Feature Files with ADO Test Case ID Tag Number will be commited back in same branch.
 - If triggered branch is "main" then the updated Feature Files with ADO Test Case ID Tag Number will be commited in a new branch called "cucumber-ado-sync"
 - We suggest you to review the commit updated feature files (with ADO Test Case ID Tag Number) to main branch. Alternatively you can automate PR creation merge as well.
-- you can create Test Plan and Test Suite using the auto created test cases by using Search and Filter
 
 ## Sample Screenshots:
 ### Screenshot of Feature File before running this GH Action.

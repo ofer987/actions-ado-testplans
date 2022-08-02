@@ -1,0 +1,71 @@
+﻿{
+  "$schema": "https://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
+  "compatibilityVersion": "3.3",
+  "toolSettings": {
+    "licensePath": "specsync.lic",
+    "disableStats": true,
+    "outputLevel": "normal",
+    "parentConfig": "specsync.json",
+    "ignoreParentConfig": false
+  },   
+  "remote": {
+    "projectUrl": "https://dev.azure.com/tr-ihn-sandbox/Azure%20DevOps%20Training",
+    "user":"ADO_PAT",
+    "testSuite": {
+            "name": "TEST_SUITE_NAME",
+            "id": "TEST_SUITE_ID"
+          }
+  },
+  "local": {
+        "featureFileSource": {
+          "type": "folder",
+          "folder": "features"
+        },
+        "defaultFeatureLanguage":"en-US"
+      },
+      "synchronization": {
+        "disableLocalChanges": false,
+        "testCaseTagPrefix": "ADO",
+    
+        "pull": {
+          "enabled": true,
+          "enableCreatingScenariosForNewTestCases": true
+        },
+    
+        "automation": {
+          "enabled": true,
+          "condition": "not @manual"
+        },
+    
+        "state": {
+          "setValueOnChangeTo": "Design"
+        },
+    
+        "areaPath": {
+          "mode": "setOnLink",
+          "value": "\\MyArea"
+        },
+        "iterationPath": {
+          "mode": "setOnLink",
+          "value": "\\Sprint 1"
+        },
+        "links": [
+          {
+            "targetWorkItemType": "ProductBacklogItem",
+            "tagPrefix": "story",
+            "relationship": "Child",
+            "mode": "createIfMissing"
+          },
+          {
+            "tagPrefix": "bug"
+          }
+        ],
+        "format": {
+          "useExpectedResult": false,
+          "syncDataTableAsText": false,
+          "prefixBackgroundSteps": true,
+          "prefixTitle": true,
+          "showParameterListStep": "whenUnusedParameters"
+        }
+      }      
+}
