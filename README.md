@@ -9,7 +9,7 @@ This pattern is been created to provide a way to automatically upload Cucumber(B
 - Its recommened you enter user story number as Tag for each scenario in feature files in format @story:XXXX. If you do this we create link between user story and test cases automatically!
 - First you need to create Test Plan and a Test Suite.
 - If you create test cases for testing a bug fix, then add Tag in format @bug:XXXX. This will link your test cases with respective bug fix id.
-- If triggered branch is "main" then the updated Feature Files with ADO Test Case ID Tag Number(@ADO-XXXX) will be commited in a new branch called "cucumber-ado-sync"
+- If triggered branch is "main" then the updated Feature Files with ADO Test Case ID Tag Number(@ADO:XXXX) will be commited in a new branch called "cucumber-ado-sync"
 - We suggest you to review the commit updated feature files (with ADO Test Case ID Tag Number) to main branch. Alternatively you can automate PR creation merge as well.
 - Please note this GitHub Action is made using Enterprise Licensed version of SpecSync Tool (made by Gaspar Nagy who is major contributor for SpecFlow). Current Licenses set to expire on June 25th 2023. 
 - For More Details please visit [SpecSync](https://specsolutions.gitbook.io/specsync/)
