@@ -104,7 +104,7 @@ runs:
       - uses: microsoft/variable-substitution@v1
         if: steps.pre-ado-sync.outputs.features == 'true'
         with:
-          files: './specsync.json'
+          files: './test-cases/specsync.json'
         env:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
