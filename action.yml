@@ -23,7 +23,7 @@ inputs:
   ado_iteration_path:
     description: 'ADO Iteration or Sprint Path. Example: \\Sprint 1'
     required: true
-  cucumber_root_dir:
+  cucumber_path:
     description: 'Path of Cucumber Features'
     required: true
   cucumber_language:
@@ -67,7 +67,7 @@ runs:
           base: ${{ env.GITHUB_SHA }}
           filters: |
             features:
-             - '${{ inputs.cucumber_root_dir }}/**'
+             - '${{ inputs.cucumber_path }}/**'
 
       - name: Set up .NET 6
         if: steps.pre-ado-sync.outputs.features == 'true'
@@ -97,7 +97,7 @@ runs:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
           remote.testSuite.id: ${{ inputs.test_suite_id }}
-          local.featureFileSource.folder: ${{ inputs.cucumber_root_dir }}
+          local.featureFileSource.folder: ${{ inputs.cucumber_path }}
           local.defaultFeatureLanguage: ${{ inputs.cucumber_language }}
           synchronization.testCaseTagPrefix: ${{ inputs.test_case_tag_prefix }}
           synchronization.state.setValueOnChangeTo: ${{ inputs.default_test_case_status }}
@@ -118,7 +118,7 @@ runs:
         with:
           filters: |
             features:
-             - '${{ inputs.cucumber_root_dir }}/**'
+             - '${{ inputs.cucumber_path }}/**'
 
       #  Commit Cucumber Feature Files to triggering branch or cucumber-ado-sync branch
       - name: Commit updates feature files
@@ -128,7 +128,7 @@ runs:
           GITHUB_REF_NAME: ${{ env.GITHUB_REF_NAME }}
           GIT_USER_EMAIL: ${{ inputs.git_user_email }}
           GIT_USER_NAME: ${{ inputs.git_user_name }}
-          CUCUMBER_ROOT_DIR: ${{ inputs.cucumber_root_dir }}
+          cucumber_path: ${{ inputs.cucumber_path }}
           CUCUMBER_BRANCH_NAME: ${{ inputs.cucumber_branch_name }}
           TEMP_CUCUMBER_BRANCH_NAME: ${{ inputs.temp_cucumber_branch_name }}
         run: |
@@ -137,11 +137,11 @@ runs:
           if [ $GITHUB_REF_NAME != "main" ]
           then
             git pull --ff -q
-            git add ${{ env.CUCUMBER_ROOT_DIR }}
+            git add ${{ env.cucumber_path }}
             git commit -m 'Updated Cucumber Gherkins Features'
             git push
           fi
-          git add ${{ env.CUCUMBER_ROOT_DIR }}/
+          git add ${{ env.cucumber_path }}/
           if [ `git branch -r --list "origin/${{ env.CUCUMBER_BRANCH_NAME }}"` ]
           then
               git checkout -b ${{ env.TEMP_CUCUMBER_BRANCH_NAME }}
@@ -151,8 +151,8 @@ runs:
                 git stash
               fi
               git checkout ${{ env.CUCUMBER_BRANCH_NAME }}
-              git checkout ${{ env.TEMP_BADGE_BRANCH_NAME }} ${{ env.CUCUMBER_ROOT_DIR }}
-              git add ${{ env.CUCUMBER_ROOT_DIR }}/
+              git checkout ${{ env.TEMP_BADGE_BRANCH_NAME }} ${{ env.cucumber_path }}
+              git add ${{ env.cucumber_path }}/
               git commit -m "Updated Cucumber Feature Files"
               git push --force
               git branch -D ${{ env.TEMP_CUCUMBER_BRANCH_NAME }}

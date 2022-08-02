@@ -64,5 +64,21 @@
           "prefixTitle": true,
           "showParameterListStep": "whenUnusedParameters"
         }
-      }      
+      },
+       "customizations": {
+          "ignoreTestCaseSteps": {
+            "enabled": true,
+            "ignoredPrefixes": [ "COMMENT" ]
+          },
+          "ignoreTestCaseTags": {
+            "enabled": true,
+            "tags": [ "ignore" ]
+          },  
+          "resetTestCaseState": {
+            "enabled": true,
+            "state": "Ready",
+            "condition": "@ready"
+          }
+        }
+                
 }

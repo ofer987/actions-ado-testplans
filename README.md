@@ -11,6 +11,8 @@ This pattern is been created to provide a way to automatically upload Cucumber(B
 - If you create test cases for testing a bug fix, then add Tag in format @bug-XXXX. This will link your test cases with respective bug fix id.
 - If triggered branch is "main" then the updated Feature Files with ADO Test Case ID Tag Number(@ADO-XXXX) will be commited in a new branch called "cucumber-ado-sync"
 - We suggest you to review the commit updated feature files (with ADO Test Case ID Tag Number) to main branch. Alternatively you can automate PR creation merge as well.
+- Please note this GitHub Action is made using Enterprise Licensed of SpecSync Tool. Current Licenses set to expire on June 25th 2023. 
+- For More Details please visit [SpecSync](https://specsolutions.gitbook.io/specsync/)
 
 ## Sample Screenshots:
 ### Screenshot of Feature File before running this GH Action.
@@ -49,3 +51,31 @@ This Action defines the following formal inputs.
 
 [Example workflow](https://github.com/tr/cicd_gh-actions-cucumber-azure-devops-sync/blob/main/.github/workflows/main.yaml)
 
+```
+name: cucumber-ado-sync
+
+on:
+  push:
+    branches:
+      - '**'
+    paths-ignore:
+      - '**.md'
+    tags-ignore:
+      - '**'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Git Repo
+        uses: actions/checkout@v3
+      - name: Cucumber to ADO Sync
+        uses: ./
+        with:
+            ado_pat: ${{ secrets.ADO_PAT }}
+            ado_project_url: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training
+            ado_area_path: '\\Release 1'
+            ado_iteration_path: '\\Sprint 1'
+            cucumber_path: features
+            test_suite_id: 9830
+
+```

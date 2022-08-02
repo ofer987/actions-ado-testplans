@@ -21,6 +21,6 @@ jobs:
             ado_project_url: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training
             ado_area_path: '\\Release 1'
             ado_iteration_path: '\\Sprint 1'
-            cucumber_root_dir: features
+            cucumber_path: features
             test_suite_id: 9830
 
