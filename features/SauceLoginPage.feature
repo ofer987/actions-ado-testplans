@@ -68,4 +68,13 @@ Feature: Sauce Login Page
 
 
 
+    @story:15661 @bug:15662
+    Scenario Outline: Change Language and SauceDemo Login - TEST
+        Given User logging to Onesource application TEST
+        When User try to change Language to "<product>" by clicking Dropdown
+        And User login to OneSource by providing credentials
+        Then Verify the user Logged in successfully and "<title>" is the title
 
+        Examples:
+            | product                  | title                                |
+            | العربية                  | فحة ONESOURCE الرئيسية               |
