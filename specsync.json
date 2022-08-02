@@ -4,9 +4,7 @@
   "toolSettings": {
     "licensePath": "specsync.lic",
     "disableStats": true,
-    "outputLevel": "normal",
-    "parentConfig": "specsync.json",
-    "ignoreParentConfig": false
+    "outputLevel": "normal"
   },   
   "remote": {
     "projectUrl": "https://dev.azure.com/tr-ihn-sandbox/Azure%20DevOps%20Training",
