@@ -104,7 +104,7 @@ runs:
       - uses: microsoft/variable-substitution@v1
         if: steps.pre-ado-sync.outputs.features == 'true'
         with:
-          files: './test-cases/specsync.json'
+          files: './specsync.json'
         env:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
@@ -123,9 +123,9 @@ runs:
         run: |
           if [[ '${inputs.test_suite_name}' != '' ]];
           then
-            sed '/"id": "TEST_SUITE_ID"/d' ./test-cases/specsync.json
+            sed '/"id": "TEST_SUITE_ID"/d' ./specsync.json
           else
-            sed '/"id": 1/d' ./test-cases/specsync.json
+            sed '/"id": 1/d' ./specsync.json
           fi
           
       - name: Run SpecSync
@@ -133,8 +133,8 @@ runs:
         shell: bash
         run: |
           chmod +x ./SpecSync4AzureDevOps;
-          ./SpecSync4AzureDevOps push ./test-cases/specsync.json
-          ./SpecSync4AzureDevOps pull ./test-cases/specsync.json
+          ./SpecSync4AzureDevOps push ./specsync.json
+          ./SpecSync4AzureDevOps pull ./specsync.json
           
       - uses: dorny/paths-filter@v2
         if: always()
