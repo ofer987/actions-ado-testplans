@@ -70,7 +70,6 @@ runs:
           path: ./
 
       - name: List Files
-        if: steps.pre-ado-sync.outputs.features == 'true'
         shell: bash
         run: ls -R
 
