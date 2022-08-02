@@ -7,33 +7,29 @@ This pattern is been created to provide a way to automatically upload Cucumber(B
 - Test Cases already found will not be created again
 - If triggered branch is other than "main" then the updated Feature Files with ADO Test Case ID Tag Number will be commited back in same branch.
 - Its recommened you enter user story number as Tag for each scenario in feature files in format @story:XXXX. If you do this we create link between user story and test cases automatically!
+- First you need to create Test Plan and a Test Suite.
 - If you create test cases for testing a bug fix, then add Tag in format @bug-XXXX. This will link your test cases with respective bug fix id.
 - If triggered branch is "main" then the updated Feature Files with ADO Test Case ID Tag Number(@ADO-XXXX) will be commited in a new branch called "cucumber-ado-sync"
 - We suggest you to review the commit updated feature files (with ADO Test Case ID Tag Number) to main branch. Alternatively you can automate PR creation merge as well.
 
 ## Sample Screenshots:
 ### Screenshot of Feature File before running this GH Action.
-<img width="922" alt="image" src="https://user-images.githubusercontent.com/86745613/182264815-1b54517d-e2ca-46c6-ad55-810fa0647e17.png">
+<img width="1194" alt="image" src="https://user-images.githubusercontent.com/86745613/182430649-8e1e85d9-6f56-4919-8ce1-40e46a667bed.png">
 
 ### Screenshots of Azure DevOps After running this GH Action.
-You can filter your test cases using tag entered in GH Action Input Variable **cucumber_sync_tool_id**
-
-<img width="1428" alt="image" src="https://user-images.githubusercontent.com/86745613/182265088-ebfb9d4a-9a64-479c-9f60-ae0c64f935ff.png">
-
-### Screenshots of Test Case Autopopulated through this GH Action
-<img width="864" alt="image" src="https://user-images.githubusercontent.com/86745613/182267100-3c0c8a80-d70d-4291-b65a-f71a8af818c7.png">
-<img width="994" alt="image" src="https://user-images.githubusercontent.com/86745613/182267121-9e84a890-bd19-4542-83c2-eafbdeb2ca17.png">
+![image](https://user-images.githubusercontent.com/86745613/182430757-0c60b787-8b29-4c05-8816-8335a9387d2b.png)
 
 ### Screenshots of Outline Scenario with parameters populated in to Paramater Column in ADO Test Case
-<img width="794" alt="image" src="https://user-images.githubusercontent.com/86745613/182267326-78cde668-5f5d-4fec-870d-78e5a74b7cd2.png">
+![image](https://user-images.githubusercontent.com/86745613/182431044-3c801a36-b2e7-4610-afd1-e1d2094e328a.png)
 
-<img width="758" alt="image" src="https://user-images.githubusercontent.com/86745613/182267277-25fc16c0-9c25-4fc6-954d-3a3d532c97b7.png">
+### Screenshots of test cases with automatically linked to user story and bug
+![image](https://user-images.githubusercontent.com/86745613/182431184-5e0f01a8-df6e-4dfe-b3f7-91ff9de88a4e.png)
 
+### Screenshots of cucumber-ado-sync branch 
+![image](https://user-images.githubusercontent.com/86745613/182431328-4268da67-a2d8-400d-84ce-5319053a9df8.png)
 
-### Screenshots of Feature Files with ADO Test Case ID populated as Tag ID
-
-<img width="1022" alt="image" src="https://user-images.githubusercontent.com/86745613/182265412-5636c25d-7ebb-4771-a644-258fe2e26961.png">
-
+### Screeshots of Features autopopulated with ADO Test Case ID as Tag (in cucumber-ado-sync branch )
+![image](https://user-images.githubusercontent.com/86745613/182431514-f09c0ab1-7d5e-40f9-b454-9a9c1c834440.png)
 
 ## Inputs
 
@@ -42,16 +38,14 @@ This Action defines the following formal inputs.
 | Name | Required | Default | Description
 |-|-|-|-|
 | **`ado_pat`**  | true | None | ADO PAT Token
-| **`ado_org_url`**  | true | None | ADO ORG URL
-| **`project_name`**  | true | None | ADO Project Name you want the test cases to be uploaded under
-| **`feature_path`**  | true | None | Path of Cucumber Gherkins Style Features
-| **`area_path`**  | true | None | ADO Area Path
-| **`set_then_steps_as_expected`**  | true | false | Setting true will copy Then Statements to exected result column
+| **`ado_project_url`**  | true | None | ADO ORG URL. example https://dev.azure.com/ORG/PROJECT
+| **`area_path`**  | true | None | ADO Area Path. Example: \\Release 1
+| **`cucumber_path`**  | true | false | Provide path to folder where features are present.
 | **`cucumber_sync_tool_id`**  | true | None | GH-Actions-Sync-${{ github.run_id }}
-| **`tag_prefix_id`**  | false | @ADO- | Pre-fix for ADO Test Case ID Tag
+| **`test_suite_id`**  | true | None | Provide your Test Suite ID.
 
 
 ## Usage
 
-Its recommended you to follow this [Example workflow](https://github.com/tr/cicd_gh-actions-cucumber-azure-devops-sync/blob/main/.github/workflows/main.yaml)
+[Example workflow](https://github.com/tr/cicd_gh-actions-cucumber-azure-devops-sync/blob/main/.github/workflows/main.yaml)
 
