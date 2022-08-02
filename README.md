@@ -69,7 +69,7 @@ jobs:
       - name: Checkout Git Repo
         uses: actions/checkout@v3
       - name: Cucumber to ADO Sync
-        uses: ./
+        uses: tr/cicd_gh-actions-ado-specsync@v1.0
         with:
             ado_pat: ${{ secrets.ADO_PAT }}
             ado_project_url: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training
