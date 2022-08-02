@@ -1,9 +1,9 @@
 
 Feature: Sauce Login Page
 
-    The purpose of this feature is to test Sauce Page Login 14
+    The purpose of this feature is to test Sauce Page Login
     @story:15661 @bug:15662
-    Scenario Outline: Change Language and SauceDemo Login
+    Scenario Outline: Change Language and SauceDemo Login 11
         Given User logging to Onesource application
         When User try to change Language to "<product>" by clicking Dropdown
         And User login to OneSource by providing credentials
