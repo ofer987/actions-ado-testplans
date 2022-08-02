@@ -34,8 +34,8 @@ This Action defines the following formal inputs.
 | **`feature_path`**  | true | None | Path of Cucumber Gherkins Style Features
 | **`area_path`**  | true | None | ADO Area Path
 | **`set_then_steps_as_expected`**  | true | false | Setting true will copy Then Statements to exected result column
-| **`cucumber_sync_tool_id`**  | true | None | GH-Actions-Sync
-| **`tag_prefix_id`**  | false | @ADO- | ADO PAT Token
+| **`cucumber_sync_tool_id`**  | true | None | GH-Actions-Sync-${{ github.run_id }}
+| **`tag_prefix_id`**  | false | @ADO- | Pre-fix for ADO Test Case ID Tag
 
 
 ## Usage
