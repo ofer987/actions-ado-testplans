@@ -22,5 +22,5 @@ jobs:
             ado_area_path: '\\Release 1'
             ado_iteration_path: '\\Sprint 1'
             cucumber_root_dir: features
-            test_suite_name: GH-Action-${{ github.run_id }}
+            test_suite_id: 9830
 

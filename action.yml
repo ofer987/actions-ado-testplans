@@ -34,12 +34,9 @@ inputs:
     description: 'Test Case Tag Prefix'
     required: false
     default: 'ADO'
-  test_suite_name:
-    description: 'Name of Test Suite. Only if you have not entered test_suite_id'
-    required: false
   test_suite_id:
-    description: 'ID of Test Suite. Only if you have not entered test_suite_name'
-    required: false
+    description: 'ID of Test Suite. '
+    required: true
   default_test_case_status:
     description: 'Default test case status. Defaults to Design'
     required: false
@@ -99,7 +96,6 @@ runs:
         env:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
-          remote.testSuite.name: ${{ inputs.test_suite_name }}
           remote.testSuite.id: ${{ inputs.test_suite_id }}
           local.featureFileSource.folder: ${{ inputs.cucumber_root_dir }}
           local.defaultFeatureLanguage: ${{ inputs.cucumber_language }}
@@ -108,24 +104,13 @@ runs:
           synchronization.areaPath.value: ${{ inputs.ado_area_path }}
           synchronization.iterationPath.value: ${{ inputs.ado_iteration_path }}
 
-      - name: retain either name of id variable in specsync json file based on user input
-        if: steps.pre-ado-sync.outputs.features == 'true'
-        shell: sh
-        run: |
-          if [[ '${inputs.test_suite_name}' != '' ]];
-          then
-            sed '/"id": "TEST_SUITE_ID"/d' specsync.json
-          else
-            sed '/"name": "TEST_SUITE_NAME",/d' specsync.json
-          fi
-
       - name: Run SpecSync
         if: steps.pre-ado-sync.outputs.features == 'true'
         shell: sh
         run: |
           chmod +x ./SpecSync4AzureDevOps;
-          ./SpecSync4AzureDevOps pull
-
+          ./SpecSync4AzureDevOps pull;
+          
       - uses: dorny/paths-filter@v2
         id: post-ado-sync
         with:
