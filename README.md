@@ -1,12 +1,14 @@
 # cicd_gh-actions-cucumber-azure-devops-sync
 
 This pattern is been created to provide a way to automatically upload Cucumber(BDD) Test Cases from GitHub Repo to Azure DevOps TestPlans.  This is to reduce manual efforts involved in manually updating Azure DevOps.
-- This workflow runs only if there are any changes made to Feature Files
+- This workflow triggers only if there is a change made in Feature Files (addition of new files/updates made to existing files)
 - Creates test cases in Azure DevOps from specified path of Feature Files (if not already present)
 - Updates test cases in Azure DevOps from specified path of Feature Files (if already)
-- This workflow triggers only if there is a change made in Feature Files (addition of new files/updates made to existing files)
+- Test Cases already found will not be created again
 - If triggered branch is other than "main" then the updated Feature Files with ADO Test Case ID Tag Number will be commited back in same branch.
-- If triggered branch is "main" then the updated Feature Files with ADO Test Case ID Tag Number will be commited in a new branch called "cucumber-ado-sync"
+- Its recommened you enter user story number as Tag for each scenario in feature files in format @story:XXXX. If you do this we create link between user story and test cases automatically!
+- If you create test cases for testing a bug fix, then add Tag in format @bug-XXXX. This will link your test cases with respective bug fix id.
+- If triggered branch is "main" then the updated Feature Files with ADO Test Case ID Tag Number(@ADO-XXXX) will be commited in a new branch called "cucumber-ado-sync"
 - We suggest you to review the commit updated feature files (with ADO Test Case ID Tag Number) to main branch. Alternatively you can automate PR creation merge as well.
 
 ## Sample Screenshots:
