@@ -37,9 +37,6 @@ This Action defines the following formal inputs.
 | **`cucumber_sync_tool_id`**  | true | None | GH-Actions-Sync
 | **`tag_prefix_id`**  | false | @ADO- | ADO PAT Token
 
-## Outputs
-
-This Action updates your feature files with ADO Test Case ID as Tag so its suggested to make a commit back to Git Repo  by making a PR
 
 ## Usage
 
