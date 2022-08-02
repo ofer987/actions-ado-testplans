@@ -123,9 +123,9 @@ runs:
         run: |
           if [[ '${inputs.test_suite_name}' != '' ]];
           then
-            sed '/"id": "TEST_SUITE_ID"/d' specsync.json
+            sed '/"id": "TEST_SUITE_ID"/d' ./test-cases/specsync.json
           else
-            sed '/"id": 1/d' specsync.json
+            sed '/"id": 1/d' ./test-cases/specsync.json
           fi
           
       - name: Run SpecSync
