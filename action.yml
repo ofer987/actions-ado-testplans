@@ -64,8 +64,13 @@ inputs:
 runs:
   using: 'composite'
   steps:
-      - name: Checkout Git Repo
+      - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: dorny/paths-filter@v2
         id: pre-ado-sync
         with:
