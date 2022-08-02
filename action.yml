@@ -70,7 +70,7 @@ runs:
           base: ${{ env.GITHUB_SHA }}
           filters: |
             features:
-             - ${{ input.cucumber_root_dir }}
+             - ${{ inputs.cucumber_root_dir }}
 
       - name: Set up .NET 6
         if: steps.pre-ado-sync.outputs.features == 'true'
@@ -98,22 +98,22 @@ runs:
         with:
           files: 'specsync.json'
         env:
-          remote.projectUrl: ${{ input.ado_project_url }}
-          remote.user: ${{ input.ado_pat }}
-          remote.testSuite.name: ${{ input.test_suite_name }}
-          remote.testSuite.id: ${{ input.test_suite_id }}
-          local.featureFileSource.folder: ${{ input.cucumber_root_dir }}
-          local.defaultFeatureLanguage: ${{ input.cucumber_language }}
-          synchronization.testCaseTagPrefix: ${{ input.test_case_tag_prefix }}
-          synchronization.state.setValueOnChangeTo: ${{ input.default_test_case_status }}
-          synchronization.areaPath.value: ${{ input.ado_area_path }}
-          synchronization.iterationPath.value: ${{ input.ado_iteration_path }}
+          remote.projectUrl: ${{ inputs.ado_project_url }}
+          remote.user: ${{ inputs.ado_pat }}
+          remote.testSuite.name: ${{ inputs.test_suite_name }}
+          remote.testSuite.id: ${{ inputs.test_suite_id }}
+          local.featureFileSource.folder: ${{ inputs.cucumber_root_dir }}
+          local.defaultFeatureLanguage: ${{ inputs.cucumber_language }}
+          synchronization.testCaseTagPrefix: ${{ inputs.test_case_tag_prefix }}
+          synchronization.state.setValueOnChangeTo: ${{ inputs.default_test_case_status }}
+          synchronization.areaPath.value: ${{ inputs.ado_area_path }}
+          synchronization.iterationPath.value: ${{ inputs.ado_iteration_path }}
 
       - name: retain either name of id variable in specsync json file based on user input
         if: steps.pre-ado-sync.outputs.features == 'true'
         shell: sh
         run: |
-          if [[ '${input.test_suite_name}' != '' ]];
+          if [[ '${inputs.test_suite_name}' != '' ]];
           then
             sed '/"id": "TEST_SUITE_ID"/d' specsync.json
           else
@@ -133,7 +133,7 @@ runs:
         with:
           filters: |
             features:
-             - ${{ input.cucumber_root_dir }}
+             - ${{ inputs.cucumber_root_dir }}
 
       - name: shell print git status
         shell: sh
@@ -144,11 +144,11 @@ runs:
         shell: sh
         env:
           GITHUB_REF_NAME: ${{ env.GITHUB_REF_NAME }}
-          GIT_USER_EMAIL: ${{ input.git_user_email }}
-          GIT_USER_NAME: ${{ input.git_user_name }}
-          CUCUMBER_ROOT_DIR: ${{ input.cucumber_root_dir }}
-          CUCUMBER_BRANCH_NAME: ${{ input.cucumber_branch_name }}
-          TEMP_CUCUMBER_BRANCH_NAME: ${{ input.temp_cucumber_branch_name }}
+          GIT_USER_EMAIL: ${{ inputs.git_user_email }}
+          GIT_USER_NAME: ${{ inputs.git_user_name }}
+          CUCUMBER_ROOT_DIR: ${{ inputs.cucumber_root_dir }}
+          CUCUMBER_BRANCH_NAME: ${{ inputs.cucumber_branch_name }}
+          TEMP_CUCUMBER_BRANCH_NAME: ${{ inputs.temp_cucumber_branch_name }}
         if: steps.post-ado-sync.outputs.features == 'true'
         run: |
           git config --local user.email $GIT_USER_EMAIL
