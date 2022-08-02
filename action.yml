@@ -131,14 +131,16 @@ runs:
         with:
           filters: |
             features:
-             - ${{ inputs.cucumber_root_dir }}
+             - '${{ inputs.cucumber_root_dir }}/**'
 
       - name: shell print git status
         shell: sh
+        if: always()
         run: git status
 
       #  Commit Cucumber Feature Files to triggering branch or cucumber-ado-sync branch
       - name: Commit updates feature files
+        if: ${{ steps.post-ado-sync.outputs.features == 'true' && always() }}
         shell: sh
         env:
           GITHUB_REF_NAME: ${{ env.GITHUB_REF_NAME }}
@@ -147,7 +149,6 @@ runs:
           CUCUMBER_ROOT_DIR: ${{ inputs.cucumber_root_dir }}
           CUCUMBER_BRANCH_NAME: ${{ inputs.cucumber_branch_name }}
           TEMP_CUCUMBER_BRANCH_NAME: ${{ inputs.temp_cucumber_branch_name }}
-        if: steps.post-ado-sync.outputs.features == 'true'
         run: |
           git config --local user.email $GIT_USER_EMAIL
           git config --local user.name $GIT_USER_NAME
