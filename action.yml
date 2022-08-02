@@ -112,16 +112,12 @@ runs:
           ./SpecSync4AzureDevOps pull;
           
       - uses: dorny/paths-filter@v2
+        if: always()
         id: post-ado-sync
         with:
           filters: |
             features:
              - '${{ inputs.cucumber_root_dir }}/**'
-
-      - name: shell print git status
-        shell: sh
-        if: always()
-        run: git status
 
       #  Commit Cucumber Feature Files to triggering branch or cucumber-ado-sync branch
       - name: Commit updates feature files
