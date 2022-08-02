@@ -1,7 +1,7 @@
 
 Feature: Sauce Login Page
 
-    The purpose of this feature is to test Sauce Page Login 11
+    The purpose of this feature is to test Sauce Page Login 12
     @story:15661 @bug:15662
     Scenario Outline: Change Language and SauceDemo Login
         Given User logging to Onesource application
