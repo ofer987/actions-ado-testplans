@@ -99,10 +99,8 @@ runs:
           
       - uses: microsoft/variable-substitution@v1
         if: steps.pre-ado-sync.outputs.features == 'true'
-        working-directory: ./source-repo/
-        run: ls -R
         with:
-          files: 'specsync.json'
+          files: './specsync/specsync.json'
         env:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
