@@ -69,6 +69,11 @@ runs:
         with:
           path: ./
 
+      - name: List Files
+        if: steps.pre-ado-sync.outputs.features == 'true'
+        shell: bash
+        run: ls -R
+
       - uses: dorny/paths-filter@v2
         id: pre-ado-sync
         with:
@@ -85,7 +90,7 @@ runs:
 
       - name: Install SpecSync Nuget Package
         if: steps.pre-ado-sync.outputs.features == 'true'
-        shell: sh
+        shell: bash
         run: |
           sudo apt install zip unzip
           export PATH="$PATH:/root/.dotnet/tools";
@@ -115,7 +120,7 @@ runs:
 
       - name: retain either name of id variable in specsync json file based on user input
         if: steps.pre-ado-sync.outputs.features == 'true'
-        shell: sh
+        shell: bash
         run: |
           if [[ '${inputs.test_suite_name}' != '' ]];
           then
@@ -126,7 +131,7 @@ runs:
           
       - name: Run SpecSync
         if: steps.pre-ado-sync.outputs.features == 'true'
-        shell: sh
+        shell: bash
         run: |
           chmod +x ./SpecSync4AzureDevOps;
           ./SpecSync4AzureDevOps push;
@@ -143,7 +148,7 @@ runs:
       #  Commit Cucumber Feature Files to triggering branch or cucumber-ado-sync branch
       - name: Commit updates feature files
         if: ${{ steps.post-ado-sync.outputs.features == 'true' && always() }}
-        shell: sh
+        shell: bash
         env:
           GITHUB_REF_NAME: ${{ env.GITHUB_REF_NAME }}
           GIT_USER_EMAIL: ${{ inputs.git_user_email }}
