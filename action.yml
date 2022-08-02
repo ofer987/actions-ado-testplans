@@ -124,7 +124,7 @@ runs:
         shell: sh
         run: |
           chmod +x ./SpecSync4AzureDevOps;
-          ./SpecSync4AzureDevOps
+          ./SpecSync4AzureDevOps pull
 
       - uses: dorny/paths-filter@v2
         id: post-ado-sync
