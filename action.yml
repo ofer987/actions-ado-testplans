@@ -90,7 +90,6 @@ runs:
         shell: bash
         run:
           wget -O SpecSync.zip https://www.specsolutions.eu/media/specsync/SpecSync.AzureDevOps.3.3.6-linux-x64.zip && unzip SpecSync.zip;
-          cd SpecSync;
           chmod +x SpecSync4AzureDevOps
           
       - uses: microsoft/variable-substitution@v1
