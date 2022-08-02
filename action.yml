@@ -114,11 +114,11 @@ runs:
               
                   "areaPath": {
                     "mode": "setOnLink",
-                    "value": "\\MyArea"
+                    "value": "MyArea"
                   },
                   "iterationPath": {
                     "mode": "setOnLink",
-                    "value": "\\Sprint 1"
+                    "value": "Sprint 1"
                   },
                   "links": [
                     {
