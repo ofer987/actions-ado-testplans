@@ -133,8 +133,8 @@ runs:
         shell: bash
         run: |
           chmod +x ./SpecSync4AzureDevOps;
-          ./SpecSync4AzureDevOps push;
-          ./SpecSync4AzureDevOps pull;
+          ./SpecSync4AzureDevOps push ./test-cases/specsync.json
+          ./SpecSync4AzureDevOps pull ./test-cases/specsync.json
           
       - uses: dorny/paths-filter@v2
         if: always()
