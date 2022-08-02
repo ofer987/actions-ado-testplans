@@ -1,7 +1,7 @@
 
 Feature: Login Page
 
-    The purpose of this feature is to test the Login Pages 2
+    The purpose of this feature is to test the Login Pages 3
 
     @complete @UiReport @Smoke
     Scenario: OneSource Login

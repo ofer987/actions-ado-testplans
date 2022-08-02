@@ -124,7 +124,6 @@ runs:
         if: steps.pre-ado-sync.outputs.features == 'true'
         shell: sh
         run: |
-          cd SpecSync
           chmod +x ./SpecSync4AzureDevOps;
           ./SpecSync4AzureDevOps
 
