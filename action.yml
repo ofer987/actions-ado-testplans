@@ -67,7 +67,7 @@ runs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          path: ./
+          path: ./specsync
 
       - uses: dorny/paths-filter@v2
         id: pre-ado-sync
@@ -99,6 +99,8 @@ runs:
           
       - uses: microsoft/variable-substitution@v1
         if: steps.pre-ado-sync.outputs.features == 'true'
+        working-directory: ./source-repo/
+        run: ls -R
         with:
           files: 'specsync.json'
         env:
