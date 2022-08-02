@@ -33,7 +33,7 @@ inputs:
   cucumber_sync_tool_id: 
     description: 'Path of Cucumber Features'
     required: false
-    default: 'GH-Actions-Sync'  
+    default: GH-Actions-Sync-${{ github.run_id }}
   tag_prefix_id: 
     description: 'Path of Cucumber Features'
     required: false
