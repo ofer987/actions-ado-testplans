@@ -10,6 +10,7 @@
     "projectUrl": "https://dev.azure.com/tr-ihn-sandbox/Azure%20DevOps%20Training",
     "user":"ADO_PAT",
     "testSuite": {
+            "name": "TEST_SUITE_NAME",
             "id": 1
           }
   },
