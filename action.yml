@@ -156,7 +156,19 @@ runs:
                   }                          
           }
           EOF
-          
+
+      - name: Create SpecSync.json file
+        shell: bash
+        run: |
+          cat > ./specsync.lic <<EOF
+          3de10d45-d3cc-9dd7-3ac4-16dff5177c63
+          KATzuYGGEkUXKioMDYfSoDPMMqD/M0gyHVRGALVypsFRBebO5BscQfgBFcH0BzMgdGVhbXM=
+          Thomson Reuters-West Publishing Corp. (coordinator: Lada Korine)
+          3 teams
+          Enterprise
+          2023-06-25
+          EOF
+
       - uses: dorny/paths-filter@v2
         id: pre-ado-sync
         with:
