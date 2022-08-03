@@ -347,7 +347,7 @@ runs:
         shell: bash
         run: |
           chmod +x ./SpecSync4AzureDevOps;
-          ./SpecSync4AzureDevOps publish-test-result --buildId ${{ github.run_id }} ./specsync.json
+          ./SpecSync4AzureDevOps publish-test-results --buildId ${{ github.run_id }} ./specsync.json
           
       - uses: dorny/paths-filter@v2
         if: ${{ steps.pre-ado-sync.outputs.features && inputs.test_cases_sync && always()  }}
