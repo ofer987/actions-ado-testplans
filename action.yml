@@ -346,11 +346,13 @@ runs:
         if: ${{ inputs.test_results_sync && steps.post-test-execution.outputs.test_results_file_path && always() }}
         shell: bash
         run: |
-          export RUN_ID=${{ github.run_id }}
-          export RUN_ID="echo $((RUN_ID))"
+          export RUN_ID=${{ github.run_id }};
+          export RUN_ID="echo $((RUN_ID))";
+          cd ${{ github.workspace }}
+          ls -R;
           chmod +x ./SpecSync4AzureDevOps;
           chmod +x ${{ inputs.test_results_file_path }};
-          ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings --buildNumber ${{ github.run_number }} ./specsync.json
+          ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings ./specsync.json;
           
       - uses: dorny/paths-filter@v2
         if: ${{ steps.pre-ado-sync.outputs.features && inputs.test_cases_sync && always()  }}
