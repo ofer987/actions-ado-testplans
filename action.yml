@@ -1,6 +1,6 @@
 name: 'Cucumber to Azure DevOps Test Plans Sync'
 author: 'PavanMudigonda'
-description: 'A GitHub Action that Synchronizes Cucumber features in GitHub Repo with Azure DevOps'
+description: 'A GitHub Action that Synchronizes Cucumber Test Cases and Test Results from GitHub to Azure DevOps'
 
 branding:
   icon: 'repeat'
@@ -11,6 +11,14 @@ inputs:
     description: 'GitHub API Access Token'
     default: ${{ github.token }}
     required: false
+  test_cases_sync:  
+    description: 'Test Cases Sync'
+    required: true
+    default: 'false'
+  test_results_sync:
+    description: 'Test Results Sync - Format Supported'
+    required: false
+    default: 'false'
   ado_pat:
     description: 'Azure DevOps PAT'
     required: true
@@ -60,14 +68,72 @@ inputs:
     description: 'Default Github Actions Name'
     required: false
     default: 'temp-cucumber-ado-sync'
+  test_configuration_name:
+    description: 'Test Result - Configuration Run name'
+    required: false
+    default: ${{ runner.os }}-${{ runner.arch }}
+  test_configuration_id:
+    description: 'Test Result - Configuration Run ID'
+    required: false
+  test_results_file_path:
+    description: 'Test Result - File Path'
+    required: false
+  test_results_file_format:
+    description: 'Test Result - File Format'
+    required: false    
+  test_results_run_comment:
+    description: 'Test Result - Run Comment'
+    required: false
+    default: GH Action-${{ github.run_id}}
+  test_results_run_name:
+    description: 'Test Result - Run NAme'
+    required: false
+    default: GH-Actions-${{ github.run_id }}
+  test_results_run_type:
+    description: 'Test Result - Run Type'
+    required: false
+    default: 'automated'
+  test_results_run_result_comment:
+    description: 'Test Result - Run Result Comment'
+    required: false
+    default: 'As Expected'
+  test_results_test_suite_name:
+    description: 'Test Result - Test Suite Name'
+    required: false
+  test_results_test_suite_id:
+    description: 'Test Result - Test Suite ID'
+    required: false
+  test_results_test_plan_id:
+    description: 'Test Result - Test Plan ID'
+    required: false
+  test_results_create_sub_results:
+    description: 'Test Result - Create Sub Results'
+    required: false
+    default: 'false'
+  test_results_treat_inconclusive_as:
+    description: 'Test Result - Treat Inconclusive As'
+    required: false
+    default: 'NotExecuted'
 
 runs:
   using: 'composite'
   steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
+      - uses: dorny/paths-filter@v2
+        if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}    
+        id: pre-ado-sync
+        with:
+          base: ${{ env.GITHUB_SHA }}
+          filters: |
+            features:
+             - '${{ inputs.cucumber_path }}/**'
+            results:
+             - '${{ inputs.test_results_file_path }}/**'
+
       - name: Create SpecSync.json file
+        if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.pre-ado-sync.outputs.test_results_file_path ) && always() }}
         shell: bash
         run: |
           cat > ./specsync.json <<EOF
@@ -101,7 +167,18 @@ runs:
                    "testResult": {
                    "filePath": "test-result.trx"
                     },
-                    "runComment": "Acceptance test results"
+                    "runComment": "Acceptance test results",
+                    "treatInconclusiveAs":"NotExecuted",
+                    "createSubResults": true,
+                    "runName": "test",
+                    "runType": "automated",
+                    "runComment": "test",
+                    "testResultComment": "test",
+                    "testSuite": {
+                      "name": "test",
+                      "id": "1",
+                      "testPlanId": "1"
+                       }
                      },
                 "synchronization": {
                   "disableLocalChanges": false,
@@ -166,7 +243,8 @@ runs:
           }
           EOF
 
-      - name: Create SpecSync.json file
+      - name: Create SpecSync License file
+        if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.pre-ado-sync.outputs.test_results_file_path ) && always() }}
         shell: bash
         run: |
           cat > ./specsync.lic <<EOF
@@ -178,36 +256,23 @@ runs:
           2023-06-25
           EOF
 
-      - uses: dorny/paths-filter@v2
-        id: pre-ado-sync
-        with:
-          base: ${{ env.GITHUB_SHA }}
-          filters: |
-            features:
-             - '${{ inputs.cucumber_path }}/**'
-
       - name: Set up .NET 6
-        if: steps.pre-ado-sync.outputs.features == 'true'
+        if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.pre-ado-sync.outputs.test_results_file_path ) && always() }}
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: "6.0.x"
 
-      - name: Install SpecSync Nuget Package
-        if: steps.pre-ado-sync.outputs.features == 'true'
+      - name: Install Dependencies
+        if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.pre-ado-sync.outputs.test_results_file_path ) && always() }}
         shell: bash
         run: |
           sudo apt install zip unzip
           export PATH="$PATH:/root/.dotnet/tools";
-          
-      - name: Install SpecSync
-        if: steps.pre-ado-sync.outputs.features == 'true'
-        shell: bash
-        run:
           wget -O SpecSync.zip https://www.specsolutions.eu/media/specsync/SpecSync.AzureDevOps.3.3.6-linux-x64.zip && unzip SpecSync.zip;
-          chmod +x SpecSync4AzureDevOps
+          chmod +x SpecSync4AzureDevOps;
           
       - uses: microsoft/variable-substitution@v1
-        if: steps.pre-ado-sync.outputs.features == 'true'
+        if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.pre-ado-sync.outputs.test_results_file_path )) && always() }}
         with:
           files: './specsync.json'
         env:
@@ -221,28 +286,49 @@ runs:
           synchronization.state.setValueOnChangeTo: ${{ inputs.default_test_case_status }}
           synchronization.areaPath.value: ${{ inputs.ado_area_path }}
           synchronization.iterationPath.value: ${{ inputs.ado_iteration_path }}
+          publishTestResults.testConfiguration.name: ${{ inputs.test_configuration_name }}
+          publishTestResults.testConfiguration.id: ${{ inputs.test_configuration_id }}
+          publishTestResults.testResult.filePath: ${{ inputs.test_results_file_path }}
+          publishTestResults.testResult.fileFormat: ${{ inputs.test_results_file_format }}
+          publishTestResults.runComment: ${{ inputs.test_results_run_comment }}
+          publishTestResults.runName: ${{ inputs.test_results_run_name }}
+          publishTestResults.runType: ${{ inputs.test_results_run_type }}
+          publishTestResults.testResultComment: ${{ inputs.test_results_run_result_comment }}
+          publishTestResults.testSuite.name: ${{ inputs.test_results_test_suite_name }}
+          publishTestResults.testSuite.id: ${{ inputs.test_results_test_suite_id }}
+          publishTestResults.testSuite.testPlanId: ${{ inputs.test_results_test_plan_id }}          
+          publishTestResults.createSubResults: ${{ inputs.test_results_create_sub_results }}
 
       - name: retain either name of id variable in specsync json file based on user input
-        if: steps.pre-ado-sync.outputs.features == 'true'
+        if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.pre-ado-sync.outputs.test_results_file_path )) && always() }}
         shell: bash
         run: |
           if [[ '${inputs.test_suite_name}' != '' ]];
           then
             sed '/"id": "TEST_SUITE_ID"/d' ./specsync.json
-          else
+          elif [[ '${inputs.test_suite_id}' != '' ]];
             sed '/"id": 1/d' ./specsync.json
+          else
+            echo " either enter test_suite_name or test_suite_id"
           fi
           
-      - name: Run SpecSync
-        if: steps.pre-ado-sync.outputs.features == 'true'
+      - name: Run Test Case Synchronization
+        if: ${{ steps.pre-ado-sync.outputs.features && inputs.test_cases_sync && always() }}
         shell: bash
         run: |
           chmod +x ./SpecSync4AzureDevOps;
           ./SpecSync4AzureDevOps push ./specsync.json
           ./SpecSync4AzureDevOps pull ./specsync.json
+
+      - name: Run Test Results Synchronization
+        if: ${{ inputs.test_results_sync && steps.pre-ado-sync.outputs.test_results_file_path && always() }}
+        shell: bash
+        run: |
+          chmod +x ./SpecSync4AzureDevOps;
+          ./SpecSync4AzureDevOps publish-test-result --buildId ${{ github.run_id }} ./specsync.json
           
       - uses: dorny/paths-filter@v2
-        if: always()
+        if: ${{ steps.pre-ado-sync.outputs.features && inputs.test_cases_sync && always()  }}
         id: post-ado-sync
         with:
           filters: |
@@ -251,7 +337,7 @@ runs:
 
       #  Commit Cucumber Feature Files to triggering branch or cucumber-ado-sync branch
       - name: Commit updates feature files
-        if: ${{ steps.post-ado-sync.outputs.features == 'true' && always() }}
+        if: ${{ steps.post-ado-sync.outputs.features && inputs.test_results_sync && always() }}
         shell: bash
         env:
           GITHUB_REF_NAME: ${{ env.GITHUB_REF_NAME }}
