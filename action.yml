@@ -310,7 +310,7 @@ runs:
           if [[ '${inputs.test_results_sync}' == 'true' && '${inputs.test_results_test_suite_name}' != '' ]];
           then
             sed '/"id": 2,/d' ./specsync.json;
-          elif [[ '${inputs.test_results_sync}' == 'true' && '${inputs.test_results_test_suite_id}' != '' ]];
+          elif [[ '${inputs.test_results_sync}' == 'true' && '${inputs.test_suite_id}' != '' ]];
           then
             sed '/"name": "test",/d' ./specsync.json;
           else
