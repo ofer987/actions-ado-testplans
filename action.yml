@@ -291,7 +291,7 @@ runs:
           elif [[ '${inputs.test_results_sync }' == 'true' ]]; then
             sed '/"name": "TEST_SUITE_NAME",/d' ./specsync.json;
           else
-            echo " either enter test_suite_name or test_suite_id";
+            echo "either enter test_suite_name or test_suite_id";
           fi
 
       - name: Create SpecSync License file
