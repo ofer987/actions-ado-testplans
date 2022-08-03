@@ -199,7 +199,7 @@ runs:
                         "System.Description": "Featur File Path: {feature-file-path}",
                       }
                     }
-                  }                     
+                  },                  
                 "synchronization": {
                   "disableLocalChanges": false,
                   "testCaseTagPrefix": "ADO",
