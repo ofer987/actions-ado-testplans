@@ -58,19 +58,19 @@ This Action defines the following formal inputs.
 | **`test_suite_name`**  | Test Cases Sync | true | None | Provide your Test Suite Name. Either test_suite_id or test_suite_name to be entered but not both.
 | **`test_case_tag_prefix`**  | Test Cases Sync | true | ADO | Test Case Tag Prefix. Default will populate as @ADO:XXXX
 | **`cucumber_language`**  | Test Cases Sync | true | en-US | Defaults to en-US. Please refer [Ubuntu Manpages](https://manpages.ubuntu.com/manpages/bionic/man3/DateTime::Locale::Catalog.3pm.html) for valid codes. Cucumber supported [Localisation Language](https://cucumber.io/docs/gherkin/languages/)
-| **`test_configuration_name`**  | Test Results Sync | false | ${{ runner.os }}-${{ runner.arch }} | The name of the test configuration. Default will detect automatically example Ubuntu-X64 or Windows-X64. Make sure create this config in Azure DevOps.
-| **`test_configuration_id`**  | Test Results Sync | false | - | The ID of the test configuration.
-| **`test_result_file_path`**  | Test Results Sync | false | - | The path of the test result file (e.g. TRX) file or a folder containing multiple test result files.
+| **`test_configuration_name`**  | Test Results Sync | conditional | ${{ runner.os }}-${{ runner.arch }} | The name of the test configuration. Default will detect automatically example Ubuntu-X64 or Windows-X64. Make sure create this config in Azure DevOps.
+| **`test_configuration_id`**  | Test Results Sync | conditional | - | The ID of the test configuration.
+| **`test_result_file_path`**  | Test Results Sync | conditional | - | The path of the test result file (e.g. TRX) file or a folder containing multiple test result files.
 | **`test_result_file_format`**  | Test Results Sync | false | - | The format of the test result file. Please check the Compatibility page for [supported formats](https://specsolutions.gitbook.io/specsync/reference/compatibility#supported-test-result-formats). 
-| **`test_result_run_comment`**  | Test Results Sync | false |  GH Action-${{ github.run_id}} | The comment of the created Test Run.
-| **`test_result_run_name`**  | Test Results Sync | false | false | GH-Actions-${{ github.run_id }}
-| **`test_result_run_type`**  | Test Results Sync | false | automated | Sets the run type of the created Test Run. Possible values: automated, manual.
-| **`test_result_run_result_comment`**  | Test Results Sync | false | As Expected | The comment added to the individual test results within the created Test Run.
-| **`test_result_test_suite_name`**  | Test Results Sync | false | - |Specifies a test suite within the Azure DevOps project to publish the test results for.The name of the test suite. For suites with non-unique names, please use the testSuite/id setting.
-| **`test_result_test_suite_id`**  | Test Results Sync | false | **`test_suite_id`** | Specifies a test suite within the Azure DevOps project to publish the test results for. The ID of the test suite as a number (e.g. id: 12345).
-| **`test_result_test_plan_id`**  | Test Results Sync | false | - | The ID of the test plan to search or create the test suite in. (Optional, improves performance)
-| **`test_result_create_sub_results`**  | Test Results Sync | false | false | Enables publishing scenario outline iteration results as sub-results. Sub-results are not displayed in the Azure DevOps user interface but can be retrieved through the API. The scenario outline iteration results are published as iteration results (displayed on the user interface) regardless of this setting.
-| **`test_result_treat_inconclusive_as`**  | Test Results Sync | false | NotExecuted | Maps the Inconclusive test results. Some test execution frameworks report skipped scenarios as Inconclusive, so they should be mapped to another value, e.g. NotExecuted or Failed.
+| **`test_result_run_comment`**  | Test Results Sync | conditional |  GH Action-${{ github.run_id}} | The comment of the created Test Run.
+| **`test_result_run_name`**  | Test Results Sync | conditional | false | GH-Actions-${{ github.run_id }}
+| **`test_result_run_type`**  | Test Results Sync | conditional | automated | Sets the run type of the created Test Run. Possible values: automated, manual.
+| **`test_result_run_result_comment`**  | Test Results Sync | conditional | As Expected | The comment added to the individual test results within the created Test Run.
+| **`test_result_test_suite_name`**  | Test Results Sync | conditional | - |Specifies a test suite within the Azure DevOps project to publish the test results for.The name of the test suite. For suites with non-unique names, please use the testSuite/id setting.
+| **`test_result_test_suite_id`**  | Test Results Sync | conditional | **`test_suite_id`** | Specifies a test suite within the Azure DevOps project to publish the test results for. The ID of the test suite as a number (e.g. id: 12345).
+| **`test_result_test_plan_id`**  | Test Results Sync | conditional | - | The ID of the test plan to search or create the test suite in. (Optional, improves performance)
+| **`test_result_create_sub_results`**  | Test Results Sync | conditional | false | Enables publishing scenario outline iteration results as sub-results. Sub-results are not displayed in the Azure DevOps user interface but can be retrieved through the API. The scenario outline iteration results are published as iteration results (displayed on the user interface) regardless of this setting.
+| **`test_result_treat_inconclusive_as`**  | Test Results Sync | conditional | NotExecuted | Maps the Inconclusive test results. Some test execution frameworks report skipped scenarios as Inconclusive, so they should be mapped to another value, e.g. NotExecuted or Failed.
 
 ## Usage
 
