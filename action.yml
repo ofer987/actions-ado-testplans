@@ -242,7 +242,11 @@ runs:
                     "customFieldUpdates": {
                       "enabled": true,
                       "updates": {
-                        "System.Description": "Feature Name: {feature-name} Feature Description: {feature-description} Feature Source: {feature-source} Feature Rule Name: {rule-name} Scenario Name: {scenario-name} Scenario Description: {scenario-description} Scenario Source: {scenario-source} Feature File Name: {feature-file-name} Feature File Folder: {feature-file-folder} Feature File Path: {feature-file-path}"
+                        "System.Description": "Feature Name: {feature-name} 
+                        Feature Description: {feature-description} 
+                        Feature File Name: {feature-file-name} 
+                        Feature File Folder: {feature-file-folder} 
+                        Feature File Path: {feature-file-path}"
                       }
                     }                    
                   }                          
@@ -348,7 +352,7 @@ runs:
           ./SpecSync4AzureDevOps pull ./specsync.json;
 
       - name: Run Test Results Synchronization
-        if: ${{ inputs.test_results_sync && steps.post-test-execution.outputs.test_results_file_path && always() }}
+        if: ${{ inputs.test_results_sync == 'true' && steps.post-test-execution.outputs.test_results_file_path && always() }}
         shell: bash
         run: |
           chmod +x ./SpecSync4AzureDevOps;
