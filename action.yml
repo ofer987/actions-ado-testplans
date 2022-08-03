@@ -303,10 +303,9 @@ runs:
         if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.pre-ado-sync.outputs.test_results_file_path ) && always() }}
         shell: bash
         run: |
-          if [[ '${inputs.test_suite_name}' != '' ]];
-          then
+          if [[ '${inputs.test_suite_name}' != '' ]]; then
             sed '/"id": "TEST_SUITE_ID"/d' ./specsync.json
-          elif [[ '${inputs.test_suite_id}' != '' ]];
+          elif [[ '${inputs.test_suite_id}' != '' ]]; then
             sed '/"id": 1/d' ./specsync.json
           else
             echo " either enter test_suite_name or test_suite_id"
