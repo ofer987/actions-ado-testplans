@@ -34,6 +34,13 @@ This pattern is been created to provide a way to automatically upload Cucumber(B
 ### Screeshots of Features autopopulated with ADO Test Case ID as Tag (in cucumber-ado-sync branch )
 ![image](https://user-images.githubusercontent.com/86745613/182431514-f09c0ab1-7d5e-40f9-b454-9a9c1c834440.png)
 
+### Screenshos after running Test Results GH Action
+<img width="1426" alt="image" src="https://user-images.githubusercontent.com/86745613/182665218-f740bd5f-ed93-422d-a21e-98f11284c5c1.png">
+<img width="1414" alt="image" src="https://user-images.githubusercontent.com/86745613/182665251-c04cc4c0-fe8c-41f7-b74d-8b80d9af225c.png">
+<img width="1413" alt="image" src="https://user-images.githubusercontent.com/86745613/182665349-b0a1ae95-c93d-4e3a-bb06-7b98aaff8261.png">
+<img width="1432" alt="image" src="https://user-images.githubusercontent.com/86745613/182665447-b2728c10-a64d-4a93-9be5-5edbb0687939.png">
+<img width="1435" alt="image" src="https://user-images.githubusercontent.com/86745613/182665492-b85695e6-3bb8-4348-bccd-308f653ef3c2.png">
+
 ## Inputs
 
 This Action defines the following formal inputs.
