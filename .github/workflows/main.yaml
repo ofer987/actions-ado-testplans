@@ -24,5 +24,5 @@ jobs:
             ado_area_path: '\\Release 1'
             ado_iteration_path: '\\Sprint 1'
             cucumber_path: features
-            test_suite_id: 191
+            test_suite_id: 9832
 
