@@ -16,7 +16,7 @@ jobs:
       - name: Checkout Git Repo
         uses: actions/checkout@v3
       - name: Cucumber to ADO Sync
-        uses: tr/cicd_gh-actions-ado-specsync@v1.0
+        uses: ./
         with:
             test_cases_sync: true
             test_results_sync: false
