@@ -44,7 +44,7 @@ This Action defines the following formal inputs.
 | **`ado_pat`**  | Common | true | None | ADO PAT Token
 | **`ado_project_url`**  | Common | true | None | ADO ORG URL. example https://dev.azure.com/ORG/PROJECT
 | **`area_path`**  | Common | true | None | ADO Area Path. Example: \\Release 1
-| **`cucumber_path`**  | Common | true | false | Provide path to folder where features are present.
+| **`cucumber_path`**  | Test Cases Sync | true | false | Provide path to folder where features are present.
 | **`ado_iteration_path`**  | Common | true | None | ADO Iteration Path. Example: \\Sprint 1
 | **`test_suite_id`**  | Test Cases Sync | true | None | Provide your Test Suite ID. Either test_suite_id or test_suite_name to be entered but not both.
 | **`test_suite_name`**  | Test Cases Sync | true | None | Provide your Test Suite Name. Either test_suite_id or test_suite_name to be entered but not both.
@@ -56,8 +56,8 @@ This Action defines the following formal inputs.
 | **`test_result_file_format`**  | Test Results Sync | false | - | The format of the test result file. Please check the Compatibility page for [supported formats](https://specsolutions.gitbook.io/specsync/reference/compatibility#supported-test-result-formats). 
 | **`test_result_run_comment`**  | Test Results Sync | false |  GH Action-${{ github.run_id}} | The comment of the created Test Run.
 | **`test_result_run_name`**  | Test Results Sync | false | false | GH-Actions-${{ github.run_id }}
-| **`test_result_run_type`**  | Test Results Sync | false | - | Sets the run type of the created Test Run. Possible values: automated, manual.
-| **`test_result_run_result_comment`**  | Test Results Sync | false | - | The comment added to the individual test results within the created Test Run.
+| **`test_result_run_type`**  | Test Results Sync | false | automated | Sets the run type of the created Test Run. Possible values: automated, manual.
+| **`test_result_run_result_comment`**  | Test Results Sync | false | As Expected | The comment added to the individual test results within the created Test Run.
 | **`test_result_test_suite_name`**  | Test Results Sync | false | - |Specifies a test suite within the Azure DevOps project to publish the test results for.The name of the test suite. For suites with non-unique names, please use the testSuite/id setting.
 | **`test_result_test_suite_id`**  | Test Results Sync | false | - | Specifies a test suite within the Azure DevOps project to publish the test results for. The ID of the test suite as a number (e.g. id: 12345).
 | **`test_result_test_plan_id`**  | Test Results Sync | false | - | The ID of the test plan to search or create the test suite in. (Optional, improves performance)
