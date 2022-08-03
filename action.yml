@@ -287,7 +287,7 @@ runs:
           if [[ '${inputs.test_suite_name}' != '' ]];
           then
             sed '/"id": 1/d' ./specsync.json;
-          elif [[ '${inputs.test_suite_id}' != '' ]]; 
+          elif [[ '${inputs.test_suite_id}' != '' ]];
           then
             sed '/"name": "TEST_SUITE_NAME",/d' ./specsync.json;
           elif [[ '${inputs.test_results_sync }' == 'true' ]];
