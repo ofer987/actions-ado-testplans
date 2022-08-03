@@ -152,8 +152,7 @@ runs:
               "projectUrl": "https://dev.azure.com/tr-ihn-sandbox/Azure%20DevOps%20Training",
               "user":"ADO_PAT",
               "testSuite": {
-                      "name": "TEST_SUITE_NAME",
-                      "id": 1
+                      "name": "TEST_SUITE_NAME","id": 1
                     }
             },
             "local": {
@@ -177,9 +176,8 @@ runs:
                     "runComment": "test",
                     "testResultComment": "test",
                     "testSuite": {
-                      "name": "test",
-                      "id": 2,
-                      "testPlanId": "1"
+                      "name": "test","id": 2,
+                      "testPlanId": 1
                        }
                      },
                 "customizations": {
@@ -258,6 +256,12 @@ runs:
                       "state": "Ready",
                       "condition": "@ready"
                     }
+                    "customFieldUpdates": {
+                      "enabled": true,
+                      "updates": {
+                        "System.Description": "Feature Name: {feature-name} Feature Description: {feature-description} Feature Source: {feature-source} Feature Rule Name: {rule-name} Scenario Name: {scenario-name} Scenario Description: {scenario-description} Scenario Source: {scenario-source} Feature File Name: {feature-file-name} Feature File Folder: {feature-file-folder} Feature File Path: {feature-file-path}"
+                      }
+                    }                    
                   }                          
           }
           EOF
@@ -309,10 +313,13 @@ runs:
           
           if [[ '${inputs.test_results_sync}' == 'true' && '${inputs.test_results_test_suite_name}' != '' ]];
           then
-            sed '/"id": 2,/d' ./specsync.json;
+            sed '/,"id": 2,/d' ./specsync.json;
           elif [[ '${inputs.test_results_sync}' == 'true' && '${inputs.test_suite_id}' != '' ]];
           then
             sed '/"name": "test",/d' ./specsync.json;
+          elif [[ '${inputs.test_results_sync}' == 'true' && '${inputs.test_suite_name}' != '' ]];
+          then
+            sed '/,"id": 1/d' ./specsync.json;
           else
             sed '/"name": "test",/d' ./specsync.json;
           fi
