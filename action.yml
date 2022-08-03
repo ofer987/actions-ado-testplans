@@ -255,7 +255,7 @@ runs:
                       "enabled": true,
                       "state": "Ready",
                       "condition": "@ready"
-                    }
+                    },
                     "customFieldUpdates": {
                       "enabled": true,
                       "updates": {
