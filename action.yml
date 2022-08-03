@@ -349,6 +349,7 @@ runs:
           export RUN_ID=${{ github.run_id }}
           export RUN_ID="echo $((RUN_ID))"
           chmod +x ./SpecSync4AzureDevOps;
+          chmod +x ${{ inputs.test_results_file_path }};
           ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings --buildNumber ${{ github.run_number }} ./specsync.json
           
       - uses: dorny/paths-filter@v2
