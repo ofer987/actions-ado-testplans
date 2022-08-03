@@ -191,16 +191,16 @@ runs:
                     "customFieldUpdates": {
                       "enabled": true,
                       "updates": {
-                        "System.Summary": "Feature Name: {feature-name}",
-                        "System.Summary": "Feature Description: {feature-description}",
-                        "System.Summary": "Feature Source: {feature-source}",
-                        "System.Summary": "Feature Rule Name: {rule-name}",
-                        "System.Summary": "Scenario Name: {scenario-name}",
-                        "System.Summary": "Scenario Description: {scenario-description}",
-                        "System.Summary": "Scenario Source: {scenario-source}",
-                        "System.Summary": "Feature File Name: {feature-file-name}",
-                        "System.Summary": "Feature File Folder: {feature-file-folder}",
-                        "System.Summary": "Featur File Path: {feature-file-path}",
+                        "System.Description": "Feature Name: {feature-name}",
+                        "System.Description": "Feature Description: {feature-description}",
+                        "System.Description": "Feature Source: {feature-source}",
+                        "System.Description": "Feature Rule Name: {rule-name}",
+                        "System.Description": "Scenario Name: {scenario-name}",
+                        "System.Description": "Scenario Description: {scenario-description}",
+                        "System.Description": "Scenario Source: {scenario-source}",
+                        "System.Description": "Feature File Name: {feature-file-name}",
+                        "System.Description": "Feature File Folder: {feature-file-folder}",
+                        "System.Description": "Featur File Path: {feature-file-path}",
                       }
                     }
                   }                     
