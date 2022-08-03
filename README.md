@@ -54,7 +54,7 @@ This Action defines the following formal inputs.
 | **`area_path`**  | Common | true | None | ADO Area Path. Example: \\Release 1
 | **`cucumber_path`**  | Test Cases Sync | true | false | Provide path to folder where features are present.
 | **`ado_iteration_path`**  | Common | true | None | ADO Iteration Path. Example: \\Sprint 1
-| **`test_suite_id`**  | Test Cases Sync | true | None | Provide your Test Suite ID. Either test_suite_id or test_suite_name to be entered but not both.
+| **`test_suite_id`**  | Common | true | None | Provide your Test Suite ID. Either test_suite_id or test_suite_name to be entered but not both.
 | **`test_suite_name`**  | Test Cases Sync | true | None | Provide your Test Suite Name. Either test_suite_id or test_suite_name to be entered but not both.
 | **`test_case_tag_prefix`**  | Test Cases Sync | true | ADO | Test Case Tag Prefix. Default will populate as @ADO:XXXX
 | **`cucumber_language`**  | Test Cases Sync | true | en-US | Defaults to en-US. Please refer [Ubuntu Manpages](https://manpages.ubuntu.com/manpages/bionic/man3/DateTime::Locale::Catalog.3pm.html) for valid codes. Cucumber supported [Localisation Language](https://cucumber.io/docs/gherkin/languages/)
@@ -67,7 +67,7 @@ This Action defines the following formal inputs.
 | **`test_result_run_type`**  | Test Results Sync | conditional | automated | Sets the run type of the created Test Run. Possible values: automated, manual.
 | **`test_result_run_result_comment`**  | Test Results Sync | conditional | As Expected | The comment added to the individual test results within the created Test Run.
 | **`test_result_test_suite_name`**  | Test Results Sync | conditional | - |Specifies a test suite within the Azure DevOps project to publish the test results for.The name of the test suite. For suites with non-unique names, please use the testSuite/id setting.
-| **`test_suite_id`**  | Test Results Sync | conditional | **`test_suite_id`** | Specifies a test suite within the Azure DevOps project to publish the test results for. The ID of the test suite as a number (e.g. id: 12345).
+| **`test_suite_id`**  | Test Results Sync | conditional | - | Specifies a test suite within the Azure DevOps project to publish the test results for. The ID of the test suite as a number (e.g. id: 12345).
 | **`test_result_test_plan_id`**  | Test Results Sync | conditional | - | The ID of the test plan to search or create the test suite in. (Optional, improves performance)
 | **`test_result_create_sub_results`**  | Test Results Sync | conditional | false | Enables publishing scenario outline iteration results as sub-results. Sub-results are not displayed in the Azure DevOps user interface but can be retrieved through the API. The scenario outline iteration results are published as iteration results (displayed on the user interface) regardless of this setting.
 | **`test_result_treat_inconclusive_as`**  | Test Results Sync | conditional | NotExecuted | Maps the Inconclusive test results. Some test execution frameworks report skipped scenarios as Inconclusive, so they should be mapped to another value, e.g. NotExecuted or Failed.
