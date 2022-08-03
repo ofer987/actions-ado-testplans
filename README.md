@@ -13,6 +13,7 @@ This pattern is been created to provide a way to automatically upload Cucumber(B
 - We suggest you to review the commit updated feature files (with ADO Test Case ID Tag Number) to main branch. Alternatively you can automate PR creation merge as well.
 - Please note this GitHub Action is made using Enterprise Licensed version of SpecSync Tool (made by Gaspar Nagy who is major contributor for SpecFlow). Current Licenses set to expire on June 25th 2023. 
 - For More Details please visit [SpecSync](https://specsolutions.gitbook.io/specsync/)
+- Please note current licenses for SpecSync allows only 30 runs at a time so if you face error due excess usage we suggest you to attempt to run after 5 mins. This can be configured using Github Actions workflows.
 
 ## Sample Screenshots:
 ### Screenshot of Feature File before running this GH Action.
