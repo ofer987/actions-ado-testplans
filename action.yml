@@ -118,9 +118,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Check If there is a change in Feature Files from last commit/trigger branch
         uses: dorny/paths-filter@v2
         if: ${{ inputs.test_cases_sync }}    
@@ -358,6 +355,7 @@ runs:
         if: ${{ steps.pre-ado-sync.outputs.features && inputs.test_cases_sync && always()  }}
         id: post-ado-sync
         with:
+          base: ${{ github.ref }}
           filters: |
             features:
              - '${{ inputs.cucumber_path }}/**'
