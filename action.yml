@@ -187,6 +187,23 @@ runs:
                       "testPlanId": "1"
                        }
                      },
+                "customizations": {
+                    "customFieldUpdates": {
+                      "enabled": true,
+                      "updates": {
+                        "System.Summary": "Feature Name: {feature-name}",
+                        "System.Summary": "Feature Description: {feature-description}",
+                        "System.Summary": "Feature Source: {feature-source}",
+                        "System.Summary": "Feature Rule Name: {rule-name}",
+                        "System.Summary": "Scenario Name: {scenario-name}",
+                        "System.Summary": "Scenario Description: {scenario-description}",
+                        "System.Summary": "Scenario Source: {scenario-source}",
+                        "System.Summary": "Feature File Name: {feature-file-name}",
+                        "System.Summary": "Feature File Folder: {feature-file-folder}",
+                        "System.Summary": "Featur File Path: {feature-file-path}",
+                      }
+                    }
+                  }                     
                 "synchronization": {
                   "disableLocalChanges": false,
                   "testCaseTagPrefix": "ADO",
