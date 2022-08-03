@@ -67,7 +67,7 @@ This Action defines the following formal inputs.
 | **`test_result_run_type`**  | Test Results Sync | false | automated | Sets the run type of the created Test Run. Possible values: automated, manual.
 | **`test_result_run_result_comment`**  | Test Results Sync | false | As Expected | The comment added to the individual test results within the created Test Run.
 | **`test_result_test_suite_name`**  | Test Results Sync | false | - |Specifies a test suite within the Azure DevOps project to publish the test results for.The name of the test suite. For suites with non-unique names, please use the testSuite/id setting.
-| **`test_result_test_suite_id`**  | Test Results Sync | false | - | Specifies a test suite within the Azure DevOps project to publish the test results for. The ID of the test suite as a number (e.g. id: 12345).
+| **`test_result_test_suite_id`**  | Test Results Sync | false | **`test_suite_id`** | Specifies a test suite within the Azure DevOps project to publish the test results for. The ID of the test suite as a number (e.g. id: 12345).
 | **`test_result_test_plan_id`**  | Test Results Sync | false | - | The ID of the test plan to search or create the test suite in. (Optional, improves performance)
 | **`test_result_create_sub_results`**  | Test Results Sync | false | false | Enables publishing scenario outline iteration results as sub-results. Sub-results are not displayed in the Azure DevOps user interface but can be retrieved through the API. The scenario outline iteration results are published as iteration results (displayed on the user interface) regardless of this setting.
 | **`test_result_treat_inconclusive_as`**  | Test Results Sync | false | NotExecuted | Maps the Inconclusive test results. Some test execution frameworks report skipped scenarios as Inconclusive, so they should be mapped to another value, e.g. NotExecuted or Failed.
@@ -163,7 +163,6 @@ jobs:
           test_results_file_path: './webapp/SpecFlowCalculator.Specs/TestResults/test-results.trx'
           test_results_file_format: 'TRX'
           test_suite_id: 9831
-          test_results_test_suite_id: 9831
           test_results_test_plan_id: 185
 
 ```          

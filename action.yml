@@ -103,6 +103,7 @@ inputs:
   test_results_test_suite_id:
     description: 'Test Result - Test Suite ID'
     required: false
+    default: ${{ inputs.test_suite_id }}
   test_results_test_plan_id:
     description: 'Test Result - Test Plan ID'
     required: false
