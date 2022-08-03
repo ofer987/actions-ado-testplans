@@ -349,7 +349,7 @@ runs:
           export RUN_ID=${{ github.run_id }}
           export RUN_ID="echo $((RUN_ID))"
           chmod +x ./SpecSync4AzureDevOps;
-          ./SpecSync4AzureDevOps publish-test-results -- ${{ github.run_number }} ./specsync.json
+          ./SpecSync4AzureDevOps publish-test-results --buildNumber ${{ github.run_number }} ./specsync.json
           
       - uses: dorny/paths-filter@v2
         if: ${{ steps.pre-ado-sync.outputs.features && inputs.test_cases_sync && always()  }}
