@@ -170,7 +170,6 @@ runs:
                    "testResult": {
                    "filePath": "test-result.trx"
                     },
-                    "runComment": "Acceptance test results",
                     "treatInconclusiveAs":"NotExecuted",
                     "createSubResults": true,
                     "runName": "test",
