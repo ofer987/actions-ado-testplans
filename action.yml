@@ -272,7 +272,7 @@ runs:
           chmod +x SpecSync4AzureDevOps;
           
       - uses: microsoft/variable-substitution@v1
-        if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.pre-ado-sync.outputs.test_results_file_path )) && always() }}
+        if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.pre-ado-sync.outputs.test_results_file_path ) && always() }}
         with:
           files: './specsync.json'
         env:
@@ -300,7 +300,7 @@ runs:
           publishTestResults.createSubResults: ${{ inputs.test_results_create_sub_results }}
 
       - name: retain either name of id variable in specsync json file based on user input
-        if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.pre-ado-sync.outputs.test_results_file_path )) && always() }}
+        if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.pre-ado-sync.outputs.test_results_file_path ) && always() }}
         shell: bash
         run: |
           if [[ '${inputs.test_suite_name}' != '' ]];
