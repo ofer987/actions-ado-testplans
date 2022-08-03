@@ -185,7 +185,7 @@ runs:
                     "testResultComment": "test",
                     "testSuite": {
                       "name": "test",
-                      "id": "1",
+                      "id": 2,
                       "testPlanId": "1"
                        }
                      },
@@ -296,7 +296,16 @@ runs:
           else
             echo "either enter test_suite_name or test_suite_id";
           fi
-
+          
+          if [[ '${inputs.test_results_sync}' == 'true' && '${inputs.test_results_test_suite_name}' != '' ]];
+          then
+            sed '/"id": 2,/d' ./specsync.json;
+          elif [[ '${inputs.test_results_sync}' == 'true' && '${inputs.test_results_test_suite_id}' != '' ]];
+          then
+            sed '/"name": "test",/d' ./specsync.json;
+          else
+            sed '/"name": "test",/d' ./specsync.json;
+          fi
       - name: Create SpecSync License file
         if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.post-test-execution.outputs.test_results_file_path ) && always() }}
         shell: bash
