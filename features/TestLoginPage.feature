@@ -1,5 +1,5 @@
 
-Feature: Test Login Pages
+Feature: Test Login Pages 1
 
     The purpose of this feature is to Test Page Login
     @story:15661 @bug:15662
