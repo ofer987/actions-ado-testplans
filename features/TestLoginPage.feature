@@ -1,7 +1,7 @@
 
 Feature: Test Login Page
 
-    The purpose of this feature is to Test Page Login
+    The purpose of this feature is to Test Page Logi
     @story:15661 @bug:15662
     Scenario Outline: Change Language and Test Login
         Given User logging to Test application
