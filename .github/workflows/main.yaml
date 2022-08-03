@@ -17,6 +17,8 @@ jobs:
       - name: Cucumber to ADO Sync
         uses: tr/cicd_gh-actions-ado-specsync@v1.0
         with:
+            test_cases_sync: true
+            test_results_sync: false
             ado_pat: ${{ secrets.ADO_PAT }}
             ado_project_url: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training
             ado_area_path: '\\Release 1'
