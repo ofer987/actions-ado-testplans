@@ -27,13 +27,13 @@ inputs:
     required: true
   ado_area_path:
     description: 'ADO Area Path. Example: \\Release 1'
-    required: true
+    required: false
   ado_iteration_path:
     description: 'ADO Iteration or Sprint Path. Example: \\Sprint 1'
-    required: true
+    required: false
   cucumber_path:
     description: 'Path of Cucumber Features'
-    required: true
+    required: false
   cucumber_language:
     description: 'Default Language of Cucumber Features'
     required: false
@@ -44,10 +44,10 @@ inputs:
     default: 'TC'
   test_suite_id:
     description: 'ID of Test Suite. Only if you have not specified test_suite_name'
-    required: true
+    required: false
   test_suite_name:
     description: 'Name of Test Suite. Only if you have not specified test_suite_id'
-    required: true    
+    required: false    
   default_test_case_status:
     description: 'Default test case status. Defaults to Design'
     required: false

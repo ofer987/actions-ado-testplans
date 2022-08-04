@@ -47,18 +47,18 @@ This Action defines the following formal inputs.
 
 | Name | For Pattern(Test Cases / Results) | Required | Default | Description
 |-|-|-|-|-|
-| **`test_cases_sync`**  | Common | true | true | True to enable Test Case Sync. False to disable.
+| **`test_cases_sync`**  | Common | true | false | True to enable Test Case Sync. False to disable.
 | **`test_results_sync`**  | Common | true | false | True to enable TRX Test Results Sync. False to disable.
-| **`ado_pat`**  | Common | true | None | ADO PAT Token
+| **`ado_pat`**  | Common | true | None | ADO PAT Token. Example ${{ secrets.ADO_PAT }}
 | **`ado_project_url`**  | Common | true | None | ADO ORG URL. example https://dev.azure.com/ORG/PROJECT
-| **`area_path`**  | Common | true | None | ADO Area Path. Example: \\Release 1
+| **`area_path`**  | Common | false | None | ADO Area Path. Example: \\Release 1 or \\PRODUCT_NAME
 | **`cucumber_path`**  | Test Cases Sync | true | false | Provide path to folder where features are present.
-| **`ado_iteration_path`**  | Common | true | None | ADO Iteration Path. Example: \\Sprint 1
-| **`test_suite_id`**  | Common | true | None | Provide your Test Suite ID. Either test_suite_id or test_suite_name to be entered but not both.
-| **`test_suite_name`**  | Test Cases Sync | true | None | Provide your Test Suite Name. Either test_suite_id or test_suite_name to be entered but not both.
-| **`test_case_tag_prefix`**  | Test Cases Sync | true | ADO | Test Case Tag Prefix. Default will populate as @TC:XXXX
-| **`cucumber_language`**  | Test Cases Sync | true | en-US | Defaults to en-US. Please refer [Ubuntu Manpages](https://manpages.ubuntu.com/manpages/bionic/man3/DateTime::Locale::Catalog.3pm.html) for valid codes. Cucumber supported [Localisation Language](https://cucumber.io/docs/gherkin/languages/)
-| **`test_configuration_name`**  | Test Results Sync | conditional | ${{ runner.os }}-${{ runner.arch }} | The name of the test configuration. Default will detect automatically example Ubuntu-X64 or Windows-X64. Make sure create this config in Azure DevOps.
+| **`ado_iteration_path`**  | Common | false | None | ADO Iteration Path. Example: \\Sprint 1 or \\BUSINESS_FUNCTION
+| **`test_suite_id`**  | Common | conditional | None | Provide your Test Suite ID. Either test_suite_id or test_suite_name to be entered but not both.
+| **`test_suite_name`**  | Test Cases Sync | conditional | None | Provide your Test Suite Name. Either test_suite_id or test_suite_name to be entered but not both.
+| **`test_case_tag_prefix`**  | Test Cases Sync | false | ADO | Test Case Tag Prefix. Default will populate as @TC:XXXX
+| **`cucumber_language`**  | Test Cases Sync | false | en-US | Defaults to en-US. Please refer [Ubuntu Manpages](https://manpages.ubuntu.com/manpages/bionic/man3/DateTime::Locale::Catalog.3pm.html) for valid codes. Cucumber supported [Localisation Language](https://cucumber.io/docs/gherkin/languages/)
+| **`test_configuration_name`**  | Test Results Sync | conditional | ${{ runner.os }}-${{ runner.arch }} | The name of the test configuration. Default will detect automatically example Ubuntu-X64 or Windows-X64. Make sure create this config in Azure DevOps before running test results GH action.
 | **`test_configuration_id`**  | Test Results Sync | conditional | - | The ID of the test configuration.
 | **`test_result_file_path`**  | Test Results Sync | conditional | - | The path of the test result file (e.g. TRX) file or a folder containing multiple test result files.
 | **`test_result_file_format`**  | Test Results Sync | false | - | The format of the test result file. Please check the Compatibility page for [supported formats](https://specsolutions.gitbook.io/specsync/reference/compatibility#supported-test-result-formats). 
