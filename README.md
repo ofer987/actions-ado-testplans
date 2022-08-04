@@ -1,6 +1,6 @@
 # cicd_gh-actions-ado-specsync
 
-This pattern is been created to provide a way to automatically upload Cucumber(BDD) Test Cases and Test Results from GitHub to Azure DevOps TestPlans.  This is to reduce manual efforts involved in manually updating Azure DevOps.
+This pattern is been created to provide a way to automatically upload Cucumber(BDD) Test Cases and Test Results from GitHub to Azure DevOps TestPlans.  This is to reduce efforts involved in manually updating Azure DevOps.
 - This workflow triggers only if there is a change made in Feature Files (addition of new files/updates made to existing files)
 - Creates test cases in Azure DevOps from specified path of Feature Files (if not already present)
 - Updates test cases in Azure DevOps from specified path of Feature Files (if already)
