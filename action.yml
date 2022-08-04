@@ -7,14 +7,12 @@ branding:
   color: 'red'
 
 inputs:
-  ARTIFACTORY_TOKEN:
+  artifactory_token:
     description: 'JFROG TOKEN'
-    default: ${{ secrets.ARTIFACTORY_TOKEN }}
-    required: false
-  ARTIFACTORY_USER:
+    required: true
+  artifactory_user:
     description: 'JFROG USER'
-    default: ${{ secrets.ARTIFACTORY_USER }}
-    required: false
+    required: true
   github_token:
     description: 'GitHub API Access Token'
     default: ${{ github.token }}
@@ -22,11 +20,11 @@ inputs:
   test_cases_sync:  
     description: 'Test Cases Sync'
     required: true
-    default: 'false'
+    default: 'true'
   test_results_sync:
     description: 'Test Results Sync - Format Supported'
     required: false
-    default: 'false'
+    default: 'true'
   ado_pat:
     description: 'Azure DevOps PAT'
     required: true

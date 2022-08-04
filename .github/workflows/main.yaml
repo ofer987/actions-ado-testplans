@@ -18,6 +18,8 @@ jobs:
       - name: Cucumber to ADO Test Cases Sync
         uses: ./
         with:
+            artifactory_token: ${{ secrets.artifactory_token }}
+            artifactory_user: ${{ secrets.artifactory_user }}        
             test_cases_sync: true
             test_results_sync: false
             ado_pat: ${{ secrets.ADO_PAT }}
