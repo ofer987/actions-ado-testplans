@@ -193,7 +193,7 @@ runs:
                      },               
                 "synchronization": {
                     "disableLocalChanges": false,
-                    "attachments": {"enabled": true,
+                    "attachments": { "enabled": true,
                     "baseFolder": "TestModels"
                   }
                   "disableLocalChanges": false,
@@ -340,7 +340,7 @@ runs:
           # Handle Condition where user didn't select Attachment Base folder
           if [[ '${inputs.attachments_base_folder}' == '' ]];
           then
-            sed sed -i 's/"attachments": {"enabled": true,/"attachments": {"enabled": false,/g' ./specsync.json;
+            sed sed -i 's/"attachments": { "enabled": true,/"attachments": { "enabled": false,/g' ./specsync.json;
           fi
 
       - name: cat json file
