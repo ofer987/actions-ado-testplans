@@ -56,7 +56,7 @@ This Action defines the following formal inputs.
 | **`ado_iteration_path`**  | Common | true | None | ADO Iteration Path. Example: \\Sprint 1
 | **`test_suite_id`**  | Common | true | None | Provide your Test Suite ID. Either test_suite_id or test_suite_name to be entered but not both.
 | **`test_suite_name`**  | Test Cases Sync | true | None | Provide your Test Suite Name. Either test_suite_id or test_suite_name to be entered but not both.
-| **`test_case_tag_prefix`**  | Test Cases Sync | true | ADO | Test Case Tag Prefix. Default will populate as @ADO:XXXX
+| **`test_case_tag_prefix`**  | Test Cases Sync | true | ADO | Test Case Tag Prefix. Default will populate as @TC:XXXX
 | **`cucumber_language`**  | Test Cases Sync | true | en-US | Defaults to en-US. Please refer [Ubuntu Manpages](https://manpages.ubuntu.com/manpages/bionic/man3/DateTime::Locale::Catalog.3pm.html) for valid codes. Cucumber supported [Localisation Language](https://cucumber.io/docs/gherkin/languages/)
 | **`test_configuration_name`**  | Test Results Sync | conditional | ${{ runner.os }}-${{ runner.arch }} | The name of the test configuration. Default will detect automatically example Ubuntu-X64 or Windows-X64. Make sure create this config in Azure DevOps.
 | **`test_configuration_id`**  | Test Results Sync | conditional | - | The ID of the test configuration.
