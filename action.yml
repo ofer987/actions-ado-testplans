@@ -349,10 +349,10 @@ runs:
       - name: Download SpecSync License From Artifactory
         env:
           ARTIFACTORY_TOKEN_SECRET_NAME: ARTIFACTORY_TOKEN
-          ARTIFACTORY_USER: '6112425'
+          ARTIFACTORY_USER: 'devops-experience'
         shell: sh
         run: |
-          curl -H "${{env.ARTIFACTORY_USER}}:${{secrets.ARTIFACTORY_TOKEN}}" -X GET -O "https://tr1.jfrog.io/artifactory/generic-local/devops-experience/specsync.lic"
+          curl -u ${{env.ARTIFACTORY_USER}}:${{secrets[env.ARTIFACTORY_TOKEN_SECRET_NAME]}} -X GET -O "https://tr1.jfrog.io/artifactory/generic-local/devops-experience/specsync.lic"
 
       - name: Set up .NET 6
         if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.post-test-execution.outputs.test_results_file_path ) && always() }}
