@@ -58,6 +58,9 @@ This Action defines the following formal inputs.
 | **`test_suite_name`**  | Test Cases Sync | conditional | None | Provide your Test Suite Name. Either test_suite_id or test_suite_name to be entered but not both.
 | **`test_case_tag_prefix`**  | Test Cases Sync | false | ADO | Test Case Tag Prefix. Default will populate as @TC:XXXX
 | **`cucumber_language`**  | Test Cases Sync | false | en-US | Defaults to en-US. Please refer [Ubuntu Manpages](https://manpages.ubuntu.com/manpages/bionic/man3/DateTime::Locale::Catalog.3pm.html) for valid codes. Cucumber supported [Localisation Language](https://cucumber.io/docs/gherkin/languages/)
+| **`attachments_base_folder`**  | Test Case Sync | conditional | NotExecuted | Provide base folder location for attachments that you would like to upload to each test case. Make sure tag is added to each test case @attachments: TC1_request.json TC1_expected_response.json. [Reference Link](https://specsolutions.gitbook.io/specsync/features/push-features/attach-files)
+| **`disable_feature_file_auto_updates`**  | Test Cases Sync | conditional | false | Set "true" if you want to disable auto updates to feature files with test case tag ids ?
+| **`skip_scenario_prefix_title`**  | Test Cases Sync | conditional | false | Set "true" if you want to skip adding Scenario or Scenario Outline Prefix title to Test Cases ?
 | **`test_configuration_name`**  | Test Results Sync | conditional | ${{ runner.os }}-${{ runner.arch }} | The name of the test configuration. Default will detect automatically example Ubuntu-X64 or Windows-X64. Make sure create this config in Azure DevOps before running test results GH action.
 | **`test_configuration_id`**  | Test Results Sync | conditional | - | The ID of the test configuration.
 | **`test_result_file_path`**  | Test Results Sync | conditional | - | The path of the test result file (e.g. TRX) file or a folder containing multiple test result files.
@@ -71,6 +74,10 @@ This Action defines the following formal inputs.
 | **`test_result_test_plan_id`**  | Test Results Sync | conditional | - | The ID of the test plan to search or create the test suite in. (Optional, improves performance)
 | **`test_result_create_sub_results`**  | Test Results Sync | conditional | false | Enables publishing scenario outline iteration results as sub-results. Sub-results are not displayed in the Azure DevOps user interface but can be retrieved through the API. The scenario outline iteration results are published as iteration results (displayed on the user interface) regardless of this setting.
 | **`test_result_treat_inconclusive_as`**  | Test Results Sync | conditional | NotExecuted | Maps the Inconclusive test results. Some test execution frameworks report skipped scenarios as Inconclusive, so they should be mapped to another value, e.g. NotExecuted or Failed.
+
+
+
+
 
 ## Usage
 
