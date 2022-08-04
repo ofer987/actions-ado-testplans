@@ -47,8 +47,8 @@ This Action defines the following formal inputs.
 
 | Name | For Pattern(Test Cases / Results) | Required | Default | Description
 |-|-|-|-|-|
-| **`artifactory_token`**  | Common | true | false | JFROG Artifactory Token is mandatory since SpecFlow license is been stored in JFrog Securely.
-| **`artifactory_user`**  | Common | true | false | JFROG Artifactory User is mandatory since SpecFlow license is been stored in JFrog Securely.
+| **`artifactory_token`**  | Common | true | false | JFROG Artifactory Token is mandatory since SpecSync license is been stored in JFrog Securely.
+| **`artifactory_user`**  | Common | true | false | JFROG Artifactory User is mandatory since SpecSync license is been stored in JFrog Securely.
 | **`test_cases_sync`**  | Common | true | false | True to enable Test Case Sync. False to disable.
 | **`test_results_sync`**  | Common | true | false | True to enable TRX Test Results Sync. False to disable.
 | **`ado_pat`**  | Common | true | None | ADO PAT Token. Example ${{ secrets.ADO_PAT }}
