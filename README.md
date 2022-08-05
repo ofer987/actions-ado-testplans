@@ -7,6 +7,8 @@ This pattern is been created to provide a way to automatically upload Cucumber(B
 - Test Cases already found will not be created again
 - If triggered branch is other than "main" then the updated Feature Files with ADO Test Case ID Tag Number will be commited back in same branch.
 - Its recommened you enter user story number as Tag for each scenario in feature files in format @story:XXXX. If you do this we create link between user story and test cases automatically!
+- If you would like to upload a attachment for each test cases. for example if you want to upload json request and expected json response for a test case. you can add tag attchment: TC1_request.json attchment: TC1_expected_response.json
+- It would be lot easier if you add each tag in a seperate line so its clean to understand.
 - First you need to create Test Plan and a Test Suite.
 - If you create test cases for testing a bug fix, then add Tag in format @bug:XXXX. This will link your test cases with respective bug fix id.
 - If triggered branch is "main" then the updated Feature Files with ADO Test Case ID Tag Number(@TC:XXXX) will be commited in a new branch called "cucumber-ado-sync". you need to delete branch cucumber-ado-sync after doing merge.
@@ -76,7 +78,7 @@ This Action defines the following formal inputs.
 | **`test_result_test_plan_id`**  | Test Results Sync | conditional | - | The ID of the test plan to search or create the test suite in. (Optional, improves performance)
 | **`test_result_create_sub_results`**  | Test Results Sync | conditional | false | Enables publishing scenario outline iteration results as sub-results. Sub-results are not displayed in the Azure DevOps user interface but can be retrieved through the API. The scenario outline iteration results are published as iteration results (displayed on the user interface) regardless of this setting.
 | **`test_result_treat_inconclusive_as`**  | Test Results Sync | conditional | NotExecuted | Maps the Inconclusive test results. Some test execution frameworks report skipped scenarios as Inconclusive, so they should be mapped to another value, e.g. NotExecuted or Failed.
-| **`test_results_attached_files`**  | Test Results Sync | conditional | none | Semicolon separated list of file paths that should be attached to the test run additionally. (e.g. error1.png;error2.log) Wildcards are currently not supported. if you don't specify this then only test result file will be attached
+| **`test_results_attached_files`**  | Test Results Sync | conditional | none | Semicolon separated list of file paths that should be attached to the test run additionally. (e.g. error1.png;error2.log) Wildcards are currently not supported. if you don't specify this then only test result file will be attached. This in turn you need to configure in your Selenium4, WebDriverIO or Playwright so it can output images with that name. 
 
 
 ## Usage
