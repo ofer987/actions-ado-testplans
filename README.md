@@ -80,6 +80,12 @@ This Action defines the following formal inputs.
 | **`test_result_treat_inconclusive_as`**  | Test Results Sync | conditional | NotExecuted | Maps the Inconclusive test results. Some test execution frameworks report skipped scenarios as Inconclusive, so they should be mapped to another value, e.g. NotExecuted or Failed.
 | **`test_results_attached_files`**  | Test Results Sync | conditional | none | Semicolon separated list of file paths that should be attached to the test run additionally. (e.g. error1.png;error2.log) Wildcards are currently not supported. if you don't specify this then only test result file will be attached. This in turn you need to configure in your Selenium4, WebDriverIO or Playwright so it can output images with that name. 
 
+## Outputs
+
+Please note enabling **`test_cases_sync`** will output updated feature files will tags added for newly created test cases.
+- If triggered branch is other than "main" then the updated Feature Files with ADO Test Case ID Tag Number will be commited back in same branch.
+- If triggered branch is "main" then the updated Feature Files with ADO Test Case ID Tag Number(@TC:XXXX) will be commited in a new branch called "cucumber-ado-sync". you need to delete branch cucumber-ado-sync after doing merge.
+
 
 ## Usage
 
