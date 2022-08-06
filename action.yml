@@ -394,9 +394,8 @@ runs:
         run: |
           chmod +x ./SpecSync4AzureDevOps;
           ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings ./specsync.json > output.txt;
-          echo ADO_TEST_RUN_URL="$(grep 'https://dev.azure.com/' output.txt | awk -F'[()]' '{print $2}')"
-          echo "ADO_TEST_RUN_URL=$ADO_TEST_RUN_URL" >> $GITHUB_ENV
-          echo "::set-output name=ADO_TEST_RUN_URL::$ADO_TEST_RUN_URL"
+          echo ADO_TEST_RUN_URL="$(grep 'https://dev.azure.com/' output.txt | awk -F'[()]' '{print $2}')" >> $GITHUB_ENV
+          echo "##[set-output name=ADO_TEST_RUN_URL;]${ADO_TEST_RUN_URL}"
           
       - name: Run Test Results Synchronization with Attachments
         if: ${{ inputs.test_results_sync == 'true' && steps.post-test-execution.outputs.test_results_file_path && inputs.test_results_attached_files != '' && always() }}
@@ -405,9 +404,8 @@ runs:
         run: |
           chmod +x ./SpecSync4AzureDevOps;
           ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} ./specsync.json > output.txt;
-          echo ADO_TEST_RUN_URL="$(grep 'https://dev.azure.com/' output.txt | awk -F'[()]' '{print $2}')"
-          echo "ADO_TEST_RUN_URL=$ADO_TEST_RUN_URL" >> $GITHUB_ENV
-          echo "::set-output name=ADO_TEST_RUN_URL::$ADO_TEST_RUN_URL"
+          echo ADO_TEST_RUN_URL="$(grep 'https://dev.azure.com/' output.txt | awk -F'[()]' '{print $2}')" >> $GITHUB_ENV
+          echo "##[set-output name=ADO_TEST_RUN_URL;]${ADO_TEST_RUN_URL}"
 
       - name: Output ADO RUN URL
         if: always()
