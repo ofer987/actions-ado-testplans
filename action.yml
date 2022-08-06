@@ -364,10 +364,6 @@ runs:
         run: |
           curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN} -O 'https://tr1.jfrog.io/artifactory/generic-local/devops-experience/specsync.lic'
           
-      - name: Cat license
-        shell: bash
-        run: cat specsync.lic
-
       - name: Set up .NET 6
         if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.post-test-execution.outputs.test_results_file_path ) && always() }}
         uses: actions/setup-dotnet@v2
