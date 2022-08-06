@@ -362,7 +362,7 @@ runs:
           ARTIFACTORY_TOKEN: ${{ inputs.ARTIFACTORY_TOKEN }}
           ARTIFACTORY_USER: ${{ inputs.ARTIFACTORY_USER }}
         run: |
-          curl -H "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" -X GET -O "https://tr1.jfrog.io/artifactory/generic-local/devops-experience/specsync.lic"
+          curl -H "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" -O "https://tr1.jfrog.io/artifactory/generic-local/devops-experience/specsync.lic"
 
       - name: Set up .NET 6
         if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.post-test-execution.outputs.test_results_file_path ) && always() }}
