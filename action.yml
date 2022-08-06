@@ -412,15 +412,8 @@ runs:
         id: ado_run_url
         shell: bash
         run: 
-          if [[ ${{ steps.sync_without_attachment.outputs.ADO_TEST_RUN_URL }} != '' ]]; then
-            echo ADO_TEST_RUN_URL=${{ steps.sync_without_attachment.outputs.ADO_TEST_RUN_URL }} >> $GITHUB_ENV
+            echo ADO_TEST_RUN_URL=${{ env.ADO_TEST_RUN_URL }} >> $GITHUB_ENV
             echo "::set-output name=ADO_TEST_RUN_URL::$ADO_TEST_RUN_URL"
-          elif [[ ${{ steps.sync_with_attachment.outputs.ADO_TEST_RUN_URL }} != '' ]]; then
-            echo ADO_TEST_RUN_URL=${{ steps.sync_with_attachment.outputs.ADO_TEST_RUN_URL }} >> $GITHUB_ENV
-            echo "::set-output name=ADO_TEST_RUN_URL::$ADO_TEST_RUN_URL"
-          else
-            echo "ADO RUN URL not found"
-          fi
 
       - uses: dorny/paths-filter@v2
         if: ${{ steps.pre-ado-sync.outputs.features && inputs.test_cases_sync && always()  }}
