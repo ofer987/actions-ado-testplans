@@ -418,6 +418,7 @@ runs:
             echo "::set-output name=ADO_TEST_RUN_URL::$ADO_TEST_RUN_URL"
           else
             echo "ADO RUN URL not found"
+          fi
 
       - uses: dorny/paths-filter@v2
         if: ${{ steps.pre-ado-sync.outputs.features && inputs.test_cases_sync && always()  }}
