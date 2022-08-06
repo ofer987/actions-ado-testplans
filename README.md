@@ -87,6 +87,12 @@ Please note enabling **`test_cases_sync`** will output updated feature files wil
 - If triggered branch is "main" then the updated Feature Files with ADO Test Case ID Tag Number(@TC:XXXX) will be commited in a new branch called "cucumber-ado-sync". you need to delete branch cucumber-ado-sync after doing merge.
 
 
+Please note enabling **`test_results_sync`** will output test run url which you can use in conjuction with MS Teams Notification Action
+
+-  **`ado_test_run_url`** : Output of Test RUN URL. Example: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training/_testManagement/runs?_a=runCharts&runId=844
+-  To consume this you will be using like ${{ steps.ado_test_results_specsync.outputs.ado_test_run_url }}
+
+
 ## Usage
 
 [Test Cases Sync - Example workflow](https://github.com/tr/cicd_gh-actions-cucumber-azure-devops-sync/blob/main/.github/workflows/main.yaml)
@@ -109,6 +115,7 @@ jobs:
       - name: Checkout Git Repo
         uses: actions/checkout@v3
       - name: Cucumber to ADO Sync
+        id: ado_test_cases_specsync
         uses: tr/cicd_gh-actions-ado-specsync@v1.0
         with:
             artifactory_token: ${{ secrets.artifactory_token }}
@@ -168,6 +175,7 @@ jobs:
           dotnet test --logger "trx;LogFileName=test-results.trx";          
 
       - name: Cucumber to ADO Test Results Sync
+        id: ado_test_results_specsync
         if: always()
         uses: tr/cicd_gh-actions-ado-specsync@v1.0
         with:
