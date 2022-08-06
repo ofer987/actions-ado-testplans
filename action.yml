@@ -410,9 +410,9 @@ runs:
         id: ado_run_url
         shell: bash
         run: 
-          if [[ '${{ steps.sync_without_attachment.outputs.ADO_TEST_RUN_URL }}' != '' ]]; then
+          if [[ ${{ steps.sync_without_attachment.outputs.ADO_TEST_RUN_URL }} != '' ]]; then
             echo ADO_TEST_RUN_URL=${{ steps.sync_without_attachment.outputs.ADO_TEST_RUN_URL }} >> $GITHUB_ENV
-          elif [[ '${{ steps.sync_with_attachment.outputs.ADO_TEST_RUN_URL }}' != '' ]]; then
+          elif [[ ${{ steps.sync_with_attachment.outputs.ADO_TEST_RUN_URL }} != '' ]]; then
             echo ADO_TEST_RUN_URL=${{ steps.sync_with_attachment.outputs.ADO_TEST_RUN_URL }} >> $GITHUB_ENV
           else
             echo "ADO RUN URL not found"
