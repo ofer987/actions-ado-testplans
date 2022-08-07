@@ -134,7 +134,7 @@ inputs:
 
 outputs:
   ado_test_run_url:
-    value: ${{ env.ADO_TEST_RUN_URL }}
+    value: ${{ steps.ado_run_url.outputs.adoTestRunUrl }}
     description: ADO Test Run URL
 
 runs:
@@ -395,7 +395,7 @@ runs:
           chmod +x ./SpecSync4AzureDevOps;
           ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings ./specsync.json > output.txt;
           echo ADO_TEST_RUN_URL="$(grep 'https://dev.azure.com/' output.txt | awk -F'[()]' '{print $2}')" >> $GITHUB_ENV;
-          echo "##[set-output name=ADO_TEST_RUN_URL;]${ADO_TEST_RUN_URL}";
+          echo "##[set-output name=adoTestRunUrl;]${ADO_TEST_RUN_URL}";
           echo $ADO_TEST_RUN_URL
           
       - name: Run Test Results Synchronization with Attachments
@@ -407,7 +407,7 @@ runs:
           ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} ./specsync.json > output.txt;
           echo ADO_TEST_RUN_URL="$(grep 'https://dev.azure.com/' output.txt | awk -F'[()]' '{print $2}')" >> $GITHUB_ENV;
           echo ADO_TEST_RUN_URL=$ADO_TEST_RUN_URL >> $GITHUB_ENV;
-          echo "##[set-output name=adoTestRunURL;]${ADO_TEST_RUN_URL}";
+          echo "##[set-output name=adoTestRunUrl;]${ADO_TEST_RUN_URL}";
           echo $ADO_TEST_RUN_URL
 
       - name: Output ADO RUN URL
@@ -416,7 +416,7 @@ runs:
         shell: bash
         run: 
           echo ADO_TEST_RUN_URL=$ADO_TEST_RUN_URL >> $GITHUB_ENV;
-          echo "##[set-output name=adoTestRunURL;]${ADO_TEST_RUN_URL}";
+          echo "##[set-output name=adoTestRunUrl;]${ADO_TEST_RUN_URL}";
 
       - uses: dorny/paths-filter@v2
         if: ${{ steps.pre-ado-sync.outputs.features && inputs.test_cases_sync && always()  }}
