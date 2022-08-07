@@ -414,8 +414,8 @@ runs:
         id: ado_run_url
         shell: pwsh
         run: |
-          Write-Output $ADO_TEST_RUN_URL
-          echo "ADO_TEST_RUN_URL=$ADO_TEST_RUN_URL" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+          Write-Output $env:ADO_TEST_RUN_URL
+          echo "ADO_TEST_RUN_URL=$env:ADO_TEST_RUN_URL" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - uses: dorny/paths-filter@v2
         if: ${{ steps.pre-ado-sync.outputs.features && inputs.test_cases_sync && always()  }}
