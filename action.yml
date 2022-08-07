@@ -393,7 +393,7 @@ runs:
         shell: bash
         run: |
           chmod +x ./SpecSync4AzureDevOps;
-          ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings ./specsync.json > output.txt;
+          ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings ./specsync.json
           echo ADO_TEST_RUN_URL="$(grep 'https://dev.azure.com/' output.txt | awk -F'[()]' '{print $2}')" >> $GITHUB_ENV;
           echo "##[set-output name=ADO_TEST_RUN_URL;]${ADO_TEST_RUN_URL}";
           echo $ADO_TEST_RUN_URL
@@ -404,7 +404,7 @@ runs:
         shell: bash
         run: |
           chmod +x ./SpecSync4AzureDevOps;
-          ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} ./specsync.json > output.txt;
+          ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} ./specsync.json 
           echo ADO_TEST_RUN_URL="$(grep 'https://dev.azure.com/' output.txt | awk -F'[()]' '{print $2}')" >> $GITHUB_ENV;
           echo ADO_TEST_RUN_URL=$ADO_TEST_RUN_URL >> $GITHUB_ENV;
           echo "##[set-output name=ADO_TEST_RUN_URL;]${ADO_TEST_RUN_URL}";

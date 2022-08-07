@@ -1,0 +1,3 @@
+https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training/_TestManagement/Runs?runId:902&_a=runCharts
+
+https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training/_testManagement/runs?_a=runCharts&runId=902
