@@ -416,12 +416,11 @@ runs:
 
       - name: Output ADO RUN URL
         id: ado_run_step
-        shell: pwsh
+        shell: bash
         run: |
-          Write-Output $Env:ADO_RUN_NUM
-          ADO_RUN_URL="$(echo "https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training/_testManagement/runs?_a=runCharts&runId=$Env:ADO_RUN_NUM")"
-          echo "ADO_RUN_NUM=$Env:ADO_RUN_NUM" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append;
-          echo "ADO_RUN_URL=$Env:ADO_RUN_URL" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append;
+          ADO_RUN_URL="$(echo "https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training/_testManagement/runs?_a=runCharts&runId=$ADO_RUN_NUM")";
+          echo "##[set-output name=ADO_RUN_NUM;]${ADO_RUN_NUM}";
+          echo "##[set-output name=ADO_RUN_URL;]${ADO_RUN_URL}";
 
       - uses: dorny/paths-filter@v2
         if: ${{ steps.pre-ado-sync.outputs.features && inputs.test_cases_sync && always()  }}
