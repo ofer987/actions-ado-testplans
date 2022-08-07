@@ -104,10 +104,18 @@ on:
   push:
     branches:
       - '**'
-    paths-ignore:
-      - '**.md'
+    paths:
+      - '**.feature'
     tags-ignore:
       - '**'
+  pull_request:
+    types:
+      - opened
+    branches:
+      - '**'
+    paths:
+      - '**.feature'
+      
 jobs:
   test:
     runs-on: ubuntu-latest
