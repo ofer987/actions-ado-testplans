@@ -31,6 +31,7 @@ jobs:
             test_suite_id: 9832
 
       - name: Cucumber to ADO Test Cases Sync
+        if: always()
         shell: bash
         run: echo ${{ steps.ado_sync.outputs.ado_test_run_url }}
         
