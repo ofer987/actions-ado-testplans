@@ -16,6 +16,7 @@ jobs:
       - name: Checkout Git Repo
         uses: actions/checkout@v3
       - name: Cucumber to ADO Test Cases Sync
+        id: ado_sync
         uses: ./
         with:
             artifactory_token: ${{ secrets.artifactory_token }}
@@ -29,6 +30,10 @@ jobs:
             cucumber_path: features
             test_suite_id: 9832
 
+      - name: Cucumber to ADO Test Cases Sync
+        shell: bash
+        run: echo ${{ steps.ado_sync.outputs.ado_test_run_url }}
+        
       # - name: Cucumber to ADO Test Results Sync
       #   uses: ./
       #   with:
