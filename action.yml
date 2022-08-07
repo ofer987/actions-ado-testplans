@@ -133,8 +133,11 @@ inputs:
     default: 'false'
 
 outputs:
+  ado_test_run_num:
+    value: ${{ steps.ado_run_url.outputs.ADO_RUN_NUMBER }}
+    description: ADO Test Run NUMBER
   ado_test_run_url:
-    value: ${{ steps.ado_run_url.outputs.ADO_TEST_RUN_URL }}
+    value: ${{ steps.ado_run_url.outputs.ADO_RUN_URL }}
     description: ADO Test Run URL
 
 runs:
@@ -393,10 +396,12 @@ runs:
         shell: bash
         run: |
           chmod +x ./SpecSync4AzureDevOps;
-          ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings ./specsync.json
-          echo ADO_TEST_RUN_URL="$(grep 'https://dev.azure.com/' output.txt | awk -F'[()]' '{print $2}')" >> $GITHUB_ENV;
-          echo "##[set-output name=ADO_TEST_RUN_URL;]${ADO_TEST_RUN_URL}";
-          echo $ADO_TEST_RUN_URL
+          ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings ./specsync.json > output.txt;
+          ADO_TEST_RUN_URL="$(grep 'https://dev.azure.com/' output.txt | awk -F'[()]' '{print $2}')";
+          ADO_RUN_NUMBER="$(echo $ADO_TEST_RUN_URL | tr -dc '0-9' | sed 's/%//g')";
+          echo $ADO_RUN_NUMBER;          
+          echo "##[set-output name=ADO_RUN_NUMBER;]${ADO_RUN_NUMBER}";
+          echo $ADO_RUN_NUMBER
           
       - name: Run Test Results Synchronization with Attachments
         if: ${{ inputs.test_results_sync == 'true' && steps.post-test-execution.outputs.test_results_file_path && inputs.test_results_attached_files != '' && always() }}
@@ -404,20 +409,20 @@ runs:
         shell: bash
         run: |
           chmod +x ./SpecSync4AzureDevOps;
-          ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} ./specsync.json 
-          echo ADO_TEST_RUN_URL="$(grep 'https://dev.azure.com/' output.txt | awk -F'[()]' '{print $2}')" >> $GITHUB_ENV;
-          echo ADO_TEST_RUN_URL=$ADO_TEST_RUN_URL >> $GITHUB_ENV;
-          echo "##[set-output name=ADO_TEST_RUN_URL;]${ADO_TEST_RUN_URL}";
-          echo $ADO_TEST_RUN_URL
-          cat output.txt
+          ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} ./specsync.json > output.txt;
+          ADO_TEST_RUN_URL="$(grep 'https://dev.azure.com/' output.txt | awk -F'[()]' '{print $2}')";
+          ADO_RUN_NUMBER="$(echo $ADO_TEST_RUN_URL | tr -dc '0-9' | sed 's/%//g')";
+          echo "##[set-output name=ADO_RUN_NUMBER;]${ADO_RUN_NUMBER}";
+          echo $ADO_RUN_NUMBER
 
       - name: Output ADO RUN URL
         id: ado_run_url
         shell: pwsh
         run: |
-          Write-Output $env:ADO_TEST_RUN_URL
-          echo "ADO_TEST_RUN_URL=$env:ADO_TEST_RUN_URL" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append;
-          echo ::set-output name=ADO_TEST_RUN_URL::$( $ADO_TEST_RUN_URL);
+          Write-Output $env:ADO_RUN_NUMBER
+          ADO_RUN_URL="$(https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training/_testManagement/runs?_a=runCharts&runId=$Env:ADO_RUN_NUM)"
+          echo "ADO_RUN_NUMBER=$env:ADO_RUN_NUMBER" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append;
+          echo "ADO_RUN_URL=$env:ADO_RUN_URL" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append;
 
       - uses: dorny/paths-filter@v2
         if: ${{ steps.pre-ado-sync.outputs.features && inputs.test_cases_sync && always()  }}
