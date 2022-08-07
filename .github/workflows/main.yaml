@@ -29,14 +29,7 @@ jobs:
             ado_iteration_path: '\\Sprint 1'
             cucumber_path: features
             test_suite_id: 9832
-
-      - name: Cucumber to ADO Test Cases Sync
-        if: always()
-        shell: bash
-        run: | 
-          echo ${{ steps.ado_sync.outputs.ado_test_run_url }}
-          echo ${{ steps.ado_sync.outputs.ado_test_run_num }}
-        
+    
       # - name: Cucumber to ADO Test Results Sync
       #   uses: ./
       #   with:
