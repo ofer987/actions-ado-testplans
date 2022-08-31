@@ -192,7 +192,8 @@ runs:
                             "name": "Windows 10"
                       },
                       "testResult": {
-                      "filePath": "test-result.trx"
+                      "filePath": "test-result.trx",
+                      "fileFormat": "TRX"
                         },
                         "treatInconclusiveAs":"NotExecuted",
                         "createSubResults": true,
