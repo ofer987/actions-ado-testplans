@@ -418,7 +418,7 @@ runs:
         shell: bash
         run: |
           ADO_RUN_URL=https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training/_testManagement/runs?_a=runCharts&runId=${{ env.ADO_RUN_NUM }}
-          echo ADO_RUN_URL=$ADO_RUN_URL >>GITHUB_ENV;
+          echo ADO_RUN_URL=$ADO_RUN_URL >> $GITHUB_ENV;
           echo "##[set-output name=ADO_RUN_URL;]${ADO_RUN_URL}";
 
       - uses: dorny/paths-filter@v2
