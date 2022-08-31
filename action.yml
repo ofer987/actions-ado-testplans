@@ -432,7 +432,7 @@ runs:
 
       #  Commit Cucumber Feature Files to triggering branch or cucumber-ado-sync branch
       - name: Commit updates feature files
-        if: ${{ steps.post-ado-sync.outputs.features && inputs.test_cases_sync }}
+        if: ${{ steps.post-ado-sync.outputs.features == 'true' && inputs.test_cases_sync == 'true' }}
         shell: bash
         env:
           GITHUB_REF_NAME: ${{ env.GITHUB_REF_NAME }}
