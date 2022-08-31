@@ -238,7 +238,7 @@ runs:
                         {
                           "targetWorkItemType": "ProductBacklogItem",
                           "tagPrefix": "story",
-                          "relationship": "Child",
+                          "relationship": "Parent",
                           "mode": "createIfMissing"
                         },
                         {
