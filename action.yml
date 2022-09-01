@@ -7,6 +7,10 @@ branding:
   color: 'red'
 
 inputs:
+  env:
+    description: 'Test Environment'
+    required: false
+    default: 'QA'
   artifactory_token:
     description: 'JFROG TOKEN'
     required: true
@@ -90,11 +94,11 @@ inputs:
   test_results_run_comment:
     description: 'Test Result - Run Comment'
     required: false
-    default: GH Action-${{ github.run_id}}
+    default: GH Action-${{ inputs.env }}-${{ github.run_id}}
   test_results_run_name:
     description: 'Test Result - Run NAme'
     required: false
-    default: GH-Actions-${{ github.run_id }}
+    default: GH-Actions-${{ inputs.env }}-${{ github.run_id }}
   test_results_run_type:
     description: 'Test Result - Run Type'
     required: false
