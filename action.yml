@@ -417,7 +417,7 @@ runs:
         id: ado_run_step
         shell: bash
         run: |
-          echo "ADO_RUN_URL=https://dev.azure.com/${{ inputs.ado_project_url }}/_testManagement/runs?_a=runCharts&runId=${{ env.ADO_RUN_NUM }}" >> $GITHUB_ENV
+          echo "ADO_RUN_URL=${{ inputs.ado_project_url }}/_testManagement/runs?_a=runCharts&runId=${{ env.ADO_RUN_NUM }}" >> $GITHUB_ENV
           echo "##[set-output name=ADO_RUN_URL;]${{ env.ADO_RUN_URL }}"
 
       - name: Publish Build/Job Summary
