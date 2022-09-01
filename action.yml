@@ -417,15 +417,14 @@ runs:
         id: ado_run_step
         shell: bash
         run: |
-          ADO_RUN_URL=https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training/_testManagement/runs?_a=runCharts&runId=${{ env.ADO_RUN_NUM }}
-          echo ADO_RUN_URL=${{ env.ADO_RUN_URL }} >> $GITHUB_ENV
+          echo "ADO_RUN_URL=https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training/_testManagement/runs?_a=runCharts&runId=${{ env.ADO_RUN_NUM }}" >> $GITHUB_ENV
           echo "##[set-output name=ADO_RUN_URL;]${{ env.ADO_RUN_URL }}"
 
       - name: Publish Build/Job Summary
         shell: bash
         run: |
           cat >> ado.md << EOF
-             ADO TEST RUN URL: ${{ steps.ado_run_step.outputs.ADO_RUN_URL }}
+             ADO TEST RUN URL: ${{ env.ADO_RUN_URL }}
           EOF
           # Publish Job Summary
           cat ado.md >> $GITHUB_STEP_SUMMARY
