@@ -274,7 +274,7 @@ runs:
                         "customFieldUpdates": {
                           "enabled": true,
                           "updates": {
-                          "System.Description": "Feature Name: {feature-name} Feature Description: {feature-description} Feature File Name: {feature-file-name} Feature File Folder: {feature-file-folder} Feature File Path: {feature-file-path}"
+                          "System.Description": "**Feature Name:** {feature-name} \\n **Feature Description:** {feature-description} \\n **Feature File Name:** {feature-file-name} \\n **Feature File Folder:** {feature-file-folder} \\n **Feature File Path:** {feature-file-path}"
                           },
                             "multiSuitePublishTestResults": {
                             "enabled": true,
