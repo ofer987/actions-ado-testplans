@@ -94,11 +94,11 @@ inputs:
   test_results_run_comment:
     description: 'Test Result - Run Comment'
     required: false
-    default: GH Action-${{ inputs.env }}-${{ github.run_id}}
+    default: GH Actions-${{ github.run_id}}
   test_results_run_name:
     description: 'Test Result - Run NAme'
     required: false
-    default: GH-Actions-${{ inputs.env }}-${{ github.run_id }}
+    default: GH-Actions-${{ github.run_id }}
   test_results_run_type:
     description: 'Test Result - Run Type'
     required: false
@@ -313,7 +313,7 @@ runs:
           publishTestResults.testResult.filePath: ${{ inputs.test_results_file_path }}
           publishTestResults.testResult.fileFormat: ${{ inputs.test_results_file_format }}
           publishTestResults.runComment: ${{ inputs.test_results_run_comment }}
-          publishTestResults.runName: ${{ inputs.test_results_run_name }}
+          publishTestResults.runName: ${{ inputs.env}}-${{ inputs.test_results_run_name }}
           publishTestResults.runType: ${{ inputs.test_results_run_type }}
           publishTestResults.testResultComment: ${{ inputs.test_results_run_result_comment }}
           publishTestResults.testSuite.name: ${{ inputs.test_results_test_suite_name }}
