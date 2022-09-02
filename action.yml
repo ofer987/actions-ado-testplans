@@ -82,35 +82,13 @@ runs:
             test_results_file_path:
               - '${{ inputs.test_results_file_path }}/**'
 
-      - name: Create SpecSync.json user specific setting
-        if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
-        shell: bash
-        run: |
-          mkdir -p ~/.local/share/SpecSync
-          cat > ~/.local/share/SpecSync/specsync.json <<EOF
-          {
-            "$schema": "http://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
-            "toolSettings": {
-              "licensePath": "specsync.lic",
-              "disableStats": false,
-              "outputLevel": "normal",
-            },
-          "knownRemotes": [
-            {
-              "projectUrl": "https://dev.azure.com/myorg/*",
-              "user": "ADO_PAT"
-            }
-          ]
-          }
-          EOF
-
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         with:
-          files: ~/.local/share/SpecSync/specsync-common.json, ./specsync.json
+          files: ./specsync.json
         env:
-          knownRemotes.projectUrl: ${{ inputs.ado_project_url }}
-          knownRemotes.user: ${{ inputs.ado_pat }}
+          remote.projectUrl: ${{ inputs.ado_project_url }}
+          remote.user: ${{ inputs.ado_pat }}
           publishTestResults.runName: ${{ inputs.test_results_run_name }}-${{ inputs.env}} Environment
 
       - name: Download SpecSync License From Artifactory
@@ -119,7 +97,7 @@ runs:
           ARTIFACTORY_TOKEN: ${{ inputs.ARTIFACTORY_TOKEN }}
           ARTIFACTORY_USER: ${{ inputs.ARTIFACTORY_USER }}
         run: |
-          curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN} -O ~/.local/share/SpecSync/specsync.lic 'https://tr1.jfrog.io/artifactory/generic-local/devops-experience/specsync.lic'
+          curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN} -O specsync.lic 'https://tr1.jfrog.io/artifactory/generic-local/devops-experience/specsync.lic'
           
       - name: Set up .NET 6
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
