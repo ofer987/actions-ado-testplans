@@ -121,6 +121,7 @@ runs:
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         shell: bash
         run: |
+          dotnet new tool-manifest
           dotnet tool install --global SpecSync.AzureDevOps --version 3.3.8-alpha20220829-1
           dotnet specsync version
           # sudo apt install zip unzip
