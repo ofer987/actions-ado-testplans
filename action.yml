@@ -284,9 +284,9 @@ runs:
         
       - name: Print Auto Merge Output
         shell: bash
-        if: ${{ steps.auto_merge.outputs.mergeResult == "merged" }}
+        if: ${{ steps.auto_merge.outputs.mergeResult == 'merged' }}
         run: |
-          echo "Pull request ${{ steps.create_pr.outputs.pull-request-number }} merged!"     
+          echo "Pull request ${{ steps.create_pr.outputs.pull-request-number }} merged!"
           
       - name: Erase SpecSync JSON and License Files
         if: always()
