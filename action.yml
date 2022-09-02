@@ -88,8 +88,8 @@ runs:
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         shell: bash
         run: |
-          mkdir -p $HOME/.local/share/SpecSync
-          cat > $HOME/.local/share/SpecSync/specsync.json <<EOF
+          mkdir -p ~/.local/share/SpecSync
+          cat > ~/.local/share/SpecSync/specsync.json <<EOF
           {
             "$schema": "http://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
             "toolSettings": {
@@ -109,7 +109,7 @@ runs:
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         with:
-          files: $HOME/.local/share/SpecSync/specsync.json
+          files: '~/.local/share/SpecSync/specsync.json'
         env:
           ADO_PROJECT_URL: ${{ inputs.ado_project_url }}      
           knownRemotes.projectUrl: ${{ inputs.ado_project_url }}
@@ -122,7 +122,7 @@ runs:
           ARTIFACTORY_TOKEN: ${{ inputs.artifactory_token }}
           ARTIFACTORY_USER: ${{ inputs.artifactory_user }}
         run: |
-          curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN} -O $HOME/.local/share/SpecSync/specsync.lic 'https://tr1.jfrog.io/artifactory/generic-local/devops-experience/specsync.lic'
+          curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN} -O ~/.local/share/SpecSync/specsync.lic 'https://tr1.jfrog.io/artifactory/generic-local/devops-experience/specsync.lic'
           
       - name: Set up .NET 6
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
