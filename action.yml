@@ -133,8 +133,13 @@ runs:
         shell: bash
         run: |
           chmod +x ./SpecSync4AzureDevOps;
-          ./SpecSync4AzureDevOps push;
-          ./SpecSync4AzureDevOps pull;
+          find ${{ inputs.cucumber_path }} -iname "*specsync.json*" | while read line;
+            do
+              DIR=$(dirname "$line")
+              cd $DIR
+              ./SpecSync4AzureDevOps push;
+              ./SpecSync4AzureDevOps pull;
+            done;
 
       - name: Run Test Results Synchronization with out Attachments
         env:
