@@ -121,10 +121,12 @@ runs:
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         shell: bash
         run: |
-          sudo apt install zip unzip
-          export PATH="$PATH:/root/.dotnet/tools";
-          wget -O SpecSync.zip https://www.specsolutions.eu/media/specsync/SpecSync.AzureDevOps.3.3.6-linux-x64.zip && unzip SpecSync.zip;
-          chmod +x SpecSync4AzureDevOps;
+          dotnet tool install --global SpecSync.AzureDevOps --version 3.3.8-alpha20220829-1
+          dotnet specsync version
+          # sudo apt install zip unzip
+          # export PATH="$PATH:/root/.dotnet/tools";
+          # wget -O SpecSync.zip https://www.specsolutions.eu/media/specsync/SpecSync.AzureDevOps.3.3.6-linux-x64.zip && unzip SpecSync.zip;
+          # chmod +x SpecSync4AzureDevOps;
                     
       - name: Run Test Case Synchronization
         env:
@@ -137,8 +139,8 @@ runs:
             do
               DIR=$(dirname "$line")
               cd $DIR
-              ${{ github.workspace }}/SpecSync4AzureDevOps push;
-              ${{ github.workspace }}/SpecSync4AzureDevOps pull;
+              SpecSync push --user ${{ input.ADO_PAT }}
+              SpecSync pull --user ${{ input.ADO_PAT }}
             done;
 
       - name: Run Test Results Synchronization with out Attachments
