@@ -30,10 +30,11 @@ jobs:
         uses: actions/checkout@v3
       - name: Cucumber to ADO Sync
         id: ado_test_cases_specsync
-        uses: tr/cicd_gh-actions-ado-specsync@v1.0
+        uses: tr/cicd_gh-actions-cucumber-ado-sync@v1.0
         with:
             enable_auto_pr_merge: true
-            artifactory_user: ${{ secrets.artifactory_user }}
+            artifactory_user: ${{ secrets.ARTIFACTORY_USER }}
+            artifactory_token: ${{ secrets.ARTIFACTORY_TOKEN }}
             ado_pat: ${{ secrets.ADO_PAT }}
             ado_project_url: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training
 ```

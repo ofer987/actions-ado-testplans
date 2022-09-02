@@ -50,7 +50,7 @@ inputs:
   cucumber_branch_name:
     description: 'Default Github Actions Name'
     required: false
-    default: 'cucumber-ado-sync-${{ inputs.github.run_id }}'
+    default: 'cucumber-ado-sync-${{ github.run_id }}'
   temp_cucumber_branch_name:
     description: 'Default Github Actions Name'
     required: false
@@ -284,7 +284,7 @@ runs:
         
       - name: Print Auto Merge Output
         shell: bash
-        if: steps.auto_merge.outputs.mergeResult == "merged"
+        if: ${{ steps.auto_merge.outputs.mergeResult == "merged" }}
         run: |
           echo "Pull request ${{ steps.create_pr.outputs.pull-request-number }} merged!"     
           
