@@ -1,0 +1,100 @@
+{
+    "$schema": "https://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
+    "compatibilityVersion": "3.3",
+    "toolSettings": {
+        "disableStats": true,
+        "outputLevel": "normal"
+    },   
+    "remote": {
+        "projectUrl": "https://dev.azure.com/tr-ihn-sandbox/Azure%20DevOps%20Training",
+        "user":"ADO_PAT"
+    },
+    "local": {
+            "featureFileSource": {
+            "type": "folder",
+            "folder": "src/features"
+            },
+            "defaultFeatureLanguage":"en-US"
+        },
+        "publishTestResults": {
+            "testConfiguration": {
+                "name": "Linux-X64"
+            },
+            "testResult": {
+            "filePath": "test-result.trx",
+            "fileFormat": "TRX"
+            },
+            "treatInconclusiveAs":"NotExecuted",
+            "createSubResults": true,
+            "runName": "test",
+            "runType": "automated",
+            "runComment": "test",
+            "testResultComment": "As Expected"
+            },               
+        "synchronization": {
+            "attachments": { "enabled": true,
+            "baseFolder": "TestModels"
+            },
+            "disableLocalChanges": false,
+            "testCaseTagPrefix": "TC",
+        
+            "pull": {
+            "enabled": true,
+            "enableCreatingScenariosForNewTestCases": true
+            },
+        
+            "automation": {
+            "enabled": true,
+            "condition": "not @manual"
+            },
+        
+            "state": {
+            "setValueOnChangeTo": "Design"
+            },
+        
+            "areaPath": {
+            "mode": "setOnLink",
+            "value": "\\Release 1"
+            },
+            "iterationPath": {
+            "mode": "setOnLink",
+            "value": "\\Sprint 1"
+            },
+            "links": [
+            {
+                "targetWorkItemType": "ProductBacklogItem",
+                "tagPrefix": "story",
+                "relationship": "Parent",
+                "mode": "createIfMissing"
+            },
+            {
+                "tagPrefix": "bug"
+            }
+            ],
+            "format": {
+            "useExpectedResult": false,
+            "syncDataTableAsText": false,
+            "prefixBackgroundSteps": true,
+            "prefixTitle": true,
+            "showParameterListStep": "whenUnusedParameters"
+            }
+        },
+        "customizations": {
+            "ignoreNotSupportedLocalTags": {
+                "enabled": true
+            },
+            "ignoreTestCaseSteps": {
+                "enabled": true,
+                "ignoredPrefixes": [ "COMMENT" ]
+            },
+            "ignoreTestCaseTags": {
+                "enabled": true,
+                "tags": [ "ignore" ]
+            },  
+            "resetTestCaseState": {
+                "enabled": true,
+                "state": "Ready",
+                "condition": "@ready"
+            }                    
+            }                          
+    }
