@@ -140,8 +140,8 @@ runs:
             do
               DIR=$(dirname "$line")
               cd $DIR
-              SpecSync push --user ${{ inputs.ADO_PAT }}
-              SpecSync pull --user ${{ inputs.ADO_PAT }}
+              specsync push --user ${{ inputs.ADO_PAT }}
+              specsync pull --user ${{ inputs.ADO_PAT }}
             done;
 
       - name: Run Test Results Synchronization with out Attachments
