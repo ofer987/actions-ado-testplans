@@ -73,6 +73,9 @@ inputs:
   test_results_format:
     description: 'Test Result File Format'
     required: false
+  test_plan_id: 
+    description: 'Test Plan ID'
+    required: false  
 outputs:
   ado_test_run_url:
     value: ${{ steps.ado_run_step.outputs.ADO_RUN_URL }}
@@ -91,12 +94,12 @@ runs:
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         with:
-          files: '${{ inputs.cucumber_path}}/*/*.specsync.json'
+          files: '${{ inputs.cucumber_path}}/*/*.specsync.json, ./specsync.json'
         env:
-          ADO_PROJECT_URL: ${{ inputs.ado_project_url }}      
-          remotes.projectUrl: ${{ inputs.ado_project_url }}
-          remotes.user: ${{ inputs.ado_pat }}
+          remote.projectUrl: ${{ inputs.ado_project_url }}
+          remote.user: ${{ inputs.ado_pat }}
           publishTestResults.runName: ${{ inputs.test_results_run_name }}-${{ inputs.env }} Environment
+          customFieldUpdates.testPlanId: ${{ inputs.test_plan_id }}
 
       - name: Download SpecSync License From Artifactory
         shell: bash
