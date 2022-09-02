@@ -85,7 +85,6 @@ runs:
           echo TEST_RESULTS_FORMAT=${{ inputs.test_results_format }} >> $GITHUB_ENV
 
       - name: Create SpecSync.json user specific setting
-        if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         shell: bash
         run: |
           mkdir -p ~/.local/share/SpecSync
