@@ -94,8 +94,6 @@ runs:
               "licensePath": "specsync.lic",
               "disableStats": false,
               "outputLevel": "normal",
-              "parentConfig": "./specsync-common.json",
-              "ignoreParentConfig": false
             },
           "knownRemotes": [
             {
