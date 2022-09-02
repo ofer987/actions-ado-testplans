@@ -189,7 +189,7 @@ runs:
       - uses: dorny/paths-filter@v2
         env:
           ADO_PROJECT_URL: ${{ inputs.ado_project_url }}
-        if: ${{ steps.pre-ado-sync.outputs.features && inputs.test_cases_sync && always()  }}
+        if: ${{ steps.pre-ado-sync.outputs.features == 'true' && inputs.test_cases_sync == 'true' && always()  }}
         id: post-ado-sync
         with:
           base: ${{ github.ref }}
