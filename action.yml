@@ -137,8 +137,8 @@ runs:
             do
               DIR=$(dirname "$line")
               cd $DIR
-              ./SpecSync4AzureDevOps push;
-              ./SpecSync4AzureDevOps pull;
+              ${{ github.workspace }}/SpecSync4AzureDevOps push;
+              ${{ github.workspace }}/SpecSync4AzureDevOps pull;
             done;
 
       - name: Run Test Results Synchronization with out Attachments
