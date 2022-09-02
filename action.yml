@@ -77,12 +77,11 @@ runs:
           echo ADO_PROJECT_URL=${{ inputs.ado_project_url }} >> $GITHUB_ENV
 
       - uses: microsoft/variable-substitution@v1
-        env:
-          ADO_PROJECT_URL: ${{ inputs.ado_project_url }}      
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         with:
           files: specsync-common.json
         env:
+          ADO_PROJECT_URL: ${{ inputs.ado_project_url }}      
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
           publishTestResults.runName: ${{ inputs.test_results_run_name }}-${{ inputs.env}} Environment
