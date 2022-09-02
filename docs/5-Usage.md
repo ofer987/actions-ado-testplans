@@ -32,15 +32,10 @@ jobs:
         id: ado_test_cases_specsync
         uses: tr/cicd_gh-actions-ado-specsync@v1.0
         with:
-            artifactory_token: ${{ secrets.artifactory_token }}
+            enable_auto_pr_merge: true
             artifactory_user: ${{ secrets.artifactory_user }}
             ado_pat: ${{ secrets.ADO_PAT }}
             ado_project_url: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training
-            ado_area_path: '\\Release 1'
-            ado_iteration_path: '\\Sprint 1'
-            cucumber_path: features
-            test_suite_id: 9830
-
 ```
 
 
@@ -98,12 +93,5 @@ jobs:
           test_cases_sync: false
           test_results_sync: true
           ado_pat: ${{ secrets.ADO_PAT }}
-          ado_area_path: '\\Release 1'
-          ado_iteration_path: '\\Sprint 1'
-          ado_project_url: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training
-          test_results_file_path: './webapp/SpecFlowCalculator.Specs/TestResults/test-results.trx'
-          test_results_file_format: 'TRX'
-          test_suite_id: 9831
-          test_results_test_plan_id: 185
 
 ```          
