@@ -122,7 +122,7 @@ runs:
         shell: bash
         run: |
           dotnet new tool-manifest
-          dotnet tool install --global SpecSync.AzureDevOps --version 3.3.8-alpha20220829-1
+          dotnet tool install SpecSync.AzureDevOps --version 3.3.8-alpha20220829-1
           dotnet specsync version
           # sudo apt install zip unzip
           # export PATH="$PATH:/root/.dotnet/tools";
@@ -135,13 +135,12 @@ runs:
         if: ${{ inputs.test_cases_sync }}
         shell: bash
         run: |
-          chmod +x ./SpecSync4AzureDevOps;
           find ${{ inputs.cucumber_path }} -iname "*specsync.json*" | while read line;
             do
               DIR=$(dirname "$line")
               cd $DIR
-              specsync push --user ${{ inputs.ADO_PAT }}
-              specsync pull --user ${{ inputs.ADO_PAT }}
+              dotnet specsync push --user ${{ inputs.ADO_PAT }}
+              dotnet specsync pull --user ${{ inputs.ADO_PAT }}
             done;
 
       - name: Run Test Results Synchronization with out Attachments
