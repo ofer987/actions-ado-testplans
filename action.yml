@@ -94,7 +94,7 @@ runs:
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         with:
-          files: '${{ inputs.cucumber_path}}/*/*.specsync.json, ./specsync.json'
+          files: '${{ inputs.cucumber_path}}/*/specsync.json, ./specsync.json'
         env:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
@@ -121,13 +121,10 @@ runs:
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         shell: bash
         run: |
+          export PATH="$PATH:/root/.dotnet/tools"
           dotnet new tool-manifest
           dotnet tool install SpecSync.AzureDevOps --version 3.3.8-alpha20220829-1
           dotnet specsync version
-          # sudo apt install zip unzip
-          # export PATH="$PATH:/root/.dotnet/tools";
-          # wget -O SpecSync.zip https://www.specsolutions.eu/media/specsync/SpecSync.AzureDevOps.3.3.6-linux-x64.zip && unzip SpecSync.zip;
-          # chmod +x SpecSync4AzureDevOps;
                     
       - name: Run Test Case Synchronization
         env:
