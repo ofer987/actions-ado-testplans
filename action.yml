@@ -119,8 +119,8 @@ runs:
         shell: bash
         run: |
           chmod +x ./SpecSync4AzureDevOps;
-          ./SpecSync4AzureDevOps push ./specsync.json;
-          ./SpecSync4AzureDevOps pull ./specsync.json;
+          ./SpecSync4AzureDevOps push ./specsync-common.json;
+          ./SpecSync4AzureDevOps pull ./specsync-common.json;
 
       - name: Run Test Results Synchronization with out Attachments
         if: ${{ inputs.test_results_sync == 'true' && inputs.test_results_attached_files == '' && always() }}
@@ -128,7 +128,7 @@ runs:
         shell: bash
         run: |
           chmod +x ./SpecSync4AzureDevOps;
-          ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings ./specsync.json > output.txt;
+          ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings ./specsync-common.json > output.txt;
           ADO_RUN_NUM_STRING="$( grep 'results as Test Run' output.txt | awk -F'[()]' '{print $2}')";
           ADO_RUN_NUM="$(echo $ADO_RUN_NUM_STRING | tr -dc '0-9' | sed 's/%//g')";
           echo ADO_RUN_NUM=$ADO_RUN_NUM >> $GITHUB_ENV
@@ -140,7 +140,7 @@ runs:
         shell: bash
         run: |
           chmod +x ./SpecSync4AzureDevOps;
-          ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} ./specsync.json > output.txt;
+          ./SpecSync4AzureDevOps publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} ./specsync-common.json > output.txt;
           ADO_RUN_NUM_STRING="$( grep 'results as Test Run' output.txt | awk -F'[()]' '{print $2}')";
           ADO_RUN_NUM="$(echo $ADO_RUN_NUM_STRING | tr -dc '0-9' | sed 's/%//g')";
           echo ADO_RUN_NUM=$ADO_RUN_NUM >> $GITHUB_ENV;
@@ -268,4 +268,4 @@ runs:
       - name: Erase SpecSync JSON and License Files
         if: always()
         shell: bash
-        run: rm -rf $HOME/.local/share/SpecSync/specsync.json ./specsync.lic
+        run: rm ./specsync-common.json ./specsync.lic
