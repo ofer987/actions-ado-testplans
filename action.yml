@@ -11,6 +11,10 @@ inputs:
     description: 'Test Environment'
     required: false
     default: 'QA'
+  enable_auto_pr_merge:
+    description: 'Enable Auto Cucumber PR Merge'
+    required: false
+    default: 'true'    
   artifactory_token:
     description: 'JFROG TOKEN'
     required: true
@@ -35,33 +39,6 @@ inputs:
   ado_project_url:
     description: 'ADO Project URL'
     required: true
-  ado_area_path:
-    description: 'ADO Area Path. Example: \\Release 1'
-    required: false
-  ado_iteration_path:
-    description: 'ADO Iteration or Sprint Path. Example: \\Sprint 1'
-    required: false
-  cucumber_path:
-    description: 'Path of Cucumber Features'
-    required: false
-  cucumber_language:
-    description: 'Default Language of Cucumber Features'
-    required: false
-    default: 'en-US'
-  test_case_tag_prefix:
-    description: 'Test Case Tag Prefix'
-    required: false
-    default: 'TC'
-  test_suite_id:
-    description: 'ID of Test Suite. Only if you have not specified test_suite_name'
-    required: false
-  test_suite_name:
-    description: 'Name of Test Suite. Only if you have not specified test_suite_id'
-    required: false    
-  default_test_case_status:
-    description: 'Default test case status. Defaults to Design'
-    required: false
-    default: 'Design'
   git_user_email:
     description: 'Default Github Actions Email'
     required: false
@@ -78,64 +55,14 @@ inputs:
     description: 'Default Github Actions Name'
     required: false
     default: 'temp-cucumber-ado-sync'
-  test_configuration_name:
-    description: 'Test Result - Configuration Run name'
-    required: false
-    default: ${{ runner.os }}-${{ runner.arch }}
-  test_configuration_id:
-    description: 'Test Result - Configuration Run ID'
-    required: false
-  test_results_file_path:
-    description: 'Test Result - File Path'
-    required: false
-  test_results_file_format:
-    description: 'Test Result - File Format'
-    required: false    
-  test_results_run_comment:
-    description: 'Test Result - Run Comment'
-    required: false
-    default: GH Actions-${{ github.run_id}}
   test_results_run_name:
     description: 'Test Result - Run NAme'
     required: false
     default: GH-Actions-${{ github.run_id }}
-  test_results_run_type:
-    description: 'Test Result - Run Type'
-    required: false
-    default: 'automated'
-  test_results_run_result_comment:
-    description: 'Test Result - Run Result Comment'
-    required: false
-    default: 'As Expected'
-  test_results_test_suite_name:
-    description: 'Test Result - Test Suite Name'
-    required: false
-  test_results_test_plan_id:
-    description: 'Test Result - Test Plan ID'
-    required: false
-  test_results_create_sub_results:
-    description: 'Test Result - Create Sub Results'
-    required: false
-    default: 'false'
-  test_results_treat_inconclusive_as:
-    description: 'Test Result - Treat Inconclusive As'
-    required: false
-    default: 'NotExecuted'
-  attachments_base_folder:
-    description: 'Attachments Base Folder to attache to test cases while creation'
-    required: false
   test_results_attached_files:
-    description: 'Name of Attachments to be attached to each test case while publishing test results'
-    required: false    
-  disable_feature_file_auto_updates:
-    description: 'Do you want to disable auto updates to feature files'
+    description: 'Test Result '
     required: false
-    default: 'false'
-  skip_scenario_prefix_title:   
-    description: 'Do you want to skip adding Scenario or Scenario Outline Prefix title to Test Cases'
-    required: false
-    default: 'false'
-
+    default: GH-Actions-${{ github.run_id }}    
 outputs:
   ado_test_run_url:
     value: ${{ steps.ado_run_step.outputs.ADO_RUN_URL }}
@@ -144,15 +71,6 @@ outputs:
 runs:
   using: 'composite'
   steps:
-      - name: Check If there is a change in Feature Files from last commit/trigger branch
-        uses: dorny/paths-filter@v2
-        if: ${{ inputs.test_cases_sync }}    
-        id: pre-ado-sync
-        with:
-          base: ${{ env.GITHUB_SHA }}
-          filters: |
-            features:
-             - '${{ inputs.cucumber_path }}/**'
 
       - name: Check If there is a change in Test Results Path in local
         uses: dorny/paths-filter@v2
@@ -162,204 +80,39 @@ runs:
           base: ${{ env.GITHUB_SHA }}
           filters: |
             test_results_file_path:
-             - '${{ inputs.test_results_file_path }}/**'
+              - '${{ inputs.test_results_file_path }}/**'
 
-      - name: Create SpecSync.json file
-        if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.post-test-execution.outputs.test_results_file_path ) && always() }}
+      - name: Create SpecSync.json user specific setting
+        if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         shell: bash
         run: |
-          cat > ./specsync.json <<EOF
+          cat > $HOME/.local/share/SpecSync/specsync.json <<EOF
+          {
+            "$schema": "http://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
+            "toolSettings": {
+              "licensePath": "specsync.lic",
+              "disableStats": false,
+              "outputLevel": "normal",
+              "parentConfig": "specsync-common.json",
+              "ignoreParentConfig": false
+            },
+          "knownRemotes": [
             {
-                "$schema": "https://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
-                "compatibilityVersion": "3.3",
-                "toolSettings": {
-                  "licensePath": "specsync.lic",
-                  "disableStats": true,
-                  "outputLevel": "normal"
-                },   
-                "remote": {
-                  "projectUrl": "https://dev.azure.com/tr-ihn-sandbox/Azure%20DevOps%20Training",
-                  "user":"ADO_PAT",
-                  "testSuite": {
-                          "name": "TEST_SUITE_NAME","id": 1
-                        }
-                },
-                "local": {
-                      "featureFileSource": {
-                        "type": "folder",
-                        "folder": "features"
-                      },
-                      "defaultFeatureLanguage":"en-US"
-                    },
-                    "publishTestResults": {
-                      "testConfiguration": {
-                            "name": "Windows 10"
-                      },
-                      "testResult": {
-                      "filePath": "test-result.trx",
-                      "fileFormat": "TRX"
-                        },
-                        "treatInconclusiveAs":"NotExecuted",
-                        "createSubResults": true,
-                        "runName": "test",
-                        "runType": "automated",
-                        "runComment": "test",
-                        "testResultComment": "test",
-                        "testSuite": {
-                          "name": "test","id": 2,
-                          "testPlanId": 1
-                          }
-                        },               
-                    "synchronization": {
-                        "attachments": { "enabled": true,
-                        "baseFolder": "TestModels"
-                      },
-                      "disableLocalChanges": false,
-                      "testCaseTagPrefix": "ADO",
-                  
-                      "pull": {
-                        "enabled": true,
-                        "enableCreatingScenariosForNewTestCases": true
-                      },
-                  
-                      "automation": {
-                        "enabled": true,
-                        "condition": "not @manual"
-                      },
-                  
-                      "state": {
-                        "setValueOnChangeTo": "Design"
-                      },
-                  
-                      "areaPath": {
-                        "mode": "setOnLink",
-                        "value": "MyArea"
-                      },
-                      "iterationPath": {
-                        "mode": "setOnLink",
-                        "value": "Sprint 1"
-                      },
-                      "links": [
-                        {
-                          "targetWorkItemType": "ProductBacklogItem",
-                          "tagPrefix": "story",
-                          "relationship": "Parent",
-                          "mode": "createIfMissing"
-                        },
-                        {
-                          "tagPrefix": "bug"
-                        }
-                      ],
-                      "format": {
-                        "useExpectedResult": false,
-                        "syncDataTableAsText": false,
-                        "prefixBackgroundSteps": true,
-                        "prefixTitle": true,
-                        "showParameterListStep": "whenUnusedParameters"
-                      }
-                    },
-                    "customizations": {
-                        "ignoreNotSupportedLocalTags": {
-                          "enabled": true
-                        },
-                        "ignoreTestCaseSteps": {
-                          "enabled": true,
-                          "ignoredPrefixes": [ "COMMENT" ]
-                        },
-                        "ignoreTestCaseTags": {
-                          "enabled": true,
-                          "tags": [ "ignore" ]
-                        },  
-                        "resetTestCaseState": {
-                          "enabled": true,
-                          "state": "Ready",
-                          "condition": "@ready"
-                        },
-                        "customFieldUpdates": {
-                          "enabled": true,
-                          "updates": {
-                          "System.Description": "**Feature Name:** {feature-name} {br} **Feature Description:** {feature-description} {br} **Feature File Name:** {feature-file-name} {br} **Feature File Folder:** {feature-file-folder} {br} **Feature File Path:** {feature-file-path}"
-                          },
-                            "multiSuitePublishTestResults": {
-                            "enabled": true,
-                            "testPlanId": "${TEST_PLAN_ID}",
-                            "includeSubSuites": true 
-                          }
-                        }                    
-                      }                          
-              }
+              "projectUrl": "https://dev.azure.com/myorg/*",
+              "user": "ADO_PAT"
+            }
+          ]
+          }
           EOF
 
       - uses: microsoft/variable-substitution@v1
-        if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.post-test-execution.outputs.test_results_file_path ) && always() }}
+        if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         with:
-          files: './specsync.json'
+          files: $HOME/.local/share/SpecSync/specsync-common.json, ./specsync.json
         env:
-          remote.projectUrl: ${{ inputs.ado_project_url }}
-          remote.user: ${{ inputs.ado_pat }}
-          remote.testSuite.name: ${{ inputs.test_suite_name }}
-          remote.testSuite.id: ${{ inputs.test_suite_id }}
-          local.featureFileSource.folder: ${{ inputs.cucumber_path }}
-          local.defaultFeatureLanguage: ${{ inputs.cucumber_language }}
-          synchronization.testCaseTagPrefix: ${{ inputs.test_case_tag_prefix }}
-          synchronization.state.setValueOnChangeTo: ${{ inputs.default_test_case_status }}
-          synchronization.areaPath.value: ${{ inputs.ado_area_path }}
-          synchronization.iterationPath.value: ${{ inputs.ado_iteration_path }}
-          synchronization.attachments.baseFolder: ${{ inputs.attachments_base_folder }}
-          synchronization.disableLocalChanges: ${{ inputs.disable_feature_file_auto_updates }}
-          synchronization.format.prefixTitle: ${{ inputs.skip_scenario_prefix_title }}
-          publishTestResults.testConfiguration.name: ${{ inputs.test_configuration_name }}
-          publishTestResults.testConfiguration.id: ${{ inputs.test_configuration_id }}
-          publishTestResults.testResult.filePath: ${{ inputs.test_results_file_path }}
-          publishTestResults.testResult.fileFormat: ${{ inputs.test_results_file_format }}
-          publishTestResults.runComment: ${{ inputs.test_results_run_comment }}
+          knownRemotes.projectUrl: ${{ inputs.ado_project_url }}
+          knownRemotes.user: ${{ inputs.ado_pat }}
           publishTestResults.runName: ${{ inputs.test_results_run_name }}-${{ inputs.env}} Environment
-          publishTestResults.runType: ${{ inputs.test_results_run_type }}
-          publishTestResults.testResultComment: ${{ inputs.test_results_run_result_comment }}-${{ inputs.env}} Environment
-          publishTestResults.testSuite.name: ${{ inputs.test_results_test_suite_name }}
-          publishTestResults.testSuite.id: ${{ inputs.test_suite_id }}
-          publishTestResults.testSuite.testPlanId: ${{ inputs.test_results_test_plan_id }}  
-          publishTestResults.createSubResults: ${{ inputs.test_results_create_sub_results }}
-          customizations.multiSuitePublishTestResults.testPlanId: ${{ inputs.test_results_test_plan_id }}
-          
-
-      - name: retain either name of id variable in specsync json file based on user input
-        if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.post-test-execution.outputs.test_results_file_path ) && always() }}
-        shell: bash
-        run: |
-          # Handle Test Suite ID and Test Suite Name for Test Cases Publishing as only one of them is allowed
-          if [[ '${inputs.test_suite_name}' != '' ]];
-          then
-            sed '/"id": 1/d' ./specsync.json;
-          elif [[ '${inputs.test_suite_id}' != '' ]];
-          then
-            sed '/"name": "TEST_SUITE_NAME",/d' ./specsync.json;
-          elif [[ '${inputs.test_results_sync }' == 'true' ]];
-          then
-            sed '/"name": "TEST_SUITE_NAME",/d' ./specsync.json;
-          else
-            echo "either enter test_suite_name or test_suite_id";
-          fi
-          
-          # Handle Test Suite ID and Test Suite Name for Test Results Publishing as only one of them is allowed
-          if [[ '${inputs.test_results_sync}' == 'true' && '${inputs.test_results_test_suite_name}' != '' ]];
-          then
-            sed '/"id": 2,/d' ./specsync.json;
-          elif [[ '${inputs.test_results_sync}' == 'true' && '${inputs.test_suite_id}' != '' ]];
-          then
-            sed '/"name": "test",/d' ./specsync.json;
-          elif [[ '${inputs.test_results_sync}' == 'true' && '${inputs.test_suite_name}' != '' ]];
-          then
-            sed '/,"id": 1/d' ./specsync.json;
-          else
-            sed '/"name": "test",/d' ./specsync.json;
-          fi
-
-          # Handle Condition where user didn't select Attachment Base folder
-          if [[ '${inputs.attachments_base_folder}' == '' ]];
-          then
-            sed sed -i 's/"attachments": { "enabled": true,/"attachments": { "enabled": false,/g' ./specsync.json;
-          fi
 
       - name: Download SpecSync License From Artifactory
         shell: bash
@@ -367,16 +120,16 @@ runs:
           ARTIFACTORY_TOKEN: ${{ inputs.ARTIFACTORY_TOKEN }}
           ARTIFACTORY_USER: ${{ inputs.ARTIFACTORY_USER }}
         run: |
-          curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN} -O 'https://tr1.jfrog.io/artifactory/generic-local/devops-experience/specsync.lic'
+          curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN} -O $HOME/.local/share/SpecSync/specsync.lic 'https://tr1.jfrog.io/artifactory/generic-local/devops-experience/specsync.lic'
           
       - name: Set up .NET 6
-        if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.post-test-execution.outputs.test_results_file_path ) && always() }}
+        if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: "6.0.x"
 
       - name: Install Dependencies
-        if: ${{ ( inputs.test_cases_sync || inputs.test_results_sync ) && (steps.pre-ado-sync.outputs.features || steps.post-test-execution.outputs.test_results_file_path ) && always() }}
+        if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         shell: bash
         run: |
           sudo apt install zip unzip
@@ -385,7 +138,7 @@ runs:
           chmod +x SpecSync4AzureDevOps;
                     
       - name: Run Test Case Synchronization
-        if: ${{ steps.pre-ado-sync.outputs.features && inputs.test_cases_sync && always() }}
+        if: ${{ inputs.test_cases_sync }}
         shell: bash
         run: |
           chmod +x ./SpecSync4AzureDevOps;
@@ -428,7 +181,7 @@ runs:
         shell: bash
         run: |
           cat >> ado.md << EOF
-             ADO TEST RUN URL: ${{ env.ADO_RUN_URL }}
+              ADO TEST RUN URL: ${{ env.ADO_RUN_URL }}
           EOF
           # Publish Job Summary
           cat ado.md >> $GITHUB_STEP_SUMMARY
@@ -440,7 +193,7 @@ runs:
           base: ${{ github.ref }}
           filters: |
             features:
-             - '${{ inputs.cucumber_path }}/**'
+              - '${{ inputs.cucumber_path }}/**'
 
       #  Commit Cucumber Feature Files to triggering branch or cucumber-ado-sync branch
       - name: Commit updates feature files
@@ -485,7 +238,7 @@ runs:
           fi
 
       - name: Create Pull Request
-        id: cpr
+        id: create_pr
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ inputs.github_token }}
@@ -506,30 +259,36 @@ runs:
           milestone: 1
           draft: false
 
-    - name: Auto Approve Cucumber ADO Sync PR
-      uses: hmarr/auto-approve-action@v2
-      with:
-        pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
-        review-message: "Auto Approved Cucumber ADO Sync Automated PR"
+      - name: Auto Approve Cucumber ADO Sync PR
+        if: inputs.enable_auto_pr_merge
+        uses: hmarr/auto-approve-action@v2
+        with:
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          review-message: "Auto Approved Cucumber ADO Sync Automated PR"
         
-    - id: automerge
-      name: automerge
-      uses: "pascalgn/automerge-action@v0.15.3"
-      env:
-          GITHUB_TOKEN: "${{ inputs.github_token }}"
-          MERGE_LABELS: "automerge,!cucumber ado sync"
-          MERGE_REMOVE_LABELS: "automerge"
-          MERGE_METHOD: "squash"
-          MERGE_COMMIT_MESSAGE: "Merged Cucumber ADO Sync"
-          MERGE_RETRIES: "5"
-          MERGE_RETRY_SLEEP: "10000"
-          MERGE_REQUIRED_APPROVALS: "0"
-          UPDATE_LABELS: ""
-          UPDATE_METHOD: "rebase"
-          PULL_REQUEST: ${{ steps.cpr.outputs.pull-request-number }}
+      - name: Auto Merge PR to Main Line
+        id: auto_merge
+        if: inputs.enable_auto_pr_merge
+        uses: "pascalgn/automerge-action@v0.15.3"
+        env:
+            GITHUB_TOKEN: "${{ inputs.github_token }}"
+            MERGE_LABELS: "auto merge, cucumber ado sync"
+            MERGE_METHOD: "merge"
+            MERGE_COMMIT_MESSAGE: "Merged Cucumber ADO Sync"
+            MERGE_RETRIES: "5"
+            MERGE_RETRY_SLEEP: "10000"
+            MERGE_REQUIRED_APPROVALS: "0"
+            UPDATE_LABELS: "automerge"
+            UPDATE_METHOD: "merge"
+            PULL_REQUEST: ${{ steps.create_pr.outputs.pull-request-number }}
         
-    - name: feedback
-      if: steps.automerge.outputs.mergeResult == "merged"
-      run: |
-        echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged!"        
+      - name: Print Auto Merge Output
+        shell: bash
+        if: steps.auto_merge.outputs.mergeResult == "merged"
+        run: |
+          echo "Pull request ${{ steps.create_pr.outputs.pull-request-number }} merged!"     
           
+      - name: Erase SpecSync JSON and License Files
+        if: always()
+        shell: bash
+        run: rm -rf $HOME/.local/share/SpecSync/specsync.json ./specsync.lic
