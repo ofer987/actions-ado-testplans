@@ -86,6 +86,7 @@ runs:
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         shell: bash
         run: |
+          mkdir $HOME/.local/share/SpecSync
           cat > $HOME/.local/share/SpecSync/specsync.json <<EOF
           {
             "$schema": "http://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
