@@ -104,7 +104,8 @@ runs:
           ]
           }
           EOF
-
+          cat ~/.local/share/SpecSync/specsync.json
+          
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         with:
