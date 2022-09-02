@@ -62,7 +62,13 @@ inputs:
   test_results_attached_files:
     description: 'Test Result '
     required: false
-    default: GH-Actions-${{ github.run_id }}    
+    default: GH-Actions-${{ github.run_id }}
+  test_results_path:
+    description: 'Test Result File Path '
+    required: false
+  test_results_format:
+    description: 'Test Result File Format'
+    required: false
 outputs:
   ado_test_run_url:
     value: ${{ steps.ado_run_step.outputs.ADO_RUN_URL }}
@@ -75,16 +81,40 @@ runs:
         shell: bash
         run: |
           echo ADO_PROJECT_URL=${{ inputs.ado_project_url }} >> $GITHUB_ENV
+          echo TEST_RESULTS_PATH=${{ inputs.test_results_path }} >> $GITHUB_ENV
+          echo TEST_RESULTS_FORMAT=${{ inputs.test_results_format }} >> $GITHUB_ENV
+
+      - name: Create SpecSync.json user specific setting
+        if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
+        shell: bash
+        run: |
+          mkdir -p $HOME/.local/share/SpecSync
+          cat > $HOME/.local/share/SpecSync/specsync.json <<EOF
+          {
+            "$schema": "http://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
+            "toolSettings": {
+              "licensePath": "specsync.lic",
+              "disableStats": false,
+              "outputLevel": "normal",
+            },
+          "knownRemotes": [
+            {
+              "projectUrl": "https://dev.azure.com/myorg/*",
+              "user": "ADO_PAT"
+            }
+          ]
+          }
+          EOF
 
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         with:
-          files: specsync-common.json
+          files: $HOME/.local/share/SpecSync/specsync.json
         env:
           ADO_PROJECT_URL: ${{ inputs.ado_project_url }}      
-          remote.projectUrl: ${{ inputs.ado_project_url }}
-          remote.user: ${{ inputs.ado_pat }}
-          publishTestResults.runName: ${{ inputs.test_results_run_name }}-${{ inputs.env}} Environment
+          knownRemotes.projectUrl: ${{ inputs.ado_project_url }}
+          knownRemotes.user: ${{ inputs.ado_pat }}
+          publishTestResults.runName: ${{ inputs.test_results_run_name }}-${{ inputs.env }} Environment
 
       - name: Download SpecSync License From Artifactory
         shell: bash
@@ -92,7 +122,7 @@ runs:
           ARTIFACTORY_TOKEN: ${{ inputs.artifactory_token }}
           ARTIFACTORY_USER: ${{ inputs.artifactory_user }}
         run: |
-          curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN} -O 'https://tr1.jfrog.io/artifactory/generic-local/devops-experience/specsync.lic'
+          curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN} -O $HOME/.local/share/SpecSync/specsync.lic 'https://tr1.jfrog.io/artifactory/generic-local/devops-experience/specsync.lic'
           
       - name: Set up .NET 6
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
