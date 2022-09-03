@@ -16,8 +16,9 @@ We need to create test configuration to define Operating System the test will be
 ![ADO Configurations](./images/ado-configurations.jpg)
 
 ## 3. Organize Folder Structure
-First, we need to organize the folder structure of the feature the way we want to see them in ADO Test Plan. Each folder will translate in to one test suite.
+First, we need to organize the folder structure of the feature the way we want to see them in ADO Test Plan. Each folder will provision one test suite under specified TestPlan.
 
+![Feature Folder Structure](./images/feature-folder-structure.jpg)
 ## 4. Configuration Files
 
 -   **Parent configuration files** Parent config file needs to be located at the Root of your features folder name "specsync-parent.json". This config has config variables which are common for whole project. We have a [template specsync-common.json](./specsync-templates/parent-level/specsync-parent.json) that you can copy and make changes. [Reference Documentation Located at](https://specsolutions.gitbook.io/specsync/features)
