@@ -133,7 +133,8 @@ runs:
         if: ${{ inputs.test_cases_sync }}
         shell: bash
         run: |
-          find ${{ inputs.cucumber_path }} -iname "*.specsync.json*" | while read line;
+          cd ${{ inputs.cucumber_path }}
+          find . -iname "*.specsync.json*" | while read line;
             do
               DIR=$(dirname "$line")
               cd $DIR
