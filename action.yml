@@ -246,14 +246,24 @@ runs:
           # Publish Job Summary
           cat ado-run-url.md >> $GITHUB_STEP_SUMMARY
 
-
       - name: Publish Build/Job Summary - PR URL
         if: ${{ inputs.test_cases_sync == 'true' }}
         shell: bash
         run: |
           echo "##[set-output name=PR_URL;]${{ steps.create_pr.outputs.pull-request-url }}"
           cat >> pr-url.md << EOF
-              Cucumber PR URL:  ${{ env.PR_URL }}
+              Cucumber PR URL:  ${{ steps.create_pr.outputs.pull-request-url }}
           EOF
           # Publish Job Summary
           cat pr-url.md >> $GITHUB_STEP_SUMMARY
+
+    - name: MS Teams Notify
+      if: ${{ always() }}
+      uses: tr/cicd_gh-actions-notification@v1.1
+      with:
+        WEBHOOK_URL1: ${{ secrets.MS_TEAMS_HOOK }}
+        WEBHOOK_TYPE: TEAMS
+        TEST_ENV: "ADO"
+        CICD_WORKFLOW_VERSION: 1
+        LINK1_NAME: "View Cucumber PR"
+        LINK1_URL: "${{env.PR_URL}}"
