@@ -194,7 +194,7 @@ runs:
           git config --local user.name $GIT_USER_NAME
           git checkout -b ${{ env.CUCUMBER_BRANCH_NAME }}
           git add ${{ env.CUCUMBER_PATH }}/
-          git tag -a cucumber -m "cucumber"
+          git tag -a cucumber-${{ github.run_id }} -m "cucumber"
           git commit -m "Updated Cucumber Feature Files"
           git push --set-upstream origin ${{ env.CUCUMBER_BRANCH_NAME }} --tags
           git checkout ${{ env.GITHUB_REF_NAME }}
