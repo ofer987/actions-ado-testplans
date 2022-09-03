@@ -137,7 +137,7 @@ runs:
           find . -iname "*specsync.json*" | while read line;
             do
               DIR=$(dirname "$line")
-              cd $DIR
+              cd ../$DIR
               dotnet specsync push;
               dotnet specsync pull;
             done;
