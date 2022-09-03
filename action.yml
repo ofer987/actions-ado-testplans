@@ -134,7 +134,7 @@ runs:
         shell: bash
         run: |
           cd ${{ inputs.cucumber_path }}
-          find . -iname "*.specsync.json*" | while read line;
+          find . -iname "*specsync.json*" | while read line;
             do
               DIR=$(dirname "$line")
               cd $DIR
