@@ -138,9 +138,12 @@ runs:
             do
               line=$(echo $line)
               DIR=$(dirname "$line")
-              cd ../$DIR
+              echo $DIR
+              cd $DIR
+              ls
               dotnet specsync push;
               dotnet specsync pull;
+              cd ..
             done;
 
       - name: Run Test Results Synchronization with out Attachments
