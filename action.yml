@@ -188,34 +188,16 @@ runs:
           GIT_USER_NAME: ${{ inputs.git_user_name }}
           CUCUMBER_PATH: ${{ inputs.cucumber_path }}
           CUCUMBER_BRANCH_NAME: ${{ inputs.cucumber_branch_name }}
-          TEMP_CUCUMBER_BRANCH_NAME: ${{ inputs.temp_cucumber_branch_name }}
           ADO_PROJECT_URL: ${{ inputs.ado_project_url }}
         run: |
           git config --local user.email $GIT_USER_EMAIL
           git config --local user.name $GIT_USER_NAME
-          if [ `git branch -r --list "origin/${{ env.CUCUMBER_BRANCH_NAME }}"` ]
-          then
-              git checkout -b ${{ env.TEMP_CUCUMBER_BRANCH_NAME }}
-              git tag -a cucumber -m "cucumber"
-              git add ${{ env.CUCUMBER_PATH }}/
-              git commit -m "Updated cucumber branch"
-              if [ $GITHUB_REF_NAME == "main" ]
-              then
-                git stash
-              fi
-              git checkout ${{ env.CUCUMBER_BRANCH_NAME }}
-              git checkout ${{ env.TEMP_BADGE_BRANCH_NAME }} ${{ env.CUCUMBER_PATH }}
-              git add ${{ env.CUCUMBER_PATH }}/
-              git tag -a cucumber -m "cucumber"
-              git commit -m "Updated Cucumber Feature Files"
-              git push --force --tags
-              git branch -D ${{ env.TEMP_CUCUMBER_BRANCH_NAME }}
-          else
-              git checkout -b ${{ env.CUCUMBER_BRANCH_NAME }}
-              git add ${{ env.CUCUMBER_PATH }}/
-              git commit -m "Updated Cucumber Feature Files"
-              git push --set-upstream origin ${{ env.CUCUMBER_BRANCH_NAME }} --tags
-          fi
+          git checkout -b ${{ env.CUCUMBER_BRANCH_NAME }}
+          git add ${{ env.CUCUMBER_PATH }}/
+          git tag -a cucumber -m "cucumber"
+          git commit -m "Updated Cucumber Feature Files"
+          git push --set-upstream origin ${{ env.CUCUMBER_BRANCH_NAME }} --tags
+
 
       - name: Create Pull Request
         id: create_pr
