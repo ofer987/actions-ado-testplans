@@ -197,6 +197,7 @@ runs:
           git tag -a cucumber -m "cucumber"
           git commit -m "Updated Cucumber Feature Files"
           git push --set-upstream origin ${{ env.CUCUMBER_BRANCH_NAME }} --tags
+          git checkout ${{ env.GITHUB_REF_NAME }}
 
 
       - name: Create Pull Request
