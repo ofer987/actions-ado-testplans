@@ -87,7 +87,5 @@ jobs:
           test_cases_sync: false
           test_results_sync: true
           ado_pat: ${{ secrets.ADO_PAT }}
-          test_results_path: "./reports/*.json"
-          test_results_format: "cucumberJson"
 
 ```          
