@@ -227,6 +227,7 @@ runs:
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: true
+          base: ${{ env.GITHUB_REF_NAME }}
           branch: ${{ inputs.cucumber_branch_name }}
           delete-branch: true
           title: '[Cucumber Azure DevOps Sync] Automated Pull Request'
