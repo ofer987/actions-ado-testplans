@@ -65,16 +65,6 @@ inputs:
   test_results_attached_files:
     description: 'Test Result '
     required: false
-    default: GH-Actions-${{ github.run_id }}
-  test_results_path:
-    description: 'Test Result File Path '
-    required: false
-  test_results_format:
-    description: 'Test Result File Format'
-    required: false
-  test_plan_id: 
-    description: 'Test Plan ID'
-    required: false  
 outputs:
   ado_test_run_url:
     value: ${{ steps.ado_run_step.outputs.ADO_RUN_URL }}
