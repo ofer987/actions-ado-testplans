@@ -235,8 +235,7 @@ runs:
           echo "ADO_RUN_URL=${{ inputs.ado_project_url }}/_testManagement/runs?_a=runCharts&runId=${{ env.ADO_RUN_NUM }}" >> $GITHUB_ENV
           echo "Pull Request URL - ${{ steps.create_pr.outputs.pull-request-url }}"
           echo "##[set-output name=ADO_RUN_URL;]${{ env.ADO_RUN_URL }}"
-          echo "##[set-output name=PR_URL;]${{ steps.create_pr.outputs.pull-request-url }}"
-
+          
       - name: Publish Build/Job Summary - ADO RUN URL
         if: ${{ inputs.test_results_sync == 'true' }}
         shell: bash
@@ -252,6 +251,7 @@ runs:
         if: ${{ inputs.test_cases_sync == 'true' }}
         shell: bash
         run: |
+          echo "##[set-output name=PR_URL;]${{ steps.create_pr.outputs.pull-request-url }}"
           cat >> pr-url.md << EOF
               Cucumber PR URL:  ${{ env.PR_URL }}
           EOF
