@@ -3,6 +3,9 @@
 <img width="1194" alt="image" src="https://user-images.githubusercontent.com/86745613/182430649-8e1e85d9-6f56-4919-8ce1-40e46a667bed.png">
 
 ### Screenshots of Azure DevOps After running this GH Action.
+
+![After Run Test Suite Folder Structure](./images/after-test-case-sync.jpg)
+
 ![image](https://user-images.githubusercontent.com/86745613/182430757-0c60b787-8b29-4c05-8816-8335a9387d2b.png)
 
 ### Screenshots of Outline Scenario with parameters populated in to Paramater Column in ADO Test Case

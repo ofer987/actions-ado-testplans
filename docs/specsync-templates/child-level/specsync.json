@@ -1,0 +1,25 @@
+{
+    "$schema": "https://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
+    "compatibilityVersion": "3.3",
+    "toolSettings": {
+      "parentConfig": "../specsync-parent.json", // in the same folder as the user-specific setting
+      "ignoreParentConfig": false
+    },    
+    "local": {
+      "featureFileSource": {
+      "type": "folder",
+      "folder": "./"
+      },
+      "defaultFeatureLanguage":"en-US"
+  },    
+    //
+    // See configuration options and samples at https://speclink.me/specsync-config.
+    //
+    "remote": {
+      "projectUrl": "NO_NEED_TO_MODIFY_TAKEN_CARE_BY_GH_ACTION",
+      "testSuite": {
+        "testPlanId": 18304,
+        "name": "attribute" 
+      }
+    }
+  }
