@@ -14,10 +14,6 @@ inputs:
     description: 'Test Environment'
     required: false
     default: 'QA'
-  enable_auto_pr_merge:
-    description: 'Enable Auto Cucumber PR Merge'
-    required: false
-    default: 'true'    
   artifactory_token:
     description: 'JFROG TOKEN'
     required: true
@@ -267,7 +263,6 @@ runs:
             cucumber ado sync
             automated pr
           draft: false
-          team-reviewers: ${{ inputs.github_teams }}
           
       - name: Erase SpecSync License Files
         if: always()
