@@ -4,14 +4,8 @@ This pattern is been created to provide a way to automatically upload Cucumber(B
 - Creates test cases in Azure DevOps from specified path of Feature Files (if not already present)
 - Updates test cases in Azure DevOps from specified path of Feature Files (if already)
 - Test Cases already found will not be created again
-- If triggered branch is other than "main" then the updated Feature Files with ADO Test Case ID Tag Number will be commited back in same branch.
-- Its recommened you enter user story number as Tag for each scenario in feature files in format @story:XXXX. If you do this we create link between user story and test cases automatically!
-- If you would like to upload a attachment for each test cases. for example if you want to upload json request and expected json response for a test case. you can add tag attchment: TC1_request.json attchment: TC1_expected_response.json
-- It would be lot easier if you add each tag in a seperate line so its clean to understand.
-- First you need to create Test Plan and a Test Suite.
-- If you create test cases for testing a bug fix, then add Tag in format @bug:XXXX. This will link your test cases with respective bug fix id.
-- If triggered branch is "main" then the updated Feature Files with ADO Test Case ID Tag Number(@TC:XXXX) will be commited in a new branch called "cucumber-ado-sync". you need to delete branch cucumber-ado-sync after doing merge.
-- We suggest you to review the commit updated feature files (with ADO Test Case ID Tag Number) to main branch. Alternatively you can automate PR creation merge as well.
+- If triggered branch is other than "main" then the updated Feature Files with ADO Test Case ID Tag Number will be committed back in same branch.
+- This Action will update work item tags to your feature files and will be committed back to your main branch via Auto PR Process.
 - Please note this GitHub Action is made using Enterprise Licensed version of SpecSync Tool (made by Gaspar Nagy who is major contributor for SpecFlow). Current Licenses set to expire on June 25th 2023. 
 - For More Details please visit [SpecSync](https://specsolutions.gitbook.io/specsync/)
 - Please note current licenses for SpecSync allows only 30 runs at a time so if you face error due excess usage we suggest you to attempt to run again immediately. This can be configured using Github Actions workflows.

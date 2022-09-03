@@ -1,0 +1,103 @@
+{
+"$schema": "https://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
+"compatibilityVersion": "3.3",
+"toolSettings": {
+    "licensePath": "specsync.lic",
+    "disableStats": true,
+    "outputLevel": "normal"
+},   
+"remote": {
+    "projectUrl": "NO_NEED_TO_MODIFY_TAKEN_CARE_BY_GH_ACTION",
+    "user":"NO_NEED_TO_MODIFY_TAKEN_CARE_BY_GH_ACTION"
+},
+    "publishTestResults": {
+        "testConfiguration": {
+            "name": "Linux-X64"
+        },
+        "testResult": {
+        "filePath": "cucumber.json",
+        "fileFormat": "cucumberJson"
+        },
+        "treatInconclusiveAs":"NotExecuted",
+        "createSubResults": true,
+        "runName": "test",
+        "runType": "automated",
+        "runComment": "test",
+        "testResultComment": "As Expected"
+        },               
+    "synchronization": {
+        "attachments": { "enabled": false,
+        "baseFolder": "src/attachments"
+        },
+        "disableLocalChanges": false,
+        "testCaseTagPrefix": "TC",
+    
+        "pull": {
+        "enabled": true,
+        "enableCreatingScenariosForNewTestCases": true
+        },
+    
+        "automation": {
+        "enabled": true,
+        "condition": "not @manual"
+        },
+    
+        "state": {
+        "setValueOnChangeTo": "Design"
+        },
+        "areaPath": {
+            "mode": "setOnLink",
+            "value": "\\Release 1"
+            },
+            "iterationPath": {
+            "mode": "setOnLink",
+            "value": "\\Sprint 1"
+            },        
+        "links": [
+        {
+            "targetWorkItemType": "ProductBacklogItem",
+            "tagPrefix": "story",
+            "relationship": "Parent",
+            "mode": "createIfMissing"
+        },
+        {
+            "tagPrefix": "bug"
+        }
+        ],
+        "format": {
+        "useExpectedResult": false,
+        "syncDataTableAsText": false,
+        "prefixBackgroundSteps": true,
+        "prefixTitle": true,
+        "showParameterListStep": "whenUnusedParameters"
+        }
+    },
+    "customizations": {
+        "ignoreNotSupportedLocalTags": {
+            "enabled": true
+        },
+        "ignoreTestCaseSteps": {
+            "enabled": true,
+            "ignoredPrefixes": [ "COMMENT" ]
+        },
+        "ignoreTestCaseTags": {
+            "enabled": true,
+            "tags": [ "ignore" ]
+        },  
+        "resetTestCaseState": {
+            "enabled": true,
+            "state": "Ready",
+            "condition": "@ready"
+        },
+        "customFieldUpdates": {
+            "updates": {
+            "System.Description": "**Feature Name:** {feature-name} {br} **Feature Description:** {feature-description} {br} **Feature File Name:** {feature-file-name} {br} **Feature File Folder:** {feature-file-folder} {br} **Feature File Path:** {feature-file-path}"
+            },
+            "multiSuitePublishTestResults": {
+            "enabled": true,
+            "testPlanId": 18304,
+            "includeSubSuites": true 
+            }
+        }       
+        }
+}
