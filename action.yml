@@ -70,7 +70,7 @@ outputs:
     value: ${{ steps.ado_run_step.outputs.ADO_RUN_URL }}
     description: ADO Test Run URL
   cucumber_pr_url:
-    value: ${{ steps.ado_run_step.outputs.PR_URL }}
+    value: ${{ steps.pr_url_step.outputs.CUCUMBER_PR_URL }}
     description: Cucumber PR URL
 
 runs:
@@ -248,9 +248,10 @@ runs:
 
       - name: Publish Build/Job Summary - PR URL
         if: ${{ inputs.test_cases_sync == 'true' }}
+        id: pr_url_step
         shell: bash
         run: |
-          echo "##[set-output name=PR_URL;]${{ steps.create_pr.outputs.pull-request-url }}"
+          echo "##[set-output name=CUCUMBER_PR_URL;]${{ steps.create_pr.outputs.pull-request-url }}"
           cat >> pr-url.md << EOF
               Cucumber PR URL:  ${{ steps.create_pr.outputs.pull-request-url }}
           EOF
