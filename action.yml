@@ -197,6 +197,7 @@ runs:
           then
               git checkout -b ${{ env.TEMP_CUCUMBER_BRANCH_NAME }}
               git tag -a cucumber -m "cucumber"
+              git add ${{ env.CUCUMBER_PATH }}/
               git commit -m "Updated cucumber branch"
               if [ $GITHUB_REF_NAME == "main" ]
               then
@@ -211,6 +212,7 @@ runs:
               git branch -D ${{ env.TEMP_CUCUMBER_BRANCH_NAME }}
           else
               git checkout -b ${{ env.CUCUMBER_BRANCH_NAME }}
+              git add ${{ env.CUCUMBER_PATH }}/
               git commit -m "Updated Cucumber Feature Files"
               git push --set-upstream origin ${{ env.CUCUMBER_BRANCH_NAME }} --tags
           fi
