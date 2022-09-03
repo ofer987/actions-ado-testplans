@@ -169,7 +169,7 @@ runs:
           ls -R
 
       - uses: dorny/paths-filter@v2
-        if: ${{ steps.pre-ado-sync.outputs.features == 'true' && inputs.test_cases_sync == 'true' }}
+        if: ${{ inputs.test_cases_sync == 'true' }}
         id: post-ado-sync
         with:
           base: ${{ github.ref }}
