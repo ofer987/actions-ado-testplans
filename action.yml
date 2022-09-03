@@ -101,10 +101,6 @@ runs:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
           publishTestResults.runName: ${{ inputs.test_results_run_name }}-${{ inputs.env }} Environment
-          customFieldUpdates.testPlanId: ${{ inputs.test_plan_id }}
-          publishTestResults.testResult.filePath: ${{ inputs.test_results_path }}
-          publishTestResults.testResult.fileFormat: ${{ inputs.test_results_format }}
-          customFieldUpdates.multiSuitePublishTestResults.testPlanId: ${{ inputs.test_plan_id }}
 
       - name: Download SpecSync License From Artifactory
         shell: bash

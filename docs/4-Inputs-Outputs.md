@@ -10,12 +10,7 @@ This Action defines the following formal inputs.
 | **`test_results_sync`**  | Common | true | false | True to enable TRX Test Results Sync. False to disable.
 | **`ado_pat`**  | Common | true | None | ADO PAT Token. Example ${{ secrets.ADO_PAT }}
 | **`ado_project_url`**  | Common | true | None | ADO ORG URL. example https://dev.azure.com/ORG/PROJECT
-| **`area_path`**  | Common | false | None | ADO Area Path. Example: \\Release 1 or \\PRODUCT_NAME
 | **`cucumber_path`**  | Test Cases Sync | true | false | Provide path to folder where features are present.
-| **`ado_iteration_path`**  | Common | false | None | ADO Iteration Path. Example: \\Sprint 1 or \\BUSINESS_FUNCTION
-| **`test_result_file_path`**  | Test Results Sync | conditional | - | The path of the test result file (e.g. TRX) file or a folder containing multiple test result files.
-| **`test_result_file_format`**  | Test Results Sync | false | - | The format of the test result file. Please check the Compatibility page for [supported formats](https://specsolutions.gitbook.io/specsync/reference/compatibility#supported-test-result-formats). 
-| **`test_result_run_comment`**  | Test Results Sync | conditional |  GH Action-${{ github.run_id}} | The comment of the created Test Run.
 | **`test_result_run_name`**  | Test Results Sync | conditional | false | GH-Actions-${{ github.run_id }}-${{ env.ENV }} Environment
 | **`test_results_attached_files`**  | Test Results Sync | conditional | none | Semicolon separated list of file paths that should be attached to the test run additionally. (e.g. error1.png;error2.log) Wildcards are currently not supported. if you don't specify this then only test result file will be attached. This in turn you need to configure in your Selenium4, WebDriverIO or Playwright so it can output images with that name. 
 
