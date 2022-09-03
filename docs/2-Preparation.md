@@ -37,6 +37,3 @@ Step# 4
 
 ![Story and Bug Tags](./images/story-bug-tags.jpg)
 
-
-
-
