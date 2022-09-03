@@ -147,9 +147,7 @@ runs:
             done;
 
       - name: Run Test Results Synchronization with out Attachments
-        env:
-          ADO_PROJECT_URL: ${{ inputs.ado_project_url }}      
-        if: ${{ inputs.test_results_sync == 'true' && inputs.test_results_attached_files == '' && always() }}
+        if: ${{ inputs.test_results_sync == 'true' && inputs.test_results_attached_files != 'true' }}
         id: sync_without_attachment
         shell: bash
         run: |
@@ -163,7 +161,7 @@ runs:
       - name: Run Test Results Synchronization with Attachments
         env:
           ADO_PROJECT_URL: ${{ inputs.ado_project_url }}      
-        if: ${{ inputs.test_results_sync == 'true' && inputs.test_results_attached_files != '' && always() }}
+        if: ${{ inputs.test_results_sync == 'true' && inputs.test_results_attached_files == 'true' && always() }}
         id: sync_with_attachment
         shell: bash
         run: |
@@ -187,7 +185,7 @@ runs:
       - name: Publish Build/Job Summary
         env:
           ADO_PROJECT_URL: ${{ inputs.ado_project_url }}
-        if: ${{ inputs.test_cases_sync == 'true' }}
+        if: ${{ inputs.test_results_sync == 'true' }}
         shell: bash
         run: |
           cat >> ado.md << EOF
@@ -196,10 +194,14 @@ runs:
           # Publish Job Summary
           cat ado.md >> $GITHUB_STEP_SUMMARY
         
+      - name: list files 
+        if: always()
+        shell: bash
+        run: |
+          ls -R
+
       - uses: dorny/paths-filter@v2
-        env:
-          ADO_PROJECT_URL: ${{ inputs.ado_project_url }}
-        if: ${{ steps.pre-ado-sync.outputs.features == 'true' && inputs.test_cases_sync == 'true' && always()  }}
+        if: ${{ steps.pre-ado-sync.outputs.features == 'true' && inputs.test_cases_sync == 'true' }}
         id: post-ado-sync
         with:
           base: ${{ github.ref }}
@@ -269,7 +271,6 @@ runs:
           labels: |
             cucumber ado sync
             automated pr
-          milestone: 1
           draft: false
 
       - name: Auto Approve Cucumber ADO Sync PR
