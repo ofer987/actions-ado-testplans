@@ -194,10 +194,9 @@ runs:
           git config --local user.name $GIT_USER_NAME
           git checkout -b ${{ env.CUCUMBER_BRANCH_NAME }}
           git add ${{ env.CUCUMBER_PATH }}/
-          git tag -a cucumber-${{ github.run_id }} -m "cucumber"
           git commit -m "Updated Cucumber Feature Files"
-          git push --set-upstream origin ${{ env.CUCUMBER_BRANCH_NAME }} --tags
-          git checkout ${{ env.GITHUB_REF_NAME }}
+          git push --set-upstream origin ${{ env.CUCUMBER_BRANCH_NAME }}
+          git checkout ${{ github.ref_name }}
 
 
       - name: Create Pull Request
@@ -210,7 +209,7 @@ runs:
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: true
-          base: ${{ env.GITHUB_REF_NAME }}
+          base: ${{ github.ref_name }}
           branch: ${{ inputs.cucumber_branch_name }}
           delete-branch: true
           title: '[Cucumber Azure DevOps Sync] Automated Pull Request'
