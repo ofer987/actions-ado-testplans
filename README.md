@@ -11,10 +11,11 @@
 -   [Sample Screenshots](./docs/3-Action-Screenshots.md)
 -   [Inputs and Outputs](./docs/4-Inputs-Outputs.md)
 -   [Examples](./docs/5-Examples.md)
+-   [SpecSync Config Templates](./docs/specsync-templates)
 -   [SpecSync Documentation](https://specsolutions.gitbook.io/specsync/)
 
 ## Support
 
 Please reach out to Platform Engineering DevOps Experience Team
 -   [Pavan Mudigonda](mailto:nagapavankumar.mudigonda@tr.com)
--   [Thej KM](mailto:thejaswini.madappa@thomsonreuters.com)
+-   [Thej KM](mailto:thejaswini.madappa@tr.com)
