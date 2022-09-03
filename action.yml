@@ -136,7 +136,7 @@ runs:
           #   do
           #     DIR=$(dirname "$line")
           #     cd $DIR
-          cd ${{ inputs.cucumber_path }}
+          # cd ${{ inputs.cucumber_path }}
           dotnet specsync push --user ${{ inputs.ADO_PAT }}
           dotnet specsync pull --user ${{ inputs.ADO_PAT }}
           # done;
