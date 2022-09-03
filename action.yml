@@ -136,9 +136,9 @@ runs:
           cd ${{ inputs.cucumber_path }}
           find . -iname "*specsync.json*" | while read line;
             do
-              line=$(echo $line)
+              line=$(echo $line | sed 's|./||g')
               DIR=$(dirname "$line")
-              cd $DIR
+              cd ../$DIR
               dotnet specsync push;
               dotnet specsync pull;
             done;
