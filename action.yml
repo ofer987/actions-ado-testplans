@@ -132,14 +132,13 @@ runs:
         if: ${{ inputs.test_cases_sync }}
         shell: bash
         run: |
-          # find ${{ inputs.cucumber_path }} -iname "*specsync.json*" | while read line;
-          #   do
-          #     DIR=$(dirname "$line")
-          #     cd $DIR
-          # cd ${{ inputs.cucumber_path }}
-          dotnet specsync push --user ${{ inputs.ADO_PAT }}
-          dotnet specsync pull --user ${{ inputs.ADO_PAT }}
-          # done;
+          find ${{ inputs.cucumber_path }} -iname "*specsync.json*" | while read line;
+            do
+              DIR=$(dirname "$line")
+              cd $DIR
+              dotnet specsync push;
+              dotnet specsync pull;
+            done;
 
       - name: Run Test Results Synchronization with out Attachments
         env:
