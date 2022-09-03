@@ -1,26 +1,15 @@
 
 ## Usage
 
+### 1. Test Cases Sync
+
 [Test Cases Sync - Example workflow](https://github.com/tr/cicd_gh-actions-cucumber-azure-devops-sync/blob/main/.github/workflows/main.yaml)
 
 ```
-name: cucumber-ado-sync
+name: cucumber
 
 on:
-  push:
-    branches:
-      - '**'
-    paths:
-      - '**.feature'
-    tags-ignore:
-      - '**'
-  pull_request:
-    types:
-      - opened
-    branches:
-      - '**'
-    paths:
-      - '**.feature'
+  workflow_dispatch:
       
 jobs:
   test:
@@ -29,16 +18,21 @@ jobs:
       - name: Checkout Git Repo
         uses: actions/checkout@v3
       - name: Cucumber to ADO Sync
-        id: ado_test_cases_specsync
+        id: ado_test_cases_sync
         uses: tr/cicd_gh-actions-cucumber-ado-sync@v1.0
         with:
-            enable_auto_pr_merge: true
+            enable_auto_pr_merge: 'true'
+            test_cases_sync: 'true'
+            test_results_sync: 'false'
             artifactory_user: ${{ secrets.ARTIFACTORY_USER }}
             artifactory_token: ${{ secrets.ARTIFACTORY_TOKEN }}
             ado_pat: ${{ secrets.ADO_PAT }}
             ado_project_url: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training
+            cucumber_path: features
 ```
+### 2. Test Results Sync
 
+Note:- In Order to execute this action and post results to ADO you need to merge the Cucumber branch that has Work item tag numbers.
 
 [Test Results Sync - Example workflow](https://github.com/tr/tech_toc-selenium4-cucumber-sample/blob/main/.github/workflows/main.yml)
 
@@ -46,8 +40,6 @@ jobs:
 name: CI
 on:
   workflow_run:
-    workflows: ["cucumber-ado-sync"]
-    types: [completed]
     branches:
       - '**'
   push:
@@ -89,10 +81,13 @@ jobs:
         if: always()
         uses: tr/cicd_gh-actions-ado-specsync@v1.0
         with:
+          env: QA
           artifactory_token: ${{ secrets.artifactory_token }}
           artifactory_user: ${{ secrets.artifactory_user }}        
           test_cases_sync: false
           test_results_sync: true
           ado_pat: ${{ secrets.ADO_PAT }}
+          test_results_path: "./reports/*.json"
+          test_results_format: "cucumberJson"
 
 ```          
