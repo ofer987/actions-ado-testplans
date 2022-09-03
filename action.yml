@@ -94,7 +94,7 @@ runs:
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         with:
-          files: '${{ inputs.cucumber_path}}/*/specsync.json, ${{ inputs.cucumber_path}}/specsync.json'
+          files: '${{ inputs.cucumber_path}}/*/specsync.json, specsync.json'
         env:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
