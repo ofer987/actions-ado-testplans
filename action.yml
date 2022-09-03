@@ -265,13 +265,13 @@ runs:
             automated pr
           draft: false
 
-      - name: Auto Approve Cucumber ADO Sync PR
-        if: inputs.enable_auto_pr_merge
-        uses: hmarr/auto-approve-action@v2
-        with:
-          pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
-          review-message: "Auto Approved Cucumber ADO Sync Automated PR"
-          github-token: ${{ inputs.github_token }}
+      # - name: Auto Approve Cucumber ADO Sync PR
+      #   if: inputs.enable_auto_pr_merge
+      #   uses: hmarr/auto-approve-action@v2
+      #   with:
+      #     pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
+      #     review-message: "Auto Approved Cucumber ADO Sync Automated PR"
+      #     github-token: ${{ inputs.github_token }}
         
       - name: Auto Merge PR to Main Line
         id: auto_merge
