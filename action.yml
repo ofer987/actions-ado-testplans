@@ -108,6 +108,7 @@ runs:
           ARTIFACTORY_USER: ${{ inputs.artifactory_user }}
         run: |
           curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN} -O 'https://tr1.jfrog.io/artifactory/generic-local/devops-experience/specsync.lic'
+          mv specsync.lic ${{ inputs.cucumber_path }}
           
       - name: Set up .NET 6
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
