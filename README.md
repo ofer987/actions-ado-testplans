@@ -8,10 +8,10 @@
 
 -   [Introduction](./docs/1-Introduction.md)
 -   [Preparation](./docs/2-Preparation.md)
--   [Sample Screenshots](./docs/3-Sample-Screenshots.md)
+-   [Sample Screenshots](./docs/3-Action-Screenshots.md)
 -   [Inputs and Outputs](./docs/4-Inputs-Outputs.md)
--   [Usage](./docs/5-Usage.md)
--   [SpecSync](https://specsolutions.gitbook.io/specsync/)
+-   [Examples](./docs/5-Examples.md)
+-   [SpecSync Documentation](https://specsolutions.gitbook.io/specsync/)
 
 ## Support
 

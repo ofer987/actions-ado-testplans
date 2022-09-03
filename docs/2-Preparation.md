@@ -37,3 +37,16 @@ Step# 4
 
 ![Story and Bug Tags](./images/story-bug-tags.jpg)
 
+## 6. Create GitHub Teams
+This Action creates a PR with updated Cucumber Feature Files with Azure DevOps Work Item Tag#. So we suggest you to do the following to enable auto assignment of PR to your team members.
+- You should create GitHub Teams and enable PR Assignment Rules. Refer [GitHub Teams](https://docs.github.com/en/organizations/organizing-members-into-teams/managing-code-review-settings-for-your-team)
+- You should [link your repo to your GitHub Team](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/managing-teams-and-people-with-access-to-your-repository)
+
+## 7. Configuring Triggers for workflows
+
+- Its suggested to configure Test Case Sync workflow with "workflow_dispatch" so you can trigger as and when required. 
+- If you want to automate trigger, you can set path to trigger when ".feature" files are modified.
+- Make sure to exclude PRs of label "cucumber auto sync" in trigger
+- Make sure to exclude Push of tag "cucumber" in trigger
+- If you don't handle above conditions it will create circular workflows being triggered.
+
