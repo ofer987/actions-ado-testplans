@@ -257,13 +257,3 @@ runs:
           # Publish Job Summary
           cat pr-url.md >> $GITHUB_STEP_SUMMARY
 
-    - name: MS Teams Notify
-      if: ${{ always() }}
-      uses: tr/cicd_gh-actions-notification@v1.1
-      with:
-        WEBHOOK_URL1: ${{ secrets.MS_TEAMS_HOOK }}
-        WEBHOOK_TYPE: TEAMS
-        TEST_ENV: "ADO"
-        CICD_WORKFLOW_VERSION: 1
-        LINK1_NAME: "View Cucumber PR"
-        LINK1_URL: "${{env.PR_URL}}"
