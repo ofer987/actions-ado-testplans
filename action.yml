@@ -186,7 +186,7 @@ runs:
           GITHUB_REF_NAME: ${{ env.GITHUB_REF_NAME }}
           GIT_USER_EMAIL: ${{ inputs.git_user_email }}
           GIT_USER_NAME: ${{ inputs.git_user_name }}
-          cucumber_path: ${{ inputs.cucumber_path }}
+          CUCUMBER_PATH: ${{ inputs.cucumber_path }}
           CUCUMBER_BRANCH_NAME: ${{ inputs.cucumber_branch_name }}
           TEMP_CUCUMBER_BRANCH_NAME: ${{ inputs.temp_cucumber_branch_name }}
           ADO_PROJECT_URL: ${{ inputs.ado_project_url }}
@@ -203,8 +203,8 @@ runs:
                 git stash
               fi
               git checkout ${{ env.CUCUMBER_BRANCH_NAME }}
-              git checkout ${{ env.TEMP_BADGE_BRANCH_NAME }} ${{ env.cucumber_path }}
-              git add ${{ env.cucumber_path }}/
+              git checkout ${{ env.TEMP_BADGE_BRANCH_NAME }} ${{ env.CUCUMBER_PATH }}
+              git add ${{ env.CUCUMBER_PATH }}/
               git tag -a cucumber -m "cucumber"
               git commit -m "Updated Cucumber Feature Files"
               git push --force --tags
