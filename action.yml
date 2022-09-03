@@ -58,7 +58,7 @@ inputs:
   temp_cucumber_branch_name:
     description: 'Default Github Actions Name'
     required: false
-    default: 'temp-cucumber-ado-sync'
+    default: temp-cucumber-ado-sync-${{ github.run_id }}
   test_results_run_name:
     description: 'Test Result - Run NAme'
     required: false
@@ -224,14 +224,6 @@ runs:
         run: |
           git config --local user.email $GIT_USER_EMAIL
           git config --local user.name $GIT_USER_NAME
-          if [ $GITHUB_REF_NAME != "main" ]
-          then
-            git pull --ff -q
-            git add ${{ env.cucumber_path }}
-            git commit -m 'Updated Cucumber Gherkins Features'
-            git push
-          fi
-          git add ${{ env.cucumber_path }}/
           if [ `git branch -r --list "origin/${{ env.CUCUMBER_BRANCH_NAME }}"` ]
           then
               git checkout -b ${{ env.TEMP_CUCUMBER_BRANCH_NAME }}
