@@ -65,6 +65,15 @@ inputs:
   test_results_attached_files:
     description: 'Test Result '
     required: false
+  test_results_path:
+    description: 'Test Results Path'
+    required: false
+  test_results_format:
+    description: 'Test Results Format'
+    required: false
+  test_results_test_plan_id:
+    description: 'Test Results - Test Plan ID '
+    required: false
 outputs:
   ado_test_run_url:
     value: ${{ steps.ado_run_step.outputs.ADO_RUN_URL }}
@@ -91,6 +100,10 @@ runs:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
           publishTestResults.runName: ${{ inputs.test_results_run_name }}-${{ inputs.env }} Environment
+          publishTestResults.testResult.filePath: ${{ inputs.test_results_path }}
+          publishTestResults.testResult.fileFormat: ${{ inputs.test_results_format }}
+          customFieldUpdates.multiSuitePublishTestResults.testPlanId: ${{ inputs.test_results_test_plan_id }}
+          remote.testSuite.testPlanId: ${{ inputs.test_results_test_plan_id }}
 
       - name: Download SpecSync License From Artifactory
         shell: bash
@@ -150,8 +163,8 @@ runs:
                 DIR=$(dirname "$line")
                 echo $DIR
                 cd $DIR
-                dotnet specsync publish-test-results --verbose --zeroExitCodeForWarnings;
-                cat output.txt
+                dotnet specsync publish-test-results --verbose --zeroExitCodeForWarnings > output.txt;
+                cat output.txt;
                 ADO_RUN_NUM_STRING="$( grep 'results as Test Run' output.txt | awk -F'[()]' '{print $2}')";
                 ADO_RUN_NUM="$(echo $ADO_RUN_NUM_STRING | tr -dc '0-9' | sed 's/%//g')";
                 echo "ADO_RUN_URL=${{ inputs.ado_project_url }}/_testManagement/runs?_a=runCharts&runId=${ADO_RUN_NUM}" >> $GITHUB_ENV
