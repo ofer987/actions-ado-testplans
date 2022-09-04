@@ -150,7 +150,8 @@ runs:
                 DIR=$(dirname "$line")
                 echo $DIR
                 cd $DIR
-                dotnet specsync publish-test-results --zeroExitCodeForWarnings > output.txt;
+                dotnet specsync publish-test-results --verbose --zeroExitCodeForWarnings > output.txt;
+                cat output.txt
                 ADO_RUN_NUM_STRING="$( grep 'results as Test Run' output.txt | awk -F'[()]' '{print $2}')";
                 ADO_RUN_NUM="$(echo $ADO_RUN_NUM_STRING | tr -dc '0-9' | sed 's/%//g')";
                 echo "ADO_RUN_URL=${{ inputs.ado_project_url }}/_testManagement/runs?_a=runCharts&runId=${ADO_RUN_NUM}" >> $GITHUB_ENV
@@ -175,7 +176,8 @@ runs:
               echo $DIR
               cd $DIR
               ls
-              dotnet specsync publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} > output.txt;
+              dotnet specsync publish-test-results --verbose --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} > output.txt;
+              cat output.txt
               ADO_RUN_NUM_STRING="$( grep 'results as Test Run' output.txt | awk -F'[()]' '{print $2}')";
               ADO_RUN_NUM="$(echo $ADO_RUN_NUM_STRING | tr -dc '0-9' | sed 's/%//g')";
               echo "ADO_RUN_URL=${{ inputs.ado_project_url }}/_testManagement/runs?_a=runCharts&runId=${ADO_RUN_NUM}" >> $GITHUB_ENV
