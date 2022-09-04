@@ -163,7 +163,7 @@ runs:
                 dotnet specsync publish-test-results --zeroExitCodeForWarnings > output.txt;
                 cat output.txt;
                 ADO_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
-                echo "TEST SUITE RUN URL for ${DIR} : ${ADO_RUN_URL}" >> message.txt
+                printf "TEST SUITE RUN URL for ${DIR} : ${ADO_RUN_URL}" >> message.txt
                 cd ..
             done;
           cat message.txt >> $GITHUB_STEP_SUMMARY
@@ -190,7 +190,7 @@ runs:
                 dotnet specsync publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} > output.txt;
                 cat output.txt
                 ADO_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
-                echo "TEST SUITE RUN URL for ${DIR} : ${ADO_RUN_URL}" >> message.txt
+                printf "TEST SUITE RUN URL for ${DIR} : ${ADO_RUN_URL}" >> message.txt
                 cd ..
             done;
           cat message.txt >> $GITHUB_STEP_SUMMARY
