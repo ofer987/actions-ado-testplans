@@ -150,6 +150,8 @@ runs:
         shell: bash
         run: |
           cd ${{ inputs.cucumber_path }}
+          BUILD_NUM=$(("${{ github.run_number }}"))
+          BUILD_ID=$(("${{ github.run_id }}"))
           SUITE_COUNT=$(tree $DIR_PATH | tail -1 | awk '{print $1}')
           echo "Found $SUITE_COUNT Test Suites" to be syncronized.
           find * -iname "*specsync.json*" | while read line;
@@ -158,7 +160,7 @@ runs:
                 DIR=$(dirname "$line")
                 echo $DIR
                 cd $DIR
-                dotnet specsync publish-test-results --zeroExitCodeForWarnings --buildNumber ${{ github.run_number }} > output.txt;
+                dotnet specsync publish-test-results --zeroExitCodeForWarnings --buildNumber $BUILD_NUM > output.txt;
                 cat output.txt;
                 ADO_RUN_URL=$(grep 'results as Test Run #' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
                 echo "TEST SUITE RUN URL for ${line} : ${ADO_RUN_URL}" >> $GITHUB_STEP_SUMMARY
@@ -171,6 +173,8 @@ runs:
         shell: bash
         run: |
           cd ${{ inputs.cucumber_path }}
+          BUILD_NUM=$(("${{ github.run_number }}"))
+          BUILD_ID=$(("${{ github.run_id }}"))          
           SUITE_COUNT=$(tree $DIR_PATH | tail -1 | awk '{print $1}')
           echo "Found $SUITE_COUNT Test Suites" to be syncronized.
           find * -iname "*specsync.json*" | while read line;
@@ -180,7 +184,7 @@ runs:
               echo $DIR
               cd $DIR
               ls
-              dotnet specsync publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} --buildNumber ${{ github.run_number }} > output.txt;
+              dotnet specsync publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} --buildNumber $BUILD_NUM > output.txt;
               cat output.txt
               ADO_RUN_URL=$(grep 'results as Test Run #' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
               echo "TEST SUITE RUN URL for ${line} : ${ADO_RUN_URL}" >> $GITHUB_STEP_SUMMARY
