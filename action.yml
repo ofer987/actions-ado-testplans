@@ -7,9 +7,6 @@ branding:
   color: 'red'
 
 inputs:
-  github_teams:
-      description: 'GitHub Team Tag. Example @tr/pe-devx'
-      required: false
   env:
     description: 'Test Environment'
     required: false
@@ -54,14 +51,10 @@ inputs:
     description: 'Default Github Actions Name'
     required: false
     default: 'cucumber-ado-sync-${{ github.run_id }}'
-  temp_cucumber_branch_name:
-    description: 'Default Github Actions Name'
-    required: false
-    default: temp-cucumber-ado-sync-${{ github.run_id }}
   test_results_run_name:
     description: 'Test Result - Run NAme'
     required: false
-    default: GH-Actions-${{ github.run_id }}
+    default: GHA-${{ github.run_id }}
   test_results_attached_files:
     description: 'Test Result '
     required: false
@@ -99,7 +92,7 @@ runs:
         env:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
-          publishTestResults.runName: ${{ inputs.test_results_run_name }}-${{ inputs.env }} Environment
+          publishTestResults.runName: ${{ inputs.test_results_run_name }}-${{ inputs.env }} Env
 
       - name: Download SpecSync License From Artifactory
         shell: bash
@@ -160,7 +153,7 @@ runs:
                 DIR=$(dirname "$line")
                 echo $DIR
                 cd $DIR
-                dotnet specsync publish-test-results --zeroExitCodeForWarnings > output.txt;
+                dotnet specsync publish-test-results --zeroExitCodeForWarnings --runName ${{ inputs.test_results_run_name }}-${{ inputs.env }} Env-${DIR} > output.txt;
                 cat output.txt;
                 ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
                 ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
@@ -170,7 +163,7 @@ runs:
             done;
           
       - name: Run Test Results Synchronization with Attachments
-        if: ${{ inputs.test_results_sync == 'true' && inputs.test_results_attached_files == 'true' && always() }}
+        if: ${{ inputs.test_results_sync == 'true' && inputs.test_results_attached_files == 'true' }}
         id: sync_with_attachment
         shell: bash
         run: |
@@ -188,7 +181,7 @@ runs:
                 echo $DIR
                 cd $DIR
                 ls
-                dotnet specsync publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} > output.txt;
+                dotnet specsync publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} --runName ${{ inputs.test_results_run_name }}-${{ inputs.env }} Env-${DIR} > output.txt;
                 cat output.txt
                 ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
                 ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
@@ -268,8 +261,6 @@ runs:
           cat pr-url.md >> $GITHUB_STEP_SUMMARY
 
       - name: Output Test Results URL
-        env:
-          ADO_PROJECT_URL: ${{ inputs.ado_project_url }}
         if: ${{ inputs.test_results_sync == 'true' }}
         id: test_run_step
         shell: bash
