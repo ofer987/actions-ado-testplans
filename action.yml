@@ -163,7 +163,7 @@ runs:
                 cat output.txt;
                 ADO_RUN_URL="$(grep 'results as Test Run #' output.txt | sed 's/.*[(] *//'| sed 's/).//g')"
                 echo "TEST SUITE RUN URL ${SUITE_NUM} : ${JOB_MESSAGE}" >> $GITHUB_STEP_SUMMARY
-                SUITE_NUM+=SUITE_NUM
+                SUITE_NUM=$(( $SUITE_NUM + 1 ))
                 cd ..
             done;
           
@@ -187,7 +187,7 @@ runs:
               cat output.txt
               ADO_RUN_URL="$(grep 'results as Test Run #' output.txt | sed 's/.*[(] *//'| sed 's/).//g')"
               echo "TEST SUITE RUN URL ${SUITE_NUM} : ${JOB_MESSAGE}" >> $GITHUB_STEP_SUMMARY
-              SUITE_NUM+=SUITE_NUM              
+              SUITE_NUM=$(( $SUITE_NUM + 1 ))
               cd ..
             done;
           
@@ -266,7 +266,7 @@ runs:
         id: test_run_step
         shell: bash
         run: |
-          ADO_RUN_URL=$("${{ inputs.ado_project_url }}/_testManagement/runs?_a=runQuery")
+          ADO_RUN_URL=$(${{ inputs.ado_project_url }}/_testManagement/runs?_a=runQuery)
           echo "##[set-output name=ADO_RUN_URL;]${ADO_RUN_URL}"
           echo "ADO TEST RUN URL: ${ADO_RUN_URL}" >> $GITHUB_STEP_SUMMARY
           
