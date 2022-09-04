@@ -150,7 +150,7 @@ runs:
                 DIR=$(dirname "$line")
                 echo $DIR
                 cd $DIR
-                dotnet specsync publish-test-results --verbose --zeroExitCodeForWarnings > output.txt;
+                dotnet specsync publish-test-results --verbose --zeroExitCodeForWarnings;
                 cat output.txt
                 ADO_RUN_NUM_STRING="$( grep 'results as Test Run' output.txt | awk -F'[()]' '{print $2}')";
                 ADO_RUN_NUM="$(echo $ADO_RUN_NUM_STRING | tr -dc '0-9' | sed 's/%//g')";
