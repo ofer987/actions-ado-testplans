@@ -161,7 +161,7 @@ runs:
                 dotnet specsync publish-test-results --zeroExitCodeForWarnings > output.txt;
                 cat output.txt;
                 ADO_RUN_URL=$(grep 'results as Test Run #' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
-                echo "TEST SUITE RUN URL for ${line} : ${ADO_RUN_URL}" >> message.txt
+                echo "TEST SUITE RUN URL for $line : $ADO_RUN_URL" >> $GITHUB_STEP_SUMMARY
                 cd ..
             done;
           
@@ -183,7 +183,7 @@ runs:
               dotnet specsync publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} > output.txt;
               cat output.txt
               ADO_RUN_URL=$(grep 'results as Test Run #' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
-              echo "TEST SUITE RUN URL for ${line} : ${ADO_RUN_URL}" >> message.txt
+              echo "TEST SUITE RUN URL for $line : $ADO_RUN_URL" >> $GITHUB_STEP_SUMMARY
               cd ..
             done;
           
@@ -264,9 +264,8 @@ runs:
         id: test_run_step
         shell: bash
         run: |
-          ADO_RUN_URL=$(echo "${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery")
+          ADO_RUN_URL_EXT="_testManagement/runs?_a=runQuery"
+          ADO_RUN_URL="${ADO_PROJECT_URL}/${ADO_RUN_URL_EXT}"
           echo "##[set-output name=ADO_RUN_URL;]${ADO_RUN_URL}"
-          echo "ADO TEST RUN URL: ${{ env.ADO_RUN_URL }}" >> message.txt
-          cat message.txt >> $GITHUB_STEP_SUMMARY
-
+          echo "ADO TEST RUN URL: ${ADO_RUN_URL}" >> $GITHUB_STEP_SUMMARY
           
