@@ -162,10 +162,11 @@ runs:
                 cd $DIR
                 dotnet specsync publish-test-results --zeroExitCodeForWarnings > output.txt;
                 cat output.txt;
-                ADO_RUN_URL=$(grep 'results as Test Run #' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
-                echo "TEST SUITE RUN URL for ${line} : ${ADO_RUN_URL}" >> $GITHUB_STEP_SUMMARY
+                ADO_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
+                echo "TEST SUITE RUN URL for ${DIR} : ${ADO_RUN_URL}" >> message.txt
                 cd ..
             done;
+          cat message.txt >> $GITHUB_STEP_SUMMARY
           
       - name: Run Test Results Synchronization with Attachments
         if: ${{ inputs.test_results_sync == 'true' && inputs.test_results_attached_files == 'true' && always() }}
@@ -181,17 +182,18 @@ runs:
           echo "Found $SUITE_COUNT Test Suites" to be syncronized.
           find * -iname "*specsync.json*" | while read line;
             do
-              line=$(echo $line)
-              DIR=$(dirname "$line")
-              echo $DIR
-              cd $DIR
-              ls
-              dotnet specsync publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} > output.txt;
-              cat output.txt
-              ADO_RUN_URL=$(grep 'results as Test Run #' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
-              echo "TEST SUITE RUN URL for ${line} : ${ADO_RUN_URL}" >> $GITHUB_STEP_SUMMARY
-              cd ..
+                line=$(echo $line)
+                DIR=$(dirname "$line")
+                echo $DIR
+                cd $DIR
+                ls
+                dotnet specsync publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} > output.txt;
+                cat output.txt
+                ADO_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
+                echo "TEST SUITE RUN URL for ${DIR} : ${ADO_RUN_URL}" >> message.txt
+                cd ..
             done;
+          cat message.txt >> $GITHUB_STEP_SUMMARY
           
       - uses: dorny/paths-filter@v2
         if: ${{ inputs.test_cases_sync == 'true' }}
