@@ -154,7 +154,6 @@ runs:
           echo "Found $SUITE_COUNT Test Suites" to be syncronized.
           find * -iname "*specsync.json*" | while read line;
             do
-                SUITE_NUM=1
                 line=$(echo $line)
                 DIR=$(dirname "$line")
                 echo $DIR
@@ -162,8 +161,7 @@ runs:
                 dotnet specsync publish-test-results --zeroExitCodeForWarnings > output.txt;
                 cat output.txt;
                 ADO_RUN_URL=$(grep 'results as Test Run #' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
-                echo "TEST SUITE RUN URL ${SUITE_NUM} : ${JOB_MESSAGE}" >> $GITHUB_STEP_SUMMARY
-                SUITE_NUM=$(( $SUITE_NUM + 1 ))
+                echo "TEST SUITE RUN URL for ${line} : ${JOB_MESSAGE}" >> $GITHUB_STEP_SUMMARY
                 cd ..
             done;
           
@@ -177,7 +175,6 @@ runs:
           echo "Found $SUITE_COUNT Test Suites" to be syncronized.
           find * -iname "*specsync.json*" | while read line;
             do
-              SUITE_NUM=1
               line=$(echo $line)
               DIR=$(dirname "$line")
               echo $DIR
@@ -186,8 +183,7 @@ runs:
               dotnet specsync publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} > output.txt;
               cat output.txt
               ADO_RUN_URL=$(grep 'results as Test Run #' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
-              echo "TEST SUITE RUN URL ${SUITE_NUM} : ${JOB_MESSAGE}" >> $GITHUB_STEP_SUMMARY
-              SUITE_NUM=$(( $SUITE_NUM + 1 ))
+              echo "TEST SUITE RUN URL for ${line} : ${JOB_MESSAGE}" >> $GITHUB_STEP_SUMMARY
               cd ..
             done;
           
@@ -266,7 +262,7 @@ runs:
         id: test_run_step
         shell: bash
         run: |
-          ADO_RUN_URL=$(${{ inputs.ado_project_url }}/_testManagement/runs?_a=runQuery)
-          echo "##[set-output name=ADO_RUN_URL;]${ADO_RUN_URL}"
+          ADO_RUN_URL=$( )
+          echo "##[set-output name=ADO_RUN_URL;]${{ inputs.ado_project_url }}/_testManagement/runs?_a=runQuery"
           echo "ADO TEST RUN URL: ${ADO_RUN_URL}" >> $GITHUB_STEP_SUMMARY
           
