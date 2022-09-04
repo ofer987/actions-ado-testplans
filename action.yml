@@ -142,7 +142,17 @@ runs:
         id: sync_without_attachment
         shell: bash
         run: |
-          dotnet specsync publish-test-results --zeroExitCodeForWarnings > output.txt;
+          cd ${{ inputs.cucumber_path }}
+          find * -iname "*specsync.json*" | while read line;
+            do
+              line=$(echo $line)
+              DIR=$(dirname "$line")
+              echo $DIR
+              cd $DIR
+              ls
+              dotnet specsync publish-test-results --zeroExitCodeForWarnings >> output.txt;
+              cd ..
+            done;
           ADO_RUN_NUM_STRING="$( grep 'results as Test Run' output.txt | awk -F'[()]' '{print $2}')";
           ADO_RUN_NUM="$(echo $ADO_RUN_NUM_STRING | tr -dc '0-9' | sed 's/%//g')";
           echo ADO_RUN_NUM=$ADO_RUN_NUM >> $GITHUB_ENV
@@ -155,11 +165,22 @@ runs:
         id: sync_with_attachment
         shell: bash
         run: |
-          dotnet specsync publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} > output.txt;
+          cd ${{ inputs.cucumber_path }}
+          find * -iname "*specsync.json*" | while read line;
+            do
+              line=$(echo $line)
+              DIR=$(dirname "$line")
+              echo $DIR
+              cd $DIR
+              ls
+              dotnet specsync publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} >> output.txt;
+              cd ..
+            done;        
           ADO_RUN_NUM_STRING="$( grep 'results as Test Run' output.txt | awk -F'[()]' '{print $2}')";
           ADO_RUN_NUM="$(echo $ADO_RUN_NUM_STRING | tr -dc '0-9' | sed 's/%//g')";
           echo ADO_RUN_NUM=$ADO_RUN_NUM >> $GITHUB_ENV;
           echo "##[set-output name=ADO_RUN_NUM;]${{ env.ADO_RUN_NUM }}";        
+          
       - name: list files 
         if: always()
         shell: bash
