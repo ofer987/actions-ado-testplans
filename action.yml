@@ -144,14 +144,25 @@ runs:
         id: sync_without_attachment
         shell: bash
         run: |
-          cd ${{ inputs.cucumber_path }}
+           cd ${{ inputs.cucumber_path }}
           SUITE_COUNT=$(tree $DIR_PATH | tail -1 | awk '{print $1}')
-          echo "Found $SUITE_COUNT Test Suites" to be syncronized.          
-          dotnet specsync publish-test-results --zeroExitCodeForWarnings >> output.txt;
-          ADO_RUN_NUM_STRING="$( grep 'results as Test Run' output.txt | awk -F'[()]' '{print $2}')";
-          ADO_RUN_NUM="$(echo $ADO_RUN_NUM_STRING | tr -dc '0-9' | sed 's/%//g')";
-          echo ADO_RUN_NUM=$ADO_RUN_NUM >> $GITHUB_ENV
-          echo "##[set-output name=ADO_RUN_NUM;]${ADO_RUN_NUM}";
+          echo "Found $SUITE_COUNT Test Suites" to be syncronized.
+          find * -iname "*specsync.json*" | while read line;
+            do
+              SUITE_NUM=1
+              line=$(echo $line)
+              DIR=$(dirname "$line")
+              echo $DIR
+              cd $DIR
+              ls
+              dotnet specsync publish-test-results --zeroExitCodeForWarnings > output.txt;
+              ADO_RUN_NUM_STRING="$( grep 'results as Test Run' output.txt | awk -F'[()]' '{print $2}')";
+              ADO_RUN_NUM="$(echo $ADO_RUN_NUM_STRING | tr -dc '0-9' | sed 's/%//g')";
+              echo "ADO_RUN_URL=${{ inputs.ado_project_url }}/_testManagement/runs?_a=runCharts&runId=$ADO_RUN_NUM" >> $GITHUB_ENV
+              echo "Pull Request URL - ${{ steps.create_pr.outputs.pull-request-url }}"
+              echo "Test Suite Run URL $SUITE_COUNT: $ADO_RUN_URL" >> $GITHUB_STEP_SUMMARY
+              cd ..
+            done;
           
       - name: Run Test Results Synchronization with Attachments
         env:
@@ -171,7 +182,7 @@ runs:
               echo $DIR
               cd $DIR
               ls
-              dotnet specsync publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} >> output.txt;
+              dotnet specsync publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} > output.txt;
               ADO_RUN_NUM_STRING="$( grep 'results as Test Run' output.txt | awk -F'[()]' '{print $2}')";
               ADO_RUN_NUM="$(echo $ADO_RUN_NUM_STRING | tr -dc '0-9' | sed 's/%//g')";
               echo "ADO_RUN_URL=${{ inputs.ado_project_url }}/_testManagement/runs?_a=runCharts&runId=$ADO_RUN_NUM" >> $GITHUB_ENV
