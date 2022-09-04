@@ -49,7 +49,7 @@ inputs:
   cucumber_path:
     description: 'Cucumber Path'
     required: false
-    default: './cucumber'    
+    default: 'features'    
   cucumber_branch_name:
     description: 'Default Github Actions Name'
     required: false
