@@ -259,7 +259,7 @@ runs:
 
       - name: Output Test Results URL
         env:
-          ADO_PROJECT_URL: {{ inputs.ado_project_url }}
+          ADO_PROJECT_URL: ${{ inputs.ado_project_url }}
         if: ${{ inputs.test_results_sync == 'true' }}
         id: test_run_step
         shell: bash
