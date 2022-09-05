@@ -51,6 +51,10 @@ inputs:
     description: 'Default Github Actions Name'
     required: false
     default: 'cucumber-ado-sync-${{ github.run_id }}'
+  temp_cucumber_branch_name:
+    description: 'Default Github Actions Name'
+    required: false
+    default: 'temp-cucumber-ado-sync-${{ github.run_id }}'    
   test_results_run_name:
     description: 'Test Result - Run NAme'
     required: false
@@ -198,7 +202,6 @@ runs:
         shell: bash
         run: |
           cat ${{ inputs.cucumber_path }}/*/*.feature
-          cat ${{ inputs.cucumber_path }}/*/*.feature
           
       #  Commit Cucumber Feature Files to triggering branch or cucumber-ado-sync branch
       - name: Commit updates feature files
@@ -214,11 +217,34 @@ runs:
         run: |
           git config --local user.email $GIT_USER_EMAIL
           git config --local user.name $GIT_USER_NAME
-          git checkout -b ${{ env.CUCUMBER_BRANCH_NAME }}
+
+          if [ $GITHUB_REF_NAME != "main" ]
+          then
+            git pull --ff -q
+            git add **.feature
+            git commit -m 'Updated cucumber feature files with ADO Tags'
+            git push
+          fi
           git add **.feature
-          git commit -m "Updated Cucumber Feature Files"
-          git push --set-upstream origin ${{ env.CUCUMBER_BRANCH_NAME }}
-          git checkout ${{ github.ref_name }}
+          if [ `git branch -r --list "origin/${{ env.CUCUMBER_BRANCH_NAME }}"` ]
+          then
+              git checkout -b ${{ env.TEMP_CUCUMBER_BRANCH_NAME }}
+              git commit -m "Updated cucumber feature files with ADO Tags"
+              if [ $GITHUB_REF_NAME == "main" ]
+              then
+                git stash
+              fi
+              git checkout ${{ env.CUCUMBER_BRANCH_NAME }}
+              git checkout ${{ env.TEMP_CUCUMBER_BRANCH_NAME }} **.feature
+              git add **.feature
+              git commit -m "Updated cucumber feature files with ADO Tags"
+              git push --force
+              git branch -D ${{ env.TEMP_CUCUMBER_BRANCH_NAME }}
+          else
+              git checkout -b ${{ env.CUCUMBER_BRANCH_NAME }}
+              git commit -m "Updated cucumber feature files with ADO Tags"
+              git push --set-upstream origin ${{ env.CUCUMBER_BRANCH_NAME }}
+          fi
 
       - name: Create Pull Request
         id: create_pr
