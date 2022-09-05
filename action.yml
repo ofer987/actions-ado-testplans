@@ -220,7 +220,7 @@ runs:
           git config --local user.email $GIT_USER_EMAIL
           git config --local user.name $GIT_USER_NAME
           git checkout -b ${{ env.CUCUMBER_BRANCH_NAME }}
-          git add "${{ env.CUCUMBER_PATH }}/*/*.feature"
+          git add .
           git commit -m "Updated Cucumber Feature Files"
           git push --set-upstream origin ${{ env.CUCUMBER_BRANCH_NAME }}
           git checkout ${{ github.ref_name }}
