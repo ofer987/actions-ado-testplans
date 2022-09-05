@@ -236,7 +236,7 @@ runs:
           signoff: true
           base: ${{ github.ref_name }}
           branch: ${{ inputs.cucumber_branch_name }}
-          delete-branch: true
+          delete-branch: false
           title: '[Cucumber Azure DevOps Sync] Automated Pull Request'
           body: |
             Updated Features with Azure DevOps Tags
