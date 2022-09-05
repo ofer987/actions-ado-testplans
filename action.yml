@@ -255,7 +255,7 @@ runs:
         run: |
           echo "##[set-output name=CUCUMBER_PR_URL;]${{ steps.create_pr.outputs.pull-request-url }}"
           cat >> pr-url.md << EOF
-              Cucumber PR URL:  ${{ steps.create_pr.outputs.pull-request-url }}
+              [Cucumber PR URL](${{ steps.create_pr.outputs.pull-request-url }})
           EOF
           # Publish Job Summary
           cat pr-url.md >> $GITHUB_STEP_SUMMARY
@@ -268,5 +268,5 @@ runs:
           ADO_RUN_URL_EXT="_testManagement/runs?_a=runQuery"
           ADO_RUN_URL="${ADO_PROJECT_URL}/${ADO_RUN_URL_EXT}"
           echo "##[set-output name=ADO_RUN_URL;]${ADO_RUN_URL}"
-          echo "ADO TEST RUN URL: ${ADO_RUN_URL}" >> $GITHUB_STEP_SUMMARY
+          echo "[ADO TEST RUN URL](${ADO_RUN_URL})" >> $GITHUB_STEP_SUMMARY
           
