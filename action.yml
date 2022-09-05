@@ -217,34 +217,11 @@ runs:
         run: |
           git config --local user.email $GIT_USER_EMAIL
           git config --local user.name $GIT_USER_NAME
-
-          if [ $GITHUB_REF_NAME != "main" ]
-          then
-            git pull --ff -q
-            git add -u '*.feature'
-            git commit -m 'Updated cucumber feature files with ADO Tags'
-            git push
-          fi
-          git add -u '*.feature'
-          if [ `git branch -r --list "origin/${{ env.CUCUMBER_BRANCH_NAME }}"` ]
-          then
-              git checkout -b ${{ env.TEMP_CUCUMBER_BRANCH_NAME }}
-              git commit -m "Updated cucumber feature files with ADO Tags"
-              if [ $GITHUB_REF_NAME == "main" ]
-              then
-                git stash
-              fi
-              git checkout ${{ env.CUCUMBER_BRANCH_NAME }}
-              git checkout ${{ env.TEMP_CUCUMBER_BRANCH_NAME }} ${{ inputs.cucumber_path }}
-              git add -u '*.feature'
-              git commit -m "Updated cucumber feature files with ADO Tags"
-              git push --force
-              git branch -D ${{ env.TEMP_CUCUMBER_BRANCH_NAME }}
-          else
-              git checkout -b ${{ env.CUCUMBER_BRANCH_NAME }}
-              git commit -m "Updated cucumber feature files with ADO Tags"
-              git push --set-upstream origin ${{ env.CUCUMBER_BRANCH_NAME }}
-          fi
+          git checkout -b ${{ env.CUCUMBER_BRANCH_NAME }}
+          git add -u '**.feature'
+          git commit -m "Updated cucumber feature files with ADO Tags"
+          git push --set-upstream origin ${{ env.CUCUMBER_BRANCH_NAME }}
+          git switch ${{ github.ref_name }}
 
       - name: Create Pull Request
         id: create_pr
@@ -256,7 +233,6 @@ runs:
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: true
-          base: ${{ github.ref_name }}
           branch: ${{ inputs.cucumber_branch_name }}
           delete-branch: true
           title: '[Cucumber Azure DevOps Sync] Automated Pull Request'
@@ -275,11 +251,7 @@ runs:
         shell: bash
         run: |
           echo "##[set-output name=CUCUMBER_PR_URL;]${{ steps.create_pr.outputs.pull-request-url }}"
-          cat >> pr-url.md << EOF
-              [Cucumber PR URL](${{ steps.create_pr.outputs.pull-request-url }})
-          EOF
-          # Publish Job Summary
-          cat pr-url.md >> $GITHUB_STEP_SUMMARY
+          echo "Cucumber PR URL: ${{ steps.create_pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
 
       - name: Output Test Results URL
         if: ${{ inputs.test_results_sync == 'true' }}
@@ -289,5 +261,5 @@ runs:
           ADO_RUN_URL_EXT="_testManagement/runs?_a=runQuery"
           ADO_RUN_URL="${ADO_PROJECT_URL}/${ADO_RUN_URL_EXT}"
           echo "##[set-output name=ADO_RUN_URL;]${ADO_RUN_URL}"
-          echo "[ADO TEST RUN URL](${ADO_RUN_URL})" >> $GITHUB_STEP_SUMMARY
+          echo "ADO TEST RUN URL: ${ADO_RUN_URL}" >> $GITHUB_STEP_SUMMARY
           
