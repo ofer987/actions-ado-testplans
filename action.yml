@@ -197,7 +197,7 @@ runs:
           base: ${{ github.ref }}
           filters: |
             features:
-              - '${{ inputs.cucumber_path }}/**'
+              - added|modified: '*.feature'
 
       #  Commit Cucumber Feature Files to triggering branch or cucumber-ado-sync branch
       - name: Commit updates feature files
