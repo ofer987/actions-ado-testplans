@@ -1,75 +1,73 @@
 {
-"$schema": "https://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
-"compatibilityVersion": "3.3",
-"toolSettings": {
-    "licensePath": "specsync.lic",
-    "disableStats": true,
-    "outputLevel": "normal"
-},   
-"remote": {
-    "projectUrl": "NO_NEED_TO_MODIFY_TAKEN_CARE_BY_GH_ACTION",
-    "user":"NO_NEED_TO_MODIFY_TAKEN_CARE_BY_GH_ACTION"
-},
+    "$schema": "https://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
+    "compatibilityVersion": "3.3",
+    "toolSettings": {
+        "licensePath": "specsync.lic",
+        "disableStats": true,
+        "outputLevel": "normal"
+    },
+    "remote": {
+        "projectUrl": "https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training",
+        "user": "token"
+    },
     "publishTestResults": {
         "testConfiguration": {
             "name": "Linux-X64"
         },
         "testResult": {
-        "filePath": "cucumber.json",
-        "fileFormat": "cucumberJson"
+            "filePath": "../reports/cucumber-report.json",
+            "fileFormat": "cucumberJson"
         },
-        "treatInconclusiveAs":"NotExecuted",
+        "treatInconclusiveAs": "NotExecuted",
         "createSubResults": true,
-        "runName": "test",
+        "runName": "GHA-2995833570-QA Env",
         "runType": "automated",
         "runComment": "test",
         "testResultComment": "As Expected"
-        },               
+    },
     "synchronization": {
-        "attachments": { "enabled": false,
-        "baseFolder": "src/attachments"
+        "attachments": {
+            "enabled": false,
+            "baseFolder": "features"
         },
         "disableLocalChanges": false,
         "testCaseTagPrefix": "TC",
-    
         "pull": {
-        "enabled": true,
-        "enableCreatingScenariosForNewTestCases": true
+            "enabled": true,
+            "enableCreatingScenariosForNewTestCases": true
         },
-    
         "automation": {
-        "enabled": true,
-        "condition": "not @manual"
+            "enabled": true,
+            "condition": "not @manual"
         },
-    
         "state": {
-        "setValueOnChangeTo": "Design"
+            "setValueOnChangeTo": "Design"
         },
         "areaPath": {
             "mode": "setOnLink",
             "value": "\\Release 1"
-            },
-            "iterationPath": {
+        },
+        "iterationPath": {
             "mode": "setOnLink",
             "value": "\\Sprint 1"
-            },        
-        "links": [
-        {
-            "targetWorkItemType": "ProductBacklogItem",
-            "tagPrefix": "story",
-            "relationship": "Parent",
-            "mode": "createIfMissing"
         },
-        {
-            "tagPrefix": "bug"
-        }
+        "links": [
+            {
+                "targetWorkItemType": "ProductBacklogItem",
+                "tagPrefix": "story",
+                "relationship": "Parent",
+                "mode": "createIfMissing"
+            },
+            {
+                "tagPrefix": "bug"
+            }
         ],
         "format": {
-        "useExpectedResult": false,
-        "syncDataTableAsText": false,
-        "prefixBackgroundSteps": true,
-        "prefixTitle": true,
-        "showParameterListStep": "whenUnusedParameters"
+            "useExpectedResult": false,
+            "syncDataTableAsText": false,
+            "prefixBackgroundSteps": true,
+            "prefixTitle": true,
+            "showParameterListStep": "whenUnusedParameters"
         }
     },
     "customizations": {
@@ -78,26 +76,31 @@
         },
         "ignoreTestCaseSteps": {
             "enabled": true,
-            "ignoredPrefixes": [ "COMMENT" ]
+            "ignoredPrefixes": [
+                "COMMENT"
+            ]
         },
         "ignoreTestCaseTags": {
             "enabled": true,
-            "tags": [ "ignore" ]
-        },  
+            "tags": [
+                "ignore"
+            ]
+        },
         "resetTestCaseState": {
             "enabled": true,
             "state": "Ready",
             "condition": "@ready"
         },
         "customFieldUpdates": {
+            "true": true,
             "updates": {
-            "System.Description": "**Feature Name:** {feature-name} {br} **Feature Description:** {feature-description} {br} **Feature File Name:** {feature-file-name} {br} **Feature File Folder:** {feature-file-folder} {br} **Feature File Path:** {feature-file-path}"
+                "System.Description": "Synchronized by GHActions tr/cicd_gh-actions-cucumber-ado-sync {br} Feature Name: {feature-name} {br} Feature Description: {feature-description} {br} Feature File Name: {feature-file-name} {br} Feature File Folder: {feature-file-folder} {br} Feature File Path: {feature-file-path}"
             },
             "multiSuitePublishTestResults": {
-            "enabled": true,
-            "testPlanId": 18304,
-            "includeSubSuites": true 
+                "enabled": true,
+                "testPlanId": 17369,
+                "includeSubSuites": true
             }
-        }       
         }
+    }
 }

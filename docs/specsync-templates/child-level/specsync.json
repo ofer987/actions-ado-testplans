@@ -1,25 +1,22 @@
 {
-    "$schema": "https://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
-    "compatibilityVersion": "3.3",
-    "toolSettings": {
-      "parentConfig": "../specsync-parent.json", // in the same folder as the user-specific setting
+  "$schema": "https://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
+  "compatibilityVersion": "3.3",
+  "toolSettings": {
+      "parentConfig": "../specsync-parent.json",
       "ignoreParentConfig": false
-    },    
-    "local": {
+  },
+  "local": {
       "featureFileSource": {
-      "type": "folder",
-      "folder": "./"
+          "type": "folder",
+          "folder": "./"
       },
-      "defaultFeatureLanguage":"en-US"
-  },    
-    //
-    // See configuration options and samples at https://speclink.me/specsync-config.
-    //
-    "remote": {
-      "projectUrl": "NO_NEED_TO_MODIFY_TAKEN_CARE_BY_GH_ACTION",
+      "defaultFeatureLanguage": "en-US"
+  },
+  "remote": {
+      "projectUrl": "https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training",
       "testSuite": {
-        "testPlanId": 18304,
-        "name": "attribute" 
+          "testPlanId": 17369,
+          "name": "outline"
       }
-    }
   }
+}
