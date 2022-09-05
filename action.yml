@@ -225,7 +225,6 @@ runs:
 
       - name: Create Pull Request
         id: create_pr
-        if: steps.create_branch.outcome == 'success'
         uses: peter-evans/create-pull-request@v4
         with:
           add-paths: '**.feature'
