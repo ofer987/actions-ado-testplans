@@ -132,7 +132,6 @@ runs:
               echo $DIR
               cd $DIR
               ls
-              dotnet specsync push;
               dotnet specsync pull;
               cd ..
             done;
