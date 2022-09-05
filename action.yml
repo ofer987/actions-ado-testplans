@@ -131,6 +131,7 @@ runs:
               ls
               dotnet specsync push;
               dotnet specsync pull;
+              cd ${{ github.workspace }}
             done;
 
       - name: Run Test Results Synchronization with out Attachments
@@ -152,7 +153,7 @@ runs:
                 ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
                 echo "##[set-output name=ADO_SUITE_RUN_URL;]${ADO_SUITE_RUN_URL}"
                 echo "TEST SUITE RUN URL for ${DIR} : ${ADO_SUITE_RUN_URL}" >> $GITHUB_STEP_SUMMARY
-                cd ..
+                cd ${{ github.workspace }}
             done;        
 
       - name: Run Test Results Synchronization with Attachments
@@ -177,7 +178,7 @@ runs:
                 ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
                 echo "##[set-output name=ADO_SUITE_RUN_URL;]${ADO_SUITE_RUN_URL}"
                 echo "TEST SUITE RUN URL for ${DIR} : ${ADO_SUITE_RUN_URL}" >> $GITHUB_STEP_SUMMARY
-                cd ..
+                cd ${{ github.workspace }}
             done;
 
       - name: Erase SpecSync License Files
