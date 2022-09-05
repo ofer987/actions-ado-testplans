@@ -189,7 +189,12 @@ runs:
                 echo "TEST SUITE RUN URL for ${DIR} : ${ADO_SUITE_RUN_URL}" >> $GITHUB_STEP_SUMMARY
                 cd ..
             done;
-          
+
+      - name: Erase SpecSync License Files
+        if: always()
+        shell: bash
+        run: rm -rf ${{ inputs.cucumber_path }}/specsync.lic
+        
       - uses: dorny/paths-filter@v2
         if: ${{ inputs.test_cases_sync == 'true' }}
         id: post-ado-sync
@@ -242,11 +247,6 @@ runs:
             cucumber ado sync
             automated pr
           draft: false
-          
-      - name: Erase SpecSync License Files
-        if: always()
-        shell: bash
-        run: rm -rf ${{ inputs.cucumber_path }}/specsync.lic
 
       - name: Publish Build/Job Summary - PR URL
         if: ${{ inputs.test_cases_sync == 'true' }}
