@@ -18,10 +18,9 @@ jobs:
       - name: Checkout Git Repo
         uses: actions/checkout@v3
       - name: Cucumber to ADO Sync
-        id: ado_test_cases_sync
+        id: ado_sync
         uses: tr/cicd_gh-actions-cucumber-ado-sync@v1.0
         with:
-            enable_auto_pr_merge: 'true'
             test_cases_sync: 'true'
             test_results_sync: 'false'
             artifactory_user: ${{ secrets.ARTIFACTORY_USER }}
@@ -29,6 +28,17 @@ jobs:
             ado_pat: ${{ secrets.ADO_PAT }}
             ado_project_url: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training
             cucumber_path: features
+
+      - name: MS Teams Notify
+        if: ${{ always() }}
+        uses: tr/cicd_gh-actions-notification@v1.0
+        with:
+          WEBHOOK_URL: ${{ secrets.MS_TEAMS_HOOK }}
+          WEBHOOK_TYPE: TEAMS
+          TEST_ENV: "ADO"
+          CICD_WORKFLOW_VERSION: 1
+          LINK1_NAME: "View Cucumber PR"
+          LINK1_URL: "${{ steps.ado_sync.outputs.cucumber_pr_url }}"
 ```
 ### 2. Test Results Sync
 
@@ -37,55 +47,77 @@ Note:- In Order to execute this action and post results to ADO you need to merge
 [Test Results Sync - Example workflow](https://github.com/tr/tech_toc-selenium4-cucumber-sample/blob/main/.github/workflows/main.yml)
 
 ```
-name: CI
+name: Test 
+
+env:
+  CI: true
+  DEBUG: pw:api
+
 on:
-  workflow_run:
-    branches:
-      - '**'
-  push:
-    branches:
-      - '**'
-    paths-ignore:
-      - '**.md'
-    tags-ignore:
-      - '**'
+  workflow_dispatch:
+    
 jobs:
-  build:
+
+  run:
+    strategy: 
+      matrix:
+        node: [ '18' ]
     runs-on: ubuntu-latest
+
     steps:
-      # Check out repo at latest commit
-      - name: Checkout Git Repo
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: ${{ github.ref_name }}
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node }}
 
-      - name: Set up .NET 6
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: "6.0.104"
-          
-      - name: Build with Dotnet
-        shell: sh
-        run: |
-          cd webapp;
-          dotnet build;
-      - name: DOTNET Test
-        shell: sh
-        run: |
-          cd webapp;
-          dotnet test --logger "trx;LogFileName=test-results.trx";          
+    - name: npm ci
+      run: npm ci
 
-      - name: Cucumber to ADO Test Results Sync
-        id: ado_test_results_specsync
-        if: always()
-        uses: tr/cicd_gh-actions-ado-specsync@v1.0
-        with:
-          env: QA
-          artifactory_token: ${{ secrets.artifactory_token }}
-          artifactory_user: ${{ secrets.artifactory_user }}        
-          test_cases_sync: false
-          test_results_sync: true
-          ado_pat: ${{ secrets.ADO_PAT }}
+    - name: install Playwright
+      run: |
+        mkdir reports
+        npx playwright install --with-deps
 
+    - name: run features
+      run: npm run test
+
+    - uses: deblockt/cucumber-report-annotations-action@v1.7
+      if: always()
+      with:
+        access-token: ${{ secrets.GITHUB_TOKEN }}
+        path: "reports/cucumber-report.json"
+                  
+    - name: GH Pages Push
+      uses: tr/cicd_gh-actions-gh-pages@v1.0
+      with:
+        test_results: reports
+        keep_reports: 20
+        workflow_id: test.yml
+
+    - name: Cucumber to ADO Test Results Sync
+      id: ado_sync
+      if: always()
+      uses: tr/cicd_gh-actions-cucumber-ado-sync@v1.0
+      with:
+        env: QA
+        artifactory_token: ${{ secrets.ARTIFACTORY_TOKEN }}
+        artifactory_user: ${{ secrets.ARTIFACTORY_USER }}        
+        test_cases_sync: false
+        test_results_sync: true
+        ado_pat: ${{ secrets.ADO_PAT }}
+        cucumber_path: features
+        ado_project_url: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training
+
+    - name: MS Teams Notify
+      if: ${{ always() }}
+      uses: tr/cicd_gh-actions-notification@v1.0
+      with:
+        WEBHOOK_URL: ${{ secrets.MS_TEAMS_HOOK }}
+        WEBHOOK_TYPE: TEAMS
+        TEST_ENV: "QA"
+        CICD_WORKFLOW_VERSION: 1
+        LINK1_NAME: "View HTML Test Results"
+        LINK1_URL: "${{env.GH_PAGES_URL}}${{ github.run_number }}/index.html"
+        LINK2_NAME: "View ADO Test Run"
+        LINK2_URL: "${{ steps.ado_sync.outputs.ADO_RUN_URL }}"
 ```          
