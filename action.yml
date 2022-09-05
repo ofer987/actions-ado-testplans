@@ -126,7 +126,7 @@ runs:
         if: ${{ inputs.test_cases_sync }}
         shell: bash
         run: |
-          find . -iname "*.feature*" | while read line;
+          find . -iname -path ${{ inputs.cucumber_path }} "*.feature*" | while read line;
             do
               line=$(echo $line)
               DIR=$(dirname "$line")
@@ -145,7 +145,7 @@ runs:
         run: |
           BUILD_NUM=$(("${{ github.run_number }}"))
           BUILD_ID=$(("${{ github.run_id }}"))
-          find . -iname "*specsync.json*" | while read line;
+          find . -iname -path ${{ inputs.cucumber_path }} "*.feature*" | while read line;
             do
                 line=$(echo $line)
                 DIR=$(dirname "$line")
@@ -169,7 +169,7 @@ runs:
           BUILD_ID=${{ github.run_id }}
           BUILD_NUM=$((BUILD_NUM))
           BUILD_ID=$((BUILD_ID))
-          find . -iname "*.feature*" | while read line;
+          find . -iname -path ${{ inputs.cucumber_path }} "*.feature*" | while read line;
             do
                 line=$(echo $line)
                 DIR=$(dirname "$line")
@@ -202,26 +202,6 @@ runs:
         shell: bash
         run: |
           cat ${{ inputs.cucumber_path }}/*/*.feature
-          
-      # #  Commit Cucumber Feature Files to triggering branch or cucumber-ado-sync branch
-      # - name: Commit updates feature files
-      #   id: create_branch
-      #   if: ${{ steps.post-ado-sync.outputs.features == 'true' && inputs.test_cases_sync == 'true' }}
-      #   shell: bash
-      #   env:
-      #     GITHUB_REF_NAME: ${{ env.GITHUB_REF_NAME }}
-      #     GIT_USER_EMAIL: ${{ inputs.git_user_email }}
-      #     GIT_USER_NAME: ${{ inputs.git_user_name }}
-      #     CUCUMBER_PATH: ${{ inputs.cucumber_path }}
-      #     CUCUMBER_BRANCH_NAME: ${{ inputs.cucumber_branch_name }}
-      #   run: |
-      #     git config --local user.email $GIT_USER_EMAIL
-      #     git config --local user.name $GIT_USER_NAME
-      #     git checkout -b ${{ env.CUCUMBER_BRANCH_NAME }}
-      #     git add -u '**.feature'
-      #     git commit -m "Updated cucumber feature files with ADO Tags"
-      #     git push --set-upstream origin ${{ env.CUCUMBER_BRANCH_NAME }}
-      #     git switch ${{ github.ref_name }}
 
       - name: Create Pull Request
         id: create_pr
