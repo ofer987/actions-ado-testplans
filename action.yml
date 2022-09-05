@@ -194,7 +194,7 @@ runs:
         if: ${{ inputs.test_cases_sync == 'true' }}
         id: post-ado-sync
         with:
-          base: ${{ github.ref }}
+          base: HEAD
           filters: |
             features:
               - added|modified: '*.feature'
