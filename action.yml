@@ -126,7 +126,7 @@ runs:
         if: ${{ inputs.test_cases_sync }}
         shell: bash
         run: |
-          find . -iname -path ${{ inputs.cucumber_path }} "*.feature*" | while read line;
+          find ${{ inputs.cucumber_path }} -type f -name "*.feature" | while read line;
             do
               line=$(echo $line)
               DIR=$(dirname "$line")
@@ -145,7 +145,7 @@ runs:
         run: |
           BUILD_NUM=$(("${{ github.run_number }}"))
           BUILD_ID=$(("${{ github.run_id }}"))
-          find . -iname -path ${{ inputs.cucumber_path }} "*.feature*" | while read line;
+          find ${{ inputs.cucumber_path }} -type f -name "*.feature" | while read line;
             do
                 line=$(echo $line)
                 DIR=$(dirname "$line")
@@ -169,7 +169,7 @@ runs:
           BUILD_ID=${{ github.run_id }}
           BUILD_NUM=$((BUILD_NUM))
           BUILD_ID=$((BUILD_ID))
-          find . -iname -path ${{ inputs.cucumber_path }} "*.feature*" | while read line;
+          find ${{ inputs.cucumber_path }} -type f -name "*.feature" | while read line;
             do
                 line=$(echo $line)
                 DIR=$(dirname "$line")
