@@ -122,18 +122,15 @@ runs:
         if: ${{ inputs.test_cases_sync }}
         shell: bash
         run: |
-          cd ${{ inputs.cucumber_path }}
-          SUITE_COUNT=$(tree $DIR_PATH | tail -1 | awk '{print $1}')
-          echo "Found $SUITE_COUNT Test Suites" to be syncronized.          
-          find * -iname "*specsync.json*" | while read line;
+          find . -iname ".feature*" | while read line;
             do
               line=$(echo $line)
               DIR=$(dirname "$line")
               echo $DIR
               cd $DIR
               ls
+              dotnet specsync push;
               dotnet specsync pull;
-              cd ..
             done;
 
       - name: Run Test Results Synchronization with out Attachments
@@ -141,12 +138,9 @@ runs:
         id: sync_without_attachment
         shell: bash
         run: |
-          cd ${{ inputs.cucumber_path }}
           BUILD_NUM=$(("${{ github.run_number }}"))
           BUILD_ID=$(("${{ github.run_id }}"))
-          SUITE_COUNT=$(tree $DIR_PATH | tail -1 | awk '{print $1}')
-          echo "Found $SUITE_COUNT Test Suites" to be syncronized.
-          find * -iname "*specsync.json*" | while read line;
+          find . -iname "*specsync.json*" | while read line;
             do
                 line=$(echo $line)
                 DIR=$(dirname "$line")
@@ -166,14 +160,11 @@ runs:
         id: sync_with_attachment
         shell: bash
         run: |
-          cd ${{ inputs.cucumber_path }}
           BUILD_NUM=${{ github.run_number }}
           BUILD_ID=${{ github.run_id }}
           BUILD_NUM=$((BUILD_NUM))
           BUILD_ID=$((BUILD_ID))
-          SUITE_COUNT=$(tree $DIR_PATH | tail -1 | awk '{print $1}')
-          echo "Found $SUITE_COUNT Test Suites" to be syncronized.
-          find * -iname "*specsync.json*" | while read line;
+          find . -iname "*.feature*" | while read line;
             do
                 line=$(echo $line)
                 DIR=$(dirname "$line")
@@ -200,7 +191,7 @@ runs:
         with:
           filters: |
             features:
-              - added|deleted|modified: '${{ inputs.cucumber_path}}/*/*.feature'
+              - added|deleted|modified: '**.feature'
 
       #  Commit Cucumber Feature Files to triggering branch or cucumber-ado-sync branch
       - name: Commit updates feature files
@@ -213,12 +204,11 @@ runs:
           GIT_USER_NAME: ${{ inputs.git_user_name }}
           CUCUMBER_PATH: ${{ inputs.cucumber_path }}
           CUCUMBER_BRANCH_NAME: ${{ inputs.cucumber_branch_name }}
-          ADO_PROJECT_URL: ${{ inputs.ado_project_url }}
         run: |
           git config --local user.email $GIT_USER_EMAIL
           git config --local user.name $GIT_USER_NAME
           git checkout -b ${{ env.CUCUMBER_BRANCH_NAME }}
-          git add .
+          git add **.feature
           git commit -m "Updated Cucumber Feature Files"
           git push --set-upstream origin ${{ env.CUCUMBER_BRANCH_NAME }}
           git checkout ${{ github.ref_name }}
@@ -235,7 +225,7 @@ runs:
           signoff: true
           base: ${{ github.ref_name }}
           branch: ${{ inputs.cucumber_branch_name }}
-          delete-branch: false
+          delete-branch: true
           title: '[Cucumber Azure DevOps Sync] Automated Pull Request'
           body: |
             Updated Features with Azure DevOps Tags
