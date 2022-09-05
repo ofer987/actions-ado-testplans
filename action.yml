@@ -131,7 +131,6 @@ runs:
               ls
               dotnet specsync push;
               dotnet specsync pull;
-              cat $line
             done;
 
       - name: Run Test Results Synchronization with out Attachments
@@ -194,6 +193,12 @@ runs:
             features:
               - added|deleted|modified: '**.feature'
 
+      - name: cat feature files
+        shell: bash
+        run: |
+          cat ${{ inputs.cucumber_path }}/*/*.feature
+          cat ${{ inputs.cucumber_path }}/*/*.feature
+          
       #  Commit Cucumber Feature Files to triggering branch or cucumber-ado-sync branch
       - name: Commit updates feature files
         id: create_branch
