@@ -199,7 +199,6 @@ runs:
         if: ${{ inputs.test_cases_sync == 'true' }}
         id: post-ado-sync
         with:
-          base: HEAD
           filters: |
             features:
               - added|deleted|modified: '${{ inputs.cucumber_path}}/*/*.feature'
