@@ -203,31 +203,32 @@ runs:
         run: |
           cat ${{ inputs.cucumber_path }}/*/*.feature
           
-      #  Commit Cucumber Feature Files to triggering branch or cucumber-ado-sync branch
-      - name: Commit updates feature files
-        id: create_branch
-        if: ${{ steps.post-ado-sync.outputs.features == 'true' && inputs.test_cases_sync == 'true' }}
-        shell: bash
-        env:
-          GITHUB_REF_NAME: ${{ env.GITHUB_REF_NAME }}
-          GIT_USER_EMAIL: ${{ inputs.git_user_email }}
-          GIT_USER_NAME: ${{ inputs.git_user_name }}
-          CUCUMBER_PATH: ${{ inputs.cucumber_path }}
-          CUCUMBER_BRANCH_NAME: ${{ inputs.cucumber_branch_name }}
-        run: |
-          git config --local user.email $GIT_USER_EMAIL
-          git config --local user.name $GIT_USER_NAME
-          git checkout -b ${{ env.CUCUMBER_BRANCH_NAME }}
-          git add -u '**.feature'
-          git commit -m "Updated cucumber feature files with ADO Tags"
-          git push --set-upstream origin ${{ env.CUCUMBER_BRANCH_NAME }}
-          git switch ${{ github.ref_name }}
+      # #  Commit Cucumber Feature Files to triggering branch or cucumber-ado-sync branch
+      # - name: Commit updates feature files
+      #   id: create_branch
+      #   if: ${{ steps.post-ado-sync.outputs.features == 'true' && inputs.test_cases_sync == 'true' }}
+      #   shell: bash
+      #   env:
+      #     GITHUB_REF_NAME: ${{ env.GITHUB_REF_NAME }}
+      #     GIT_USER_EMAIL: ${{ inputs.git_user_email }}
+      #     GIT_USER_NAME: ${{ inputs.git_user_name }}
+      #     CUCUMBER_PATH: ${{ inputs.cucumber_path }}
+      #     CUCUMBER_BRANCH_NAME: ${{ inputs.cucumber_branch_name }}
+      #   run: |
+      #     git config --local user.email $GIT_USER_EMAIL
+      #     git config --local user.name $GIT_USER_NAME
+      #     git checkout -b ${{ env.CUCUMBER_BRANCH_NAME }}
+      #     git add -u '**.feature'
+      #     git commit -m "Updated cucumber feature files with ADO Tags"
+      #     git push --set-upstream origin ${{ env.CUCUMBER_BRANCH_NAME }}
+      #     git switch ${{ github.ref_name }}
 
       - name: Create Pull Request
         id: create_pr
         if: steps.create_branch.outcome == 'success'
         uses: peter-evans/create-pull-request@v4
         with:
+          add-paths: '**.feature'
           token: ${{ inputs.github_token }}
           commit-message: Updated Features with Azure DevOps Tags
           committer: GitHub <noreply@github.com>
