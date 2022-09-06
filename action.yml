@@ -240,14 +240,7 @@ runs:
         id: test_run_step
         shell: bash
         run: |
-          ADO_RUN_URL_EXT="_testManagement/runs?_a=runQuery"
-          ADO_RUN_URL="${ADO_PROJECT_URL}/${ADO_RUN_URL_EXT}"
-          echo "##[set-output name=ADO_RUN_URL;]${ADO_RUN_URL}"
+          ADO_RUN_URL_EXT="/_testManagement/runs?_a=runQuery"
+          ADO_RUN_URL="${ADO_PROJECT_URL}${ADO_RUN_URL_EXT}"
           echo "ADO TEST RUN URL: ${ADO_RUN_URL}" >> $GITHUB_STEP_SUMMARY
-          
-      - name: Set Output - ADO RUN URL
-        if: ${{ inputs.test_cases_sync == 'true' }}
-        id: ado_run_url_step
-        shell: bash
-        run: |
-          echo "##[set-output name=ADO_RUN_URL;]${{ steps.test_run_step.outputs.ADO_RUN_URL }}"
+          echo "##[set-output name=ADO_RUN_URL;]${ADO_RUN_URL}"
