@@ -240,7 +240,5 @@ runs:
         id: test_run_step
         shell: bash
         run: |
-          ADO_RUN_URL_EXT="/_testManagement/runs?_a=runQuery"
-          ADO_RUN_URL="${ADO_PROJECT_URL}${ADO_RUN_URL_EXT}"
-          echo "ADO TEST RUN URL: ${ADO_RUN_URL}" >> $GITHUB_STEP_SUMMARY
-          echo "##[set-output name=ADO_RUN_URL;]${ADO_RUN_URL}"
+          echo "ADO TEST RUN URL: ${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery" >> $GITHUB_STEP_SUMMARY
+          echo "##[set-output name=ADO_RUN_URL;]${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery"
