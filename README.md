@@ -1,4 +1,4 @@
-# cicd_gh-actions-ado-specsync
+# cicd_gh-actions-cucumber-ado-sync
 
 ## Framework Architecture
 ![Framework](https://github.com/tr/tech-toc_live/blob/35f6ee5bf437ac9731024f7bd5508c359ef97643/content/non-functional/devops-ct/test-automation-strategy/images/tr-e2e-test-framework.jpg)
