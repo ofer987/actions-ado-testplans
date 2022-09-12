@@ -223,7 +223,6 @@ runs:
             [1]: https://github.com/tr/cicd_gh-actions-ado-specsync/actions/runs/${{ github.run_id }}
           labels: |
             cucumber ado sync
-            automated pr
           draft: false
 
       - name: Publish Build/Job Summary - PR URL
