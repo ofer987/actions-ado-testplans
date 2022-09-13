@@ -50,15 +50,15 @@ inputs:
   cucumber_branch_name:
     description: 'Default Github Actions Name'
     required: false
-    default: 'cucumber-ado-sync-${{ github.run_id }}'
+    default: 'cucumber-ado-sync-${{ github.run_number }}'
   temp_cucumber_branch_name:
     description: 'Default Github Actions Name'
     required: false
-    default: 'temp-cucumber-ado-sync-${{ github.run_id }}'    
+    default: 'temp-cucumber-ado-sync-${{ github.run_number }}'    
   test_results_run_name:
     description: 'Test Result - Run NAme'
     required: false
-    default: GHA-${{ github.run_id }}
+    default: GHA-${{ github.run_number }}
   test_results_attached_files:
     description: 'Test Result '
     required: false
