@@ -8,7 +8,7 @@
     },
     "remote": {
         "projectUrl": "https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training",
-        "user": "token"
+        "user": "bnx5z3zcnkxgkkeljwfapwf54ki5qcqb3sagljarurqddhqx6ejq"
     },
     "publishTestResults": {
         "testConfiguration": {
@@ -26,10 +26,6 @@
         "testResultComment": "As Expected"
     },
     "synchronization": {
-        "attachments": {
-            "enabled": false,
-            "baseFolder": "features"
-        },
         "disableLocalChanges": false,
         "testCaseTagPrefix": "TC",
         "pull": {
@@ -92,9 +88,9 @@
             "condition": "@ready"
         },
         "customFieldUpdates": {
-            "true": true,
+            "enabled": true,
             "updates": {
-                "System.Description": "Synchronized by GHActions tr/cicd_gh-actions-cucumber-ado-sync {br} Feature Name: {feature-name} {br} Feature Description: {feature-description} {br} Feature File Name: {feature-file-name} {br} Feature File Folder: {feature-file-folder} {br} Feature File Path: {feature-file-path}"
+                "System.Description": "<b>Synchronized By</b>: GHActions tr/cicd_gh-actions-cucumber-ado-sync <br/> <b>Feature Name</b>: {feature-name} <br/> <b>Feature Description:</b> {feature-description} <br/> <b>Feature File Name:</b> {feature-file-name} <br/> <b>Feature File Folder:</b> {feature-file-folder} <br/> <b>Feature File Path:</b> {feature-file-path}"
             },
             "multiSuitePublishTestResults": {
                 "enabled": true,
