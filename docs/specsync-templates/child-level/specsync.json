@@ -1,22 +1,28 @@
 {
-  "$schema": "https://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
-  "compatibilityVersion": "3.3",
-  "toolSettings": {
-      "parentConfig": "../specsync-parent.json",
-      "ignoreParentConfig": false
-  },
-  "local": {
-      "featureFileSource": {
-          "type": "folder",
-          "folder": "./"
-      },
-      "defaultFeatureLanguage": "en-US"
-  },
-  "remote": {
-      "projectUrl": "https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training",
-      "testSuite": {
-          "testPlanId": 17369,
-          "name": "outline"
-      }
-  }
+    "$schema": "https://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
+    "compatibilityVersion": "3.3",
+    "toolSettings": {
+        "parentConfig": "../specsync-parent.json",
+        "ignoreParentConfig": false
+    },
+    "synchronization": {
+        "attachments": {
+            "enabled": false,
+            "baseFolder": "./attach"
+        }
+    },    
+    "local": {
+        "featureFileSource": {
+            "type": "folder",
+            "folder": "./"
+        },
+        "defaultFeatureLanguage": "en-US"
+    },
+    "remote": {
+        "projectUrl": "https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training",
+        "testSuite": {
+            "testPlanId": 17369,
+            "name": "outline"
+        }
+    }
 }
