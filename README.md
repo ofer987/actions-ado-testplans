@@ -1,7 +1,7 @@
 # cicd_gh-actions-cucumber-ado-sync
 
 ## Framework Architecture
-![Framework](https://github.com/tr/tech-toc_live/blob/35f6ee5bf437ac9731024f7bd5508c359ef97643/content/non-functional/devops-ct/test-automation-strategy/images/tr-e2e-test-framework.jpg)
+![Framework](https://user-images.githubusercontent.com/86745613/192302608-470d522e-24b9-4f35-9df3-bd1cd1a9bb31.png)
 
 
 ## Documentation
