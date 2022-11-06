@@ -17,6 +17,10 @@ jobs:
     - name: Generate user count JSON endpoint
       uses: cicirello/count-action-users@v1
       with:
-        action-list: tr/cicd_gh-actions-cucumber-ado-sync
+        action-list: >
+          PavanMudigonda/jacoco-reporter
+          tr/cicd_gh-actions-cucumber-ado-sync
+          tr/cicd_gh-actions-excel-ado-sync
+          tr/cicd_gh-actions-notification
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
