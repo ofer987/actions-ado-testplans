@@ -1,8 +1,7 @@
 # cicd_gh-actions-cucumber-ado-sync
 
 ## Framework Architecture
-![Framework](https://user-images.githubusercontent.com/86745613/192302608-470d522e-24b9-4f35-9df3-bd1cd1a9bb31.png)
-
+<img width="1269" alt="image" src="https://user-images.githubusercontent.com/86745613/200183648-6a01bdc8-7cf6-483c-bed4-1f960d41e3fe.png">
 
 ## Documentation
 
