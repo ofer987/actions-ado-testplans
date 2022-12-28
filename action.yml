@@ -93,11 +93,16 @@ runs:
           echo TEST_RESULTS_PATH=${{ inputs.test_results_path }} >> $GITHUB_ENV
           echo TEST_RESULTS_FORMAT=${{ inputs.test_results_format }} >> $GITHUB_ENV
           echo TEST_RESULTS_CONFIG=${{ inputs.test_results_config }} >> $GITHUB_ENV
-
+      - name: find json files
+        id: find_specsync_json
+        shell: bash
+        run: |
+          FILES_PATH=$(find . -type f \( -name "specsync.json" -o -name "specsync-parent.json" \) | tr '\n' ',')
+          echo "FILES=$FILES_PATH" >> GITHUB_OUTPUT
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         with:
-          files: './*/specsync.json, ./*/specsync-parent.json, ./*/*/specsync.json, ./*/*/specsync-parent.json, ./*/*/*/specsync.json, ./*/*/*/specsync-parent.json'
+          files: ${{ steps.find_specsync_json.outputs.FILES }}
         env:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
