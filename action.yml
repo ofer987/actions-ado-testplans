@@ -103,7 +103,7 @@ runs:
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         with:
-          files: ${{ steps.find_specsync_json.outputs.FILES }}
+          files: ${{ env.FILES }}
         env:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
