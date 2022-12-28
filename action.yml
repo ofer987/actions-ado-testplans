@@ -93,23 +93,6 @@ runs:
           echo TEST_RESULTS_PATH=${{ inputs.test_results_path }} >> $GITHUB_ENV
           echo TEST_RESULTS_FORMAT=${{ inputs.test_results_format }} >> $GITHUB_ENV
           echo TEST_RESULTS_CONFIG=${{ inputs.test_results_config }} >> $GITHUB_ENV
-      - name: Find SpecSync JSON FILES
-        shell: bash
-        run: |
-          find . -type f -name "specsync.json" > test.txt
-          find . -type f -name "specsync-parent.json" >> test.txt
-          OIFS=$IFS; IFS=$'\n'; ARRAY=($(cat test.txt)); IFS=$OIFS; echo "${ARRAY[*]}"
-          echo "array: ${ARRAY[@]}"
-          length=${#PROJECT_ARRAY[@]}
-          echo "total files: ${length}"
-          for (( i=0; i<project_length; i++ )); # HERE i is a project
-            do
-              FILES_PATH+=${ARRAY[i]}
-              FILES_PATH+=,
-            done;
-          FILES_PATH=${FILES_PATH%?}
-          echo $FILES_PATH
-          echo "FILES=${FILES_PATH}" >> $GITHUB_ENV
 
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
