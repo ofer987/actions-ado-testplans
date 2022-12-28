@@ -199,11 +199,6 @@ runs:
             features:
               - added|deleted|modified: '**.feature'
 
-      - name: cat feature files
-        shell: bash
-        run: |
-          cat ${{ inputs.cucumber_path }}/*/*.feature
-
       - name: Create Pull Request
         id: create_pr
         uses: peter-evans/create-pull-request@v4
