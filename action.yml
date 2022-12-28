@@ -98,14 +98,16 @@ runs:
         run: |
           find . -type f -name "specsync.json" | while read line;
           do
-            FILES_PATH=+${line}
-            FILES_PATH=+,
+            FILES_PATH+=${line}
+            FILES_PATH+=,
           done;
           find . -type f -name "specsync-parent.json" | while read line;
           do
-            FILES_PATH=+${line}
+            FILES_PATH+=${line}
           done;
+          FILES_PATH=$(echo $FILES_PATH | cut -c 3-)
           echo FILES_PATH=$FILES_PATH >> $GITHUB_ENV
+          
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         with:
