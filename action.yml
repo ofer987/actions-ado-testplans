@@ -96,18 +96,21 @@ runs:
       - name: Find SpecSync JSON FILES
         shell: bash
         run: |
-          find . -type f -name "specsync.json" | while read line;
+          find . -type f -name "specsync.json" > test.txt
+          find . -type f -name "specsync-parent.json" >> test.txt
+          OIFS=$IFS; IFS=$'\n'; ARRAY=($(cat test.txt)); IFS=$OIFS; echo "${ARRAY[*]}"
+          echo "array: ${ARRAY[@]}"
+          length=${#PROJECT_ARRAY[@]}
+          echo "total files: ${length}"
+          for (( i=0; i<project_length; i++ )); # HERE i is a project
             do
-              FILES_PATH+=${line}
+              FILES_PATH+=${ARRAY[i]}
               FILES_PATH+=,
             done;
-          find . -type f -name "specsync-parent.json" | while read line;
-            do
-              FILES_PATH+=${line}
-            done;
-          echo $FILES_PATH;
+          FILES_PATH=${FILES_PATH%?}
+          echo $FILES_PATH
           echo "FILES=${FILES_PATH}" >> $GITHUB_ENV
-          
+
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         with:
