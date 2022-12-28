@@ -69,8 +69,12 @@ inputs:
     description: 'Test Results Format'
     required: false
   test_results_test_plan_id:
-    description: 'Test Results - Test Plan ID '
+    description: 'Test Results - Test Plan ID'
     required: false
+  test_results_config:
+    description: 'Test Results - Config'
+    required: false
+    default: ${{ runner.os }}-${{ runner.arch }}
 outputs:
   ado_test_run_url:
     value: ${{ steps.ado_run_step.outputs.ADO_RUN_URL }}
@@ -88,6 +92,7 @@ runs:
           echo ADO_PROJECT_URL=${{ inputs.ado_project_url }} >> $GITHUB_ENV
           echo TEST_RESULTS_PATH=${{ inputs.test_results_path }} >> $GITHUB_ENV
           echo TEST_RESULTS_FORMAT=${{ inputs.test_results_format }} >> $GITHUB_ENV
+          echo TEST_RESULTS_CONFIG=${{ inputs.test_results_config }} >> $GITHUB_ENV
           
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
@@ -97,6 +102,9 @@ runs:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
           publishTestResults.runName: ${{ inputs.test_results_run_name }}-${{ inputs.env }} Env
+          publishTestResults.testConfiguration.name: ${{ env.TEST_RESULTS_CONFIG }}
+          publishTestResults.testResult.filePath:  ${{ env.TEST_RESULTS_PATH }}
+          publishTestResults.testResult.fileFormat: ${{ env.TEST_RESULTS_FORMAT }}
 
       - name: Download SpecSync License From Artifactory
         shell: bash
