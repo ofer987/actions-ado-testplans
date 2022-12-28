@@ -93,25 +93,25 @@ runs:
           echo TEST_RESULTS_PATH=${{ inputs.test_results_path }} >> $GITHUB_ENV
           echo TEST_RESULTS_FORMAT=${{ inputs.test_results_format }} >> $GITHUB_ENV
           echo TEST_RESULTS_CONFIG=${{ inputs.test_results_config }} >> $GITHUB_ENV
-      - name: Find JSON FILES
+      - name: Find SpecSync JSON FILES
         shell: bash
         run: |
           find . -type f -name "specsync.json" | while read line;
-          do
-            FILES_PATH+=${line}
-            FILES_PATH+=,
-          done;
+            do
+              FILES_PATH+=${line}
+              FILES_PATH+=,
+            done;
           find . -type f -name "specsync-parent.json" | while read line;
-          do
-            FILES_PATH+=${line}
-          done;
-          FILES_PATH=$(echo $FILES_PATH | cut -c 3-)
-          echo FILES_PATH=$FILES_PATH >> $GITHUB_ENV
+            do
+              FILES_PATH+=${line}
+            done;
+          echo $FILES_PATH;
+          echo "FILES=${FILES_PATH}" >> $GITHUB_ENV
           
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         with:
-          files: ${{ env.FILES_PATH }}
+          files: ${{ env.FILES }}
         env:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
@@ -247,7 +247,7 @@ runs:
         id: pr_url_step
         shell: bash
         run: |
-          echo "##[set-output name=CUCUMBER_PR_URL;]${{ steps.create_pr.outputs.pull-request-url }}"
+          echo "CUCUMBER_PR_URL=${{ steps.create_pr.outputs.pull-request-url }}" >> $GITHUB_OUTPUT
           echo "Cucumber PR URL: ${{ steps.create_pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
 
       - name: Output Test Results URL
