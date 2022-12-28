@@ -97,8 +97,9 @@ runs:
         id: find_specsync_json
         shell: bash
         run: |
-          FILES_PATH=$(find . -type f \( -name "specsync.json" -o -name "specsync-parent.json" \) | tr '\n' ',')
-          echo "FILES=$FILES_PATH" >> GITHUB_OUTPUT
+          FILES_PATH=$(find . -type f \( -name "specsync.json" -o -name "specsync-parent.json" \) | tr '\n' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }' )
+          echo "FILES=$FILES_PATH" >> $GITHUB_ENV
+          echo "FILES=$FILES_PATH" >> $GITHUB_OUTPUT
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         with:
