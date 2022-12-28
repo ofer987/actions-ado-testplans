@@ -93,11 +93,23 @@ runs:
           echo TEST_RESULTS_PATH=${{ inputs.test_results_path }} >> $GITHUB_ENV
           echo TEST_RESULTS_FORMAT=${{ inputs.test_results_format }} >> $GITHUB_ENV
           echo TEST_RESULTS_CONFIG=${{ inputs.test_results_config }} >> $GITHUB_ENV
-          
+      - name: Find JSON FILES
+        shell: bash
+        run: |
+          find ${{ inputs.cucumber_path }} -type f -name "specsync.json" | while read line;
+          do
+            FILES_PATH=+${line}
+            FILES_PATH=+,
+          done;
+          find ${{ inputs.cucumber_path }} -type f -name "specsync-parent.json" | while read line;
+          do
+            FILES_PATH=+${line}
+          done;
+          echo FILES_PATH=$FILES_PATH >> $GITHUB_ENV
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         with:
-          files: '**/specsync.json, **/specsync-*.json'
+          files: ${{ env.FILES_PATH }}
         env:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
