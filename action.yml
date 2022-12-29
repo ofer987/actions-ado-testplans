@@ -159,27 +159,47 @@ runs:
         id: sync_without_attachment
         shell: bash
         run: |
-          REAL_TEST_RESULTS_PATH=$(realpath ${{ inputs.test_results_path }} )
-          dotnet specsync publish-test-results --user "${{ inputs.ado_pat }}" --log output.txt --zeroExitCodeForWarnings -r "${REAL_TEST_RESULTS_PATH}" -f "${{ inputs.test_results_format }}" -c "${{ inputs.test_results_config }}" --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}";
-          cat output.txt;
-          ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
-          ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
-          echo "##[set-output name=ADO_SUITE_RUN_URL;]${ADO_SUITE_RUN_URL}"
-          echo "TEST SUITE RUN URL for ${DIR} : ${ADO_SUITE_RUN_URL}" >> $GITHUB_STEP_SUMMARY
-
+          find . -type f -name "*.feature" | while read line;
+            do
+                CWD=$PWD
+                line=$(echo $line)
+                DIR=$(dirname "$line")
+                echo $DIR
+                cd $DIR
+                FEATURE_NAME=$(basename $DIR)      
+                REAL_TEST_RESULTS_PATH=$(realpath ${{ inputs.test_results_path }} )
+                dotnet specsync publish-test-results --user "${{ inputs.ado_pat }}" --log output.txt --zeroExitCodeForWarnings -r "${REAL_TEST_RESULTS_PATH}" -f "${{ inputs.test_results_format }}" -c "${{ inputs.test_results_config }}" --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}";
+                cat output.txt;
+                ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
+                ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
+                echo "##[set-output name=ADO_SUITE_RUN_URL;]${ADO_SUITE_RUN_URL}"
+                echo "TEST SUITE RUN URL for ${DIR} : ${ADO_SUITE_RUN_URL}" >> $GITHUB_STEP_SUMMARY
+                cd $CWD
+            done;
+            
       - name: Run Test Results Synchronization with Attachments
         if: ${{ inputs.test_results_sync == 'true' && inputs.test_results_attached_files == 'true' }}
         id: sync_with_attachment
         shell: bash
         run: |
-          REAL_TEST_RESULTS_PATH=$(realpath ${{ inputs.test_results_path }} )
-          dotnet specsync publish-test-results --user "${{ inputs.ado_pat }}" --log output.txt --zeroExitCodeForWarnings -r "${REAL_TEST_RESULTS_PATH}" -f "${{ inputs.test_results_format }}" -c "${{ inputs.test_results_config }}" --attachedFiles "${{ inputs.test_results_attached_files }}" --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}";
-          cat output.txt
-          ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
-          ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
-          echo "##[set-output name=ADO_SUITE_RUN_URL;]${ADO_SUITE_RUN_URL}"
-          echo "TEST SUITE RUN URL for ${DIR} : ${ADO_SUITE_RUN_URL}" >> $GITHUB_STEP_SUMMARY
-
+          find . -type f -name "*.feature" | while read line;
+            do
+                CWD=$PWD
+                line=$(echo $line)
+                DIR=$(dirname "$line")
+                echo $DIR
+                cd $DIR
+                FEATURE_NAME=$(basename $DIR)
+                REAL_TEST_RESULTS_PATH=$(realpath ${{ inputs.test_results_path }} )
+                dotnet specsync publish-test-results --user "${{ inputs.ado_pat }}" --log output.txt --zeroExitCodeForWarnings -r "${REAL_TEST_RESULTS_PATH}" -f "${{ inputs.test_results_format }}" -c "${{ inputs.test_results_config }}" --attachedFiles "${{ inputs.test_results_attached_files }}" --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}";
+                cat output.txt
+                ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
+                ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
+                echo "##[set-output name=ADO_SUITE_RUN_URL;]${ADO_SUITE_RUN_URL}"
+                echo "TEST SUITE RUN URL for ${DIR} : ${ADO_SUITE_RUN_URL}" >> $GITHUB_STEP_SUMMARY
+                cd $CWD
+            done;
+            
       - name: Erase SpecSync License Files
         if: always()
         shell: bash
