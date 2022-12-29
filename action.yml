@@ -112,9 +112,9 @@ runs:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
           publishTestResults.runName: ${{ inputs.test_results_run_name }}-${{ inputs.env }} Env
-          publishTestResults.testConfiguration.name: ${{ env.TEST_RESULTS_CONFIG }}
-          publishTestResults.testResult.filePath:  ${{ env.TEST_RESULTS_PATH }}
-          publishTestResults.testResult.fileFormat: ${{ env.TEST_RESULTS_FORMAT }}
+          publishTestResults.testConfiguration.name: ${{ inputs.test_results_config }}
+          publishTestResults.testResult.filePath:  ${{ inputs.test_results_path }}
+          publishTestResults.testResult.fileFormat: ${{ inputs.test_results_format }}
 
       - name: Download SpecSync License From Artifactory
         shell: bash
@@ -137,7 +137,7 @@ runs:
         run: |
           export PATH="$PATH:/root/.dotnet/tools"
           dotnet new tool-manifest
-          dotnet tool install SpecSync.AzureDevOps --version 3.3.8-alpha20220829-1
+          dotnet tool install SpecSync.AzureDevOps --version 3.4.0
           dotnet specsync version
                     
       - name: Run Test Case Synchronization
