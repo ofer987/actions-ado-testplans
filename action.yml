@@ -146,6 +146,7 @@ runs:
         run: |
           find . -type f -name "*.feature" | while read line;
             do
+              CWD=$PWD
               line=$(echo $line)
               DIR=$(dirname "$line")
               echo $DIR
@@ -153,11 +154,11 @@ runs:
               ls
               dotnet specsync push --user "${{ inputs.ado_pat }}";
               dotnet specsync pull --user "${{ inputs.ado_pat }}";
-              cd ${{ github.workspace }}
+              cd $CWD
             done;
 
       - name: Run Test Results Synchronization with out Attachments
-        if: ${{ inputs.test_results_sync == 'true' && inputs.test_results_attached_files != 'true' }}
+        if: ${{ inputs.test_results_sync == 'true' && inputs.test_results_attached_files == 'false' }}
         id: sync_without_attachment
         shell: bash
         run: |
@@ -165,6 +166,7 @@ runs:
           BUILD_ID=$(("${{ github.run_id }}"))
           find . -type f -name "*.feature" | while read line;
             do
+                CWD=$PWD
                 line=$(echo $line)
                 DIR=$(dirname "$line")
                 echo $DIR
@@ -176,7 +178,7 @@ runs:
                 ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
                 echo "##[set-output name=ADO_SUITE_RUN_URL;]${ADO_SUITE_RUN_URL}"
                 echo "TEST SUITE RUN URL for ${DIR} : ${ADO_SUITE_RUN_URL}" >> $GITHUB_STEP_SUMMARY
-                cd ${{ github.workspace }}
+                cd $CWD
             done;
 
       - name: Run Test Results Synchronization with Attachments
@@ -184,12 +186,13 @@ runs:
         id: sync_with_attachment
         shell: bash
         run: |
-          BUILD_NUM=${{ github.run_number }}
-          BUILD_ID=${{ github.run_id }}
+          BUILD_NUM=$( echo ${{ github.run_number }} | xargs )
+          BUILD_ID=$( echo ${{ github.run_id }} | xargs )
           BUILD_NUM=$((BUILD_NUM))
           BUILD_ID=$((BUILD_ID))
           find . -type f -name "*.feature" | while read line;
             do
+                CWD=$PWD
                 line=$(echo $line)
                 DIR=$(dirname "$line")
                 echo $DIR
@@ -201,7 +204,7 @@ runs:
                 ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
                 echo "##[set-output name=ADO_SUITE_RUN_URL;]${ADO_SUITE_RUN_URL}"
                 echo "TEST SUITE RUN URL for ${DIR} : ${ADO_SUITE_RUN_URL}" >> $GITHUB_STEP_SUMMARY
-                cd ${{ github.workspace }}
+                cd $CWD
             done;
 
       - name: Erase SpecSync License Files
