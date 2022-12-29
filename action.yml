@@ -162,8 +162,6 @@ runs:
         id: sync_without_attachment
         shell: bash
         run: |
-          BUILD_NUM=$(( echo ${{ github.run_number }} | xargs | xargs ))
-          BUILD_ID=$(( echo ${{ github.run_id }} | xargs | xargs ))
           find . -type f -name "*.feature" | while read line;
             do
                 CWD=$PWD
@@ -186,8 +184,6 @@ runs:
         id: sync_with_attachment
         shell: bash
         run: |
-          BUILD_NUM=$(( echo ${{ github.run_number }} | xargs | xargs ))
-          BUILD_ID=$(( echo ${{ github.run_id }} | xargs | xargs ))
           find . -type f -name "*.feature" | while read line;
             do
                 CWD=$PWD
