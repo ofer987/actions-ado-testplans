@@ -95,10 +95,12 @@ runs:
           echo TEST_RESULTS_CONFIG=${{ inputs.test_results_config }} >> $GITHUB_ENV
       - name: find json files
         working-directory: ${{ github.workspace }}
-        shell: bash
+        shell: sh
         run: |
           FILES_PATH=$(find . -type f \( -name "specsync.json" -o -name "specsync-parent.json" \) | tr '\n' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }' )
-          echo "FILES=${FILES_PATH}" >> $GITHUB_ENV
+          echo FILES=${FILES_PATH} >> $GITHUB_ENV
+          echo "Files: $FILES"
+          echo "Files Path: $FILES_PATH"
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         with:
