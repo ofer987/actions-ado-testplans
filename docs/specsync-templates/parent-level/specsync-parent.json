@@ -1,6 +1,6 @@
 {
     "$schema": "https://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
-    "compatibilityVersion": "3.3",
+    "compatibilityVersion": "3.4.0",
     "toolSettings": {
         "licensePath": "specsync.lic",
         "disableStats": true,
@@ -11,19 +11,16 @@
         "user": "bnx5z3zcnkxgkkeljwfapwf54ki5qcqb3sagljarurqddhqx6ejq"
     },
     "publishTestResults": {
-        "testConfiguration": {
-            "name": "Linux-X64"
-        },
-        "testResult": {
-            "filePath": "../reports/cucumber-report.json",
-            "fileFormat": "cucumberJson"
-        },
         "treatInconclusiveAs": "NotExecuted",
-        "createSubResults": true,
-        "runName": "GHA-2995833570-QA Env",
-        "runType": "automated",
-        "runComment": "test",
-        "testResultComment": "As Expected"
+        "testRunSettings":{
+            "runName": "GHA-2995833570-QA Env",
+            "runType": "automated",
+            "runComment": "test",
+            "testResultComment": "As Expected"    
+        },
+        "testResultSettings": {
+            "comment": "As Expected"
+        }
     },
     "synchronization": {
         "disableLocalChanges": false,
@@ -34,7 +31,8 @@
         },
         "automation": {
             "enabled": true,
-            "condition": "not @manual"
+            "condition": "not @manual",
+            "testExecutionStrategy": "testSuiteBasedExecutionWithScenarioOutlineWrappers"
         },
         "state": {
             "setValueOnChangeTo": "Design"
@@ -49,10 +47,9 @@
         },
         "links": [
             {
-                "targetWorkItemType": "ProductBacklogItem",
+                "targetType": "ProductBacklogItem",
                 "tagPrefix": "story",
-                "relationship": "Parent",
-                "mode": "createIfMissing"
+                "relationship": "Parent"
             },
             {
                 "tagPrefix": "bug"
@@ -91,11 +88,6 @@
             "enabled": true,
             "updates": {
                 "System.Description": "<b>Synchronized By</b>: GHActions tr/cicd_gh-actions-cucumber-ado-sync <br/> <b>Feature Name</b>: {feature-name} <br/> <b>Feature Description:</b> {feature-description} <br/> <b>Feature File Name:</b> {feature-file-name} <br/> <b>Feature File Folder:</b> {feature-file-folder} <br/> <b>Feature File Path:</b> {feature-file-path}"
-            },
-            "multiSuitePublishTestResults": {
-                "enabled": true,
-                "testPlanId": 17369,
-                "includeSubSuites": true
             }
         }
     }
