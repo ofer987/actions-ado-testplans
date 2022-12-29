@@ -172,8 +172,8 @@ runs:
         id: sync_with_attachment
         shell: bash
         run: |
-          REAL_TEST_RESULTS_PATH=$(realpath ${{ inputs.test_results_path }} )        
-          dotnet specsync publish-test-results --user "${{ inputs.ado_pat }}" --log output.txt --zeroExitCodeForWarnings -r "${REAL_TEST_RESULTS_PATH}" -f "${{ inputs.test_results_format }}" -c "${{ inputs.test_results_config }}" --attachedFiles "${{ inputs.test_results_attached_files }}" --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }";
+          REAL_TEST_RESULTS_PATH=$(realpath ${{ inputs.test_results_path }} )
+          dotnet specsync publish-test-results --user "${{ inputs.ado_pat }}" --log output.txt --zeroExitCodeForWarnings -r "${REAL_TEST_RESULTS_PATH}" -f "${{ inputs.test_results_format }}" -c "${{ inputs.test_results_config }}" --attachedFiles "${{ inputs.test_results_attached_files }}" --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}";
           cat output.txt
           ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
           ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
