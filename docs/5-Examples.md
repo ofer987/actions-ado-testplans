@@ -81,31 +81,20 @@ jobs:
     - name: run features
       run: npm run test
 
-    - uses: deblockt/cucumber-report-annotations-action@v1.7
-      if: always()
-      with:
-        access-token: ${{ secrets.GITHUB_TOKEN }}
-        path: "reports/cucumber-report.json"
-                  
-    - name: GH Pages Push
-      uses: tr/cicd_gh-actions-gh-pages@v1.0
-      with:
-        test_results: reports
-        keep_reports: 20
-        workflow_id: test.yml
-
     - name: Cucumber to ADO Test Results Sync
       id: ado_sync
-      if: always()
-      uses: tr/cicd_gh-actions-cucumber-ado-sync@v1.0
+      uses: tr/cicd_gh-actions-cucumber-ado-sync@v1.1
       with:
-        env: QA
+        ado_pat: ${{ secrets.ADO_PAT }}
         artifactory_token: ${{ secrets.ARTIFACTORY_TOKEN }}
-        artifactory_user: ${{ secrets.ARTIFACTORY_USER }}        
+        artifactory_user: ${{ secrets.ARTIFACTORY_USER }}
         test_cases_sync: false
         test_results_sync: true
-        ado_pat: ${{ secrets.ADO_PAT }}
-        cucumber_path: features
+        cucumber_path: samples
+        test_results_path: ${{github.workspace}}/${{ env.TEST_RESULTS_FOLDER }}/results.json
+        test_results_config: ../../${{ runner.os }}-${{ runner.arch }}
+        test_results_format: cucumberJson
+        test_results_attached_files: false
         ado_project_url: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training
 
     - name: MS Teams Notify
