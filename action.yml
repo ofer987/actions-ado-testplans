@@ -62,6 +62,7 @@ inputs:
   test_results_attached_files:
     description: 'Test Result '
     required: false
+    default: 'false'
   test_results_path:
     description: 'Test Results Path'
     required: false
