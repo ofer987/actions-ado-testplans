@@ -169,7 +169,7 @@ runs:
                 echo $DIR
                 cd $DIR
                 FEATURE_NAME=$(basename $DIR)
-                dotnet specsync publish-test-results --zeroExitCodeForWarnings --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}-Suite:${FEATURE_NAME}" > output.txt;
+                dotnet specsync publish-test-results --user ${{ inputs.ado_pat }} --zeroExitCodeForWarnings --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}-Suite:${FEATURE_NAME}" > output.txt;
                 cat output.txt;
                 ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
                 ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
@@ -194,7 +194,7 @@ runs:
                 echo $DIR
                 cd $DIR
                 FEATURE_NAME=$(basename $DIR)
-                dotnet specsync publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}-Suite:${FEATURE_NAME}" > output.txt;
+                dotnet specsync publish-test-results --user ${{ inputs.ado_pat }} --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}-Suite:${FEATURE_NAME}" > output.txt;
                 cat output.txt
                 ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
                 ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
