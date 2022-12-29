@@ -97,8 +97,8 @@ runs:
         working-directory: ${{ github.workspace }}
         shell: bash
         run: |
-          CHILD_JSON=$(find . -type f -name "specsync.json" | tr '\n' ',' )
-          PARENT_JSON=$(find . -type f -name "specsync-parent.json" )
+          CHILD_JSON=$(find . -iname "specsync.json" | tr '\n' ',' )
+          PARENT_JSON=$(find . -iname "specsync-parent.json" )
           echo CHILD_JSON=${CHILD_JSON} >> $GITHUB_ENV
           echo PARENT_JSON=${PARENT_JSON} >> $GITHUB_ENV
           echo "Child Json: $CHILD_JSON"
