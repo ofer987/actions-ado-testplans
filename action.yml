@@ -150,8 +150,8 @@ runs:
               echo $DIR
               cd $DIR
               ls
-              dotnet specsync push;
-              dotnet specsync pull;
+              dotnet specsync push --user ${{ inputs.ado_pat }};
+              dotnet specsync pull --user ${{ inputs.ado_pat }};
               cd ${{ github.workspace }}
             done;
 
