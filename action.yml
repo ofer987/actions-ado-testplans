@@ -112,9 +112,6 @@ runs:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
           publishTestResults.runName: ${{ inputs.test_results_run_name }}-${{ inputs.env }} Env
-          publishTestResults.testConfiguration.name: ${{ inputs.test_results_config }}
-          publishTestResults.testResult.filePath:  ${{ inputs.test_results_path }}
-          publishTestResults.testResult.fileFormat: ${{ inputs.test_results_format }}
 
       - name: Download SpecSync License From Artifactory
         shell: bash
@@ -127,7 +124,7 @@ runs:
           
       - name: Set up .NET 6
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: "6.0.x"
 
@@ -141,7 +138,7 @@ runs:
           dotnet specsync version
                     
       - name: Run Test Case Synchronization
-        if: ${{ inputs.test_cases_sync }}
+        if: ${{ inputs.test_cases_sync == 'true' }}
         shell: bash
         run: |
           find . -type f -name "*.feature" | while read line;
