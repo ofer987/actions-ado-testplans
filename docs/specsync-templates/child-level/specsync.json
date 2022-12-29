@@ -1,8 +1,8 @@
 {
     "$schema": "https://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
-    "compatibilityVersion": "3.3",
+    "compatibilityVersion": "3.4.0",
     "toolSettings": {
-        "parentConfig": "../specsync-parent.json",
+        "parentConfig": "../../../specsync-parent.json",
         "ignoreParentConfig": false
     },
     "synchronization": {
@@ -12,17 +12,26 @@
         }
     },    
     "local": {
-        "featureFileSource": {
-            "type": "folder",
-            "folder": "./"
-        },
+        "folder": "./",
+        "projectType": "folder",      
         "defaultFeatureLanguage": "en-US"
     },
     "remote": {
         "projectUrl": "https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training",
         "testSuite": {
-            "testPlanId": 17369,
-            "name": "outline"
+            "testPlanId": 23565,
+            "name": "API-AgeCalculations"
         }
-    }
+    },
+
+    "customizations": {
+        "multiSuitePublishTestResults": {
+          "enabled": true,
+          "testPlanId": 23565,
+          "suites": [
+            "API-AgeCalculations",
+            "API/AgeCalculations"
+          ]
+        }
+      }    
 }
