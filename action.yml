@@ -95,16 +95,18 @@ runs:
           echo TEST_RESULTS_CONFIG=${{ inputs.test_results_config }} >> $GITHUB_ENV
       - name: find json files
         working-directory: ${{ github.workspace }}
-        shell: sh
+        shell: bash
         run: |
-          FILES_PATH=$(find . -type f \( -name "specsync.json" -o -name "specsync-parent.json" \) | tr '\n' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }' )
-          echo FILES=${FILES_PATH} >> $GITHUB_ENV
-          echo "Files: $FILES"
-          echo "Files Path: $FILES_PATH"
+          CHILD_JSON=$(find . -type f -name "specsync.json" | tr '\n' ',' )
+          PARENT_JSON=$(find . -type f -name "specsync-parent.json" )
+          echo CHILD_JSON=${CHILD_JSON} >> $GITHUB_ENV
+          echo PARENT_JSON=${PARENT_JSON} >> $GITHUB_ENV
+          echo "Child Json: $CHILD_JSON"
+          echo "Parent Json: $PARENT_JSON"
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         with:
-          files: "${{ env.FILES }}"
+          files: "${{ env.CHILD_JSON }} ${{ env.PARENT_JSON }}"
         env:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
