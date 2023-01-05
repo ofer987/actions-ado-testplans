@@ -17,7 +17,7 @@
         "defaultFeatureLanguage": "en-US"
     },
     "remote": {
-        "projectUrl": "https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training",
+        "projectUrl": "ADO_PROJECT_URL",
         "testSuite": {
             "testPlanId": 23565,
             "name": "API-AgeCalculations"

@@ -7,13 +7,13 @@
         "outputLevel": "normal"
     },
     "remote": {
-        "projectUrl": "https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training",
-        "user": "bnx5z3zcnkxgkkeljwfapwf54ki5qcqb3sagljarurqddhqx6ejq"
+        "projectUrl": "ADO_PROJECT_URL",
+        "user": "ADO_PAT"
     },
     "publishTestResults": {
         "treatInconclusiveAs": "NotExecuted",
         "testRunSettings":{
-            "runName": "GHA-2995833570-QA Env",
+            "runName": "TEST_RESULTS_RUN_NAME",
             "runType": "automated",
             "runComment": "test",
             "testResultComment": "As Expected"    

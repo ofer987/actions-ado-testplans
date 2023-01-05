@@ -1,0 +1,1 @@
+If you are executing test from AWS Code Build or from BrowserStack please use [Test Results Bash Script](../test-results.sh)
