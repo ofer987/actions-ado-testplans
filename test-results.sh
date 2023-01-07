@@ -12,6 +12,8 @@ TEST_RESULTS_ATTACHED_FILES="NOT APPLICABLE"
 ARTIFACTORY_TOKEN=${ARTIFACTORY_TOKEN}
 ARTIFACTORY_USER=${ARTIFACTORY_USER}
 ADO_PAT=${ADO_PAT}
+RUN_COMMENT=${GH_PAGES_TEST_RUN_URL}
+RUN_RESULT_COMMENT=${GH_PAGES_TEST_RUN_URL}
 ADO_PROJECT_URL=https://dev.azure.com/tr-ihn-sandbox/
 CUCUMBER_PATH="./features"
 TEST_RESULTS_RUN_NAME="AWS CodeBuild - ${CODEBUILD_BUILD_ID}"
@@ -64,7 +66,7 @@ results_with_attachments() {
         echo $DIR
         cd $DIR
         FEATURE_NAME=$(basename $DIR)
-        dotnet specsync publish-test-results --user "${ADO_PAT}" -v --log output.txt --zeroExitCodeForWarnings -r "${TEST_RESULTS_PATH}" -f "${TEST_RESULTS_FORMAT}" -c "${TEST_RESULTS_CONFIG}" --runName "${TEST_RESULTS_RUN_NAME}-Env:${ENV}-Suite:${FEATURE_NAME}" 2> /dev/null;
+        dotnet specsync publish-test-results --user "${ADO_PAT}" -v --log output.txt --zeroExitCodeForWarnings -r "${TEST_RESULTS_PATH}" -f "${TEST_RESULTS_FORMAT}" -c "${TEST_RESULTS_CONFIG}" --runName "${TEST_RESULTS_RUN_NAME}-Env:${ENV}-Suite:${FEATURE_NAME}" --runComment "${{ inputs.RUN_COMMENT }}" --runResultComment "${{ inputs.RUN_RESULT_COMMENT }}" 2> /dev/null;
         cat output.txt;
         ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
         ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
@@ -84,7 +86,7 @@ results_without_attachments() {
         echo $DIR
         cd $DIR
         FEATURE_NAME=$(basename $DIR)
-        dotnet specsync publish-test-results --user "${ADO_PAT}" -v --log output.txt --zeroExitCodeForWarnings -r "${TEST_RESULTS_PATH}" -f "${TEST_RESULTS_FORMAT}" -c "${TEST_RESULTS_CONFIG}" --attachedFiles "${TEST_RESULTS_ATTACHED_FILES}" --runName "${TEST_RESULTS_RUN_NAME}-Env:${ENV}-Suite:${FEATURE_NAME}" 2> /dev/null;
+        dotnet specsync publish-test-results --user "${ADO_PAT}" -v --log output.txt --zeroExitCodeForWarnings -r "${TEST_RESULTS_PATH}" -f "${TEST_RESULTS_FORMAT}" -c "${TEST_RESULTS_CONFIG}" --attachedFiles "${TEST_RESULTS_ATTACHED_FILES}" --runName "${TEST_RESULTS_RUN_NAME}-Env:${ENV}-Suite:${FEATURE_NAME}" --runComment "${{ inputs.RUN_COMMENT }}" --runResultComment "${{ inputs.RUN_RESULT_COMMENT }}" 2> /dev/null;
         cat output.txt
         ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
         ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
