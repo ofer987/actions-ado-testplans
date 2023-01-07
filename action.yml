@@ -76,6 +76,12 @@ inputs:
     description: 'Test Results - Config'
     required: false
     default: ${{ runner.os }}-${{ runner.arch }}
+  run_comment:
+    description: 'Run Comment'
+    required: false  
+  run_result_comment:
+    description: 'Run Result Comment'
+    required: false      
 outputs:
   ado_test_run_url:
     value: ${{ steps.ado_run_step.outputs.ADO_RUN_URL }}
@@ -168,7 +174,7 @@ runs:
                 echo $DIR
                 cd $DIR
                 FEATURE_NAME=$(basename $DIR)      
-                dotnet specsync publish-test-results --user "${{ inputs.ado_pat }}" -v --log output.txt --zeroExitCodeForWarnings -r "${{ inputs.test_results_path }}" -f "${{ inputs.test_results_format }}" -c "${{ inputs.test_results_config }}" --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}-Suite:${FEATURE_NAME}" 2> /dev/null;
+                dotnet specsync publish-test-results --user "${{ inputs.ado_pat }}" -v --log output.txt --zeroExitCodeForWarnings -r "${{ inputs.test_results_path }}" -f "${{ inputs.test_results_format }}" -c "${{ inputs.test_results_config }}" --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}-Suite:${FEATURE_NAME}" --runComment ${{ inputs.run_comment }} --testResultComment ${{ inputs.run_result_comment }} 2> /dev/null;
                 cat output.txt;
                 ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
                 ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
@@ -190,7 +196,7 @@ runs:
                 echo $DIR
                 cd $DIR
                 FEATURE_NAME=$(basename $DIR)
-                dotnet specsync publish-test-results --user "${{ inputs.ado_pat }}" -v --log output.txt --zeroExitCodeForWarnings -r "${{ inputs.test_results_path }}" -f "${{ inputs.test_results_format }}" -c "${{ inputs.test_results_config }}" --attachedFiles "${{ inputs.test_results_attached_files }}" --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}-Suite:${FEATURE_NAME}" 2> /dev/null;
+                dotnet specsync publish-test-results --user "${{ inputs.ado_pat }}" -v --log output.txt --zeroExitCodeForWarnings -r "${{ inputs.test_results_path }}" -f "${{ inputs.test_results_format }}" -c "${{ inputs.test_results_config }}" --attachedFiles "${{ inputs.test_results_attached_files }}" --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}-Suite:${FEATURE_NAME}" --runComment ${{ inputs.run_comment }} --testResultComment ${{ inputs.run_result_comment }} 2> /dev/null;
                 cat output.txt
                 ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
                 ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
