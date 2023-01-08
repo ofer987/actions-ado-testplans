@@ -46,15 +46,13 @@
             "value": "\\Sprint 1"
         },
         "links": [
-            {
-                "targetType": "ProductBacklogItem",
-                "tagPrefix": "story",
-                "relationship": "Parent"
-            },
-            {
-                "tagPrefix": "bug"
-            }
-        ],
+                  {
+                    "tagPrefix": "story"
+                  },
+                  {
+                    "tagPrefix": "bug"
+                  }
+                    ],
         "format": {
             "useExpectedResult": false,
             "syncDataTableAsText": false,
