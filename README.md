@@ -8,7 +8,8 @@ PATTERN STATUS: FULLY READY AND FUNCTIONAL
 
 ## Framework Architecture
 
-<img width="1269" alt="image" src="https://user-images.githubusercontent.com/86745613/200183648-6a01bdc8-7cf6-483c-bed4-1f960d41e3fe.png">
+<img width="1140" alt="tr-e2e-framework-v1 1" src="https://user-images.githubusercontent.com/86745613/211696307-1e90e627-1545-43a8-b742-ebc8ab036a9d.png">
+
 
 ## Documentation
 
