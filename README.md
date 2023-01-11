@@ -21,6 +21,9 @@ PATTERN STATUS: FULLY READY AND FUNCTIONAL
 - [SpecSync Config Templates](./docs/specsync-templates)
 - [SpecSync Documentation](https://specsolutions.gitbook.io/specsync/)
 
+## Demo Project
+
+We have a [Demo Project](https://github.com/tr/tech_toc-selenium-dotnet-core) so you can learn easily
 ## Support
 
 Please reach out to Platform Engineering DevOps Experience Team
