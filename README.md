@@ -2,9 +2,9 @@
 
 PATTERN STATUS: FULLY READY AND FUNCTIONAL
 
-- [x] Automated Test Case Creation from Excel to ADO
-- [x] Automated Test Case Results from Excel/JUnit XML to ADO - GH Action
-- [x] Automated Test Case Results from Excel/JUnit XML to ADO - Shell Script (if you choose to run from AWS CodeBuild or From BrowserStack)
+- [x] Automated Test Case Creation from Cucumber to ADO
+- [x] Automated Test Case Results from Cucumber/Cucumber JSON to ADO - GH Action
+- [x] Automated Test Case Results from Cucumber/Cucumber JSON to ADO - Shell Script (if you choose to run from AWS CodeBuild or From BrowserStack or Azure DevOps Pipelines or Jenkins)
 
 ## Framework Architecture
 
