@@ -25,7 +25,10 @@ PATTERN STATUS: FULLY READY AND FUNCTIONAL
 
 ## Demo Project
 
-We have a [Demo Project](https://github.com/tr/tech_toc-selenium-dotnet-core) so you can learn easily
+We have demo projects that you refer to learn from:
+* [Demo Selenium C# SpecSync Project](https://github.com/tr/tech_toc-selenium-dotnet-core)
+* [Playwright TypeScript Cucumber](https://github.com/tr/tech_toc-cucumber-e2e)
+
 ## Support
 
 Please reach out to Platform Engineering DevOps Experience Team
