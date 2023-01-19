@@ -10,7 +10,7 @@ PATTERN STATUS: FULLY READY AND FUNCTIONAL
 
 <img width="1140" alt="tr-e2e-framework-v1 1" src="https://user-images.githubusercontent.com/86745613/211696307-1e90e627-1545-43a8-b742-ebc8ab036a9d.png">
 
-![ADO-TestPlans-Automation-v-1-4](https://user-images.githubusercontent.com/86745613/211931173-d42025d7-8819-4266-825e-91215a8b98ca.jpeg)
+![PE DevOps CT - ADO TestPlans Automation](https://user-images.githubusercontent.com/86745613/213462737-2d67de7a-f01f-47cc-9dca-89df9f0296d1.jpeg)
 
 
 ## Documentation
