@@ -1,5 +1,9 @@
 # cicd_gh-actions-cucumber-ado-sync
 
+This is a TR Internal GitHub Action Pattern for automatically uploading Cucumber(BDD) Test Cases and Test Results from GitHub to Azure DevOps.
+Please can call this 2 Way Sync or Bi-Directional Sync
+
+
 PATTERN STATUS: FULLY READY AND FUNCTIONAL
 
 - [x] Automated Test Case Creation from Cucumber to ADO
