@@ -6,15 +6,15 @@ Please can call this 2 Way Sync or Bi-Directional Sync
 
 PATTERN STATUS: FULLY READY AND FUNCTIONAL
 
-- [x] Automated Test Case Creation from Cucumber to ADO
-- [x] Automated Test Case Results from Cucumber/Cucumber JSON to ADO - GH Action
-- [x] Automated Test Case Results from Cucumber/Cucumber JSON to ADO - Shell Script (if you choose to run from AWS CodeBuild or From BrowserStack or Azure DevOps Pipelines or Jenkins)
+- [x] TC.A2 - Automated Test Case Creation from Cucumber to ADO
+- [x] TR.A7 - Automated Test Case Results from Cucumber/Cucumber JSON to ADO - GH Action
+- [x] TR.A7 - Automated Test Case Results from Cucumber/Cucumber JSON to ADO - Shell Script (if you choose to run from AWS CodeBuild or From BrowserStack or Azure DevOps Pipelines or Jenkins)
 
 ## Framework Architecture
 
 <img width="1140" alt="tr-e2e-framework-v1 1" src="https://user-images.githubusercontent.com/86745613/211696307-1e90e627-1545-43a8-b742-ebc8ab036a9d.png">
 
-![PE DevOps CT - ADO TestPlans Automation](https://user-images.githubusercontent.com/86745613/213462737-2d67de7a-f01f-47cc-9dca-89df9f0296d1.jpeg)
+![PE DevOps CT - ADO TestPlans Automation-5](https://user-images.githubusercontent.com/86745613/214468090-3264813c-4a0a-4e7b-8990-6bcb5beb6466.jpeg)
 
 
 ## Documentation
