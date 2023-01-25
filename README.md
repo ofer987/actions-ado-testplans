@@ -7,8 +7,8 @@ Please can call this 2 Way Sync or Bi-Directional Sync
 PATTERN STATUS: FULLY READY AND FUNCTIONAL
 
 - [x] TC.A2 - Automated Test Case Creation from Cucumber to ADO
-- [x] TR.A7 - Automated Test Case Results from Cucumber/Cucumber JSON to ADO - GH Action
-- [x] TR.A7 - Automated Test Case Results from Cucumber/Cucumber JSON to ADO - Shell Script (if you choose to run from AWS CodeBuild or From BrowserStack or Azure DevOps Pipelines or Jenkins)
+- [x] TR.A6 - Automated Test Case Results from Cucumber/Cucumber JSON to ADO - GH Action
+- [x] TR.A6 - Automated Test Case Results from Cucumber/Cucumber JSON to ADO - Shell Script (if you choose to run from AWS CodeBuild or From BrowserStack or Azure DevOps Pipelines or Jenkins)
 
 ## Framework Architecture
 
