@@ -11,6 +11,7 @@ PATTERN STATUS: FULLY READY AND FUNCTIONAL
 - [x] TR.A6 - Automated Test Case Results from Cucumber/Cucumber JSON to ADO - Shell Script (if you choose to run from AWS CodeBuild or From BrowserStack or Azure DevOps Pipelines or Jenkins)
 
 Please also see:
+
 [Excel Patterns](https://github.com/tr/cicd_gh-actions-excel-ado-sync/blob/main/README.md)
 - [x] TC.A3 - Automated Test Case Creation from Excel to ADO
 - [x] TR.A7 - Automated Test Case Results from Excel/JUnit XML to ADO - GH Action 
