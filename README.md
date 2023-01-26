@@ -19,6 +19,7 @@ Please also see:
 
 [Additional Patterns](https://github.com/tr/cicd_gh-actions-ado-testplans-sync)
 - TP.A1 - Create Test Plan Automatically in ADO
+
 Non-BDD Framework
 - TC.A4 - Test Case Syncronization from MS Test Framework in to ADO TestPlans
 - TC.A5 - Test Case Syncronization from NUnit Framework in to ADO TestPlans
