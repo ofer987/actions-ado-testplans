@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Cucumber to ADO Sync
         id: ado_sync
-        uses: tr/cicd_gh-actions-cucumber-ado-sync@v1.0
+        uses: tr/cicd_gh-actions-cucumber-ado-sync/cucumber@v1.3
         with:
             test_cases_sync: 'true'
             test_results_sync: 'false'
@@ -83,7 +83,7 @@ jobs:
 
     - name: Cucumber to ADO Test Results Sync
       id: ado_sync
-      uses: tr/cicd_gh-actions-cucumber-ado-sync@v1.1
+      uses: tr/cicd_gh-actions-ado-testplans/cucumber@v1.3
       with:
         ado_pat: ${{ secrets.ADO_PAT }}
         artifactory_token: ${{ secrets.ARTIFACTORY_TOKEN }}
