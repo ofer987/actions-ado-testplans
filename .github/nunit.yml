@@ -1,4 +1,4 @@
-name: MsTest
+name: NUnit
 
 on:
   workflow_dispatch:
@@ -35,7 +35,7 @@ jobs:
     - name: run specsync 1
       if: always()
       shell: bash
-      working-directory: custom/MsTestSample
+      working-directory: custom/NUnitSample
       run: |
         dotnet tool restore
         dotnet specsync push
@@ -44,7 +44,7 @@ jobs:
         
     # Execute all unit tests in the solution
     - name: Execute unit tests
-      working-directory: MsTestSample
+      working-directory: custom/NUnitSample
       run: |
         dotnet test --logger "trx;LogFileName=TestResults.trx"
         ls -R
@@ -89,7 +89,7 @@ jobs:
     - name: run specsync 2
       if: always()
       shell: bash
-      working-directory: MsTestSample
+      working-directory: custom/NUnitSample
       run: |
         dotnet tool restore
         dotnet specsync publish-test-results --testResultFile ${{github.workspace}}/TestResults.trx
