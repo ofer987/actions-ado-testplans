@@ -1,0 +1,46 @@
+name: Playwright Tests
+on:
+  # push:
+  #   branches: [ main, master ]
+  # pull_request:
+  #   branches: [ main, master ]
+  workflow_dispatch:
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+    - name: Install dependencies
+      working-directory: test
+      run: npm ci
+    - name: Install Playwright Browsers
+      working-directory: test
+      run: npx playwright install --with-deps
+    - name: Run Playwright tests
+      working-directory: test
+      run: npx playwright test
+    - uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: junit-report
+        path: ./test/results.xml
+        retention-days: 1
+    - name: Cucumber to ADO Test Results Sync
+      id: ado_sync
+      uses: tr/cicd_gh-actions-excel-ado-sync@v1.2
+      with:
+        ado_pat: ${{ secrets.ADO_PAT }}
+        artifactory_token: ${{ secrets.ARTIFACTORY_TOKEN }}
+        artifactory_user: ${{ secrets.ARTIFACTORY_USER }}
+        test_cases_sync: false
+        test_results_sync: true
+        excel_path: ./test/excel
+        test_results_path: ${{ github.workspace }}/test/results.xml
+        test_results_config: ${{ runner.os }}-${{ runner.arch }}
+        ado_project_url: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training
+        run_comment: "[GitHub Pages Allure Report](https://reimagined-memory-3352d180.pages.github.io/pytest/e2e/qa/944063316223/)"
+        run_result_comment: "[GitHub Pages Allure Report](https://reimagined-memory-3352d180.pages.github.io/pytest/e2e/qa/944063316223/)"        

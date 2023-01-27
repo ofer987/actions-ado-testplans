@@ -1,0 +1,108 @@
+name: 'Create TestPlan in Azure DevOps'
+author: 'PavanMudigonda'
+description: 'A GitHub Action that created TestPlan in Azure DevOps'
+
+branding:
+  icon: 'repeat'
+  color: 'red'
+
+inputs:
+  ado_pat:
+    description: 'Azure DevOps PAT'
+    required: true
+  organization:
+    description: 'Organization'
+    required: true
+  project:
+    description: 'Project'
+    required: true 
+  area:
+    description: 'Area'
+    required: true  
+  endDate:
+    description: 'End Date'
+    required: false    
+  iteration:
+    description: 'Iteration'
+    required: true   
+  name:
+    description: 'Name'
+    required: true    
+  startDate:
+    description: 'Start Date'
+    required: false                                                 
+outputs:
+  TEST_PLAN_ID:
+    value: ${{ steps.summary.outputs.TEST_PLAN_ID }}
+    description: ADO Test Plan ID
+  TEST_PLAN_AREA_NAME:
+    value: ${{ steps.summary.outputs.TEST_PLAN_AREA_NAME }}
+    description: ADO Test Plan Area Name
+  TEST_PLAN_URL:
+    value: ${{ steps.summary.outputs.TEST_PLAN_URL }}
+    description: ADO Test Plan Url
+  TEST_PLAN_AREA_ITERATION:
+    value: ${{ steps.summary.outputs.TEST_PLAN_AREA_ITERATION }}
+    description: ADO Test Plan Iteration
+
+runs:
+  using: 'composite'
+  steps:
+      - name: Create ADO TestPlan 
+        if: ${{ inputs.startDate =='' && inputs.endDate == '' }}
+        shell: pwsh
+        run: |
+          # Create auth header with PAT
+          $personalToken = "${{ inputs.ado_pat }}"
+          Write-Host "Initialize authentication context" -ForegroundColor Yellow
+          $token = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(":$($personalToken)"))
+          $hdr = @{authorization = "Basic $token" }
+          $url = "https://dev.azure.com/${{ inputs.organization }}/${{ inputs.project }}/_apis/test/plans?api-version=5.0"
+          $bdy = @{
+                    name       = "${{ inputs.name }}"
+                    iteration   = "${{ inputs.project }}\${{ inputs.iteration }}"
+                    area     = @{
+                        name   = "${{ inputs.project }}\${{ inputs.area }}"
+                    }
+                }
+          $response = Invoke-RestMethod -Uri $url -Method Post -Headers $hdr -ContentType "application/json" -Body ($bdy | ConvertTo-Json) -OutFile ado-output.json
+          $response | ConvertTo-Json
+
+      - name: Create ADO TestPlan with start and end date
+        if: ${{ inputs.startDate !='' && inputs.endDate != '' }}
+        shell: pwsh
+        run: |
+          # Create auth header with PAT
+          $personalToken = "${{ inputs.ado_pat }}"
+          Write-Host "Initialize authentication context" -ForegroundColor Yellow
+          $token = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(":$($personalToken)"))
+          $hdr = @{authorization = "Basic $token" }
+          $url = "https://dev.azure.com/${{ inputs.organization }}/${{ inputs.project }}/_apis/test/plans?api-version=5.0"
+          $bdy = @{
+                    name       = "${{ inputs.name }}"
+                    startDate = "${{ inputs.startDate }}"
+                    endDate = "${{ inputs.endDate }}''
+                    iteration   = "${{ inputs.project}}\\${{ inputs.iteration }}"
+                    area     = @{
+                        name   = "${{ inputs.project}}\\${{ inputs.area }}"
+                    }
+                }
+          $response = Invoke-RestMethod -Uri $url -Method Post -Headers $hdr -ContentType "application/json" -Body ($bdy | ConvertTo-Json) -OutFile ado-output.json
+          $response | ConvertTo-Json
+
+      - name: Create Summaries and Output
+        id: summary
+        shell: bash
+        run: |
+          TEST_PLAN_ID=$(jq -r '.id' ado-output.json)
+          echo "ADO TEST PLAN ID : ${TEST_PLAN_ID}" >> $GITHUB_STEP_SUMMARY
+          echo "TEST_PLAN_ID=${TEST_PLAN_ID}" >> $GITHUB_OUTPUT
+          TEST_PLAN_AREA_PATH=$(jq -r '.area.name' ado-output.json)
+          echo "ADO TEST AREA PATH : ${TEST_PLAN_AREA_PATH}" >> $GITHUB_STEP_SUMMARY
+          echo "TEST_PLAN_AREA_PATH=${TEST_PLAN_AREA_PATH}" >> $GITHUB_OUTPUT
+          TEST_PLAN_URL=https://dev.azure.com/${{ inputs.organization }}/${{ inputs.project }}/_testPlans/define?planId=${TEST_PLAN_ID}
+          echo "ADO TEST PLAN URL : ${TEST_PLAN_URL}" >> $GITHUB_STEP_SUMMARY
+          echo "TEST_PLAN_URL=${TEST_PLAN_URL}" >> $GITHUB_OUTPUT
+          TEST_PLAN_AREA_ITERATION=$(jq -r '.iteration' ado-output.json)
+          echo "ADO TEST PLAN ITERATION : ${TEST_PLAN_AREA_ITERATION}" >> $GITHUB_STEP_SUMMARY
+          echo "TEST_PLAN_AREA_ITERATION=${TEST_PLAN_AREA_ITERATION}" >> $GITHUB_OUTPUT
