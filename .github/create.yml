@@ -1,0 +1,38 @@
+name: Create-Test-Plan
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Test Plan Name'
+        required: true
+        type: string
+      area:
+        description: 'Test Plan Area Path'
+        required: true
+        type: string   
+        default: 'Release 1'
+      iteration:
+        description: 'Test Plan Iteration'
+        required: true
+        type: string
+        default: 'Sprint 1'
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest  # For a list of available runner types, refer to
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0    
+    - name: create test plan
+      uses: ./create-test-plan
+      with:
+        organization: tr-ihn-sandbox
+        ado_pat: ${{ secrets.ADO_PAT }}
+        project: Azure-DevOps-Training
+        area: ${{ inputs.area }}
+        iteration: ${{ inputs.iteration }}
+        name: ${{ inputs.name }}

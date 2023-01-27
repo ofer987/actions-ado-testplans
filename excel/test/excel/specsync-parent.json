@@ -1,0 +1,84 @@
+{
+  "$schema": "https://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
+  "compatibilityVersion": "3.3",
+
+  "toolSettings": {
+    "licensePath": "specsync.lic",
+    "disableStats": true,
+    "outputLevel": "normal",
+    "plugins": [
+      {
+        "packageId": "SpecSync.Plugin.ExcelTestSource",
+        "packageVersion": "1.0.0 "        
+     },
+      {
+        "packageId": "SpecSync.Plugin.GenericTestResultMatcher",
+        "packageVersion": "1.0.0 ",
+        "parameters": {
+          // "Name": "{local-test-case-name}$",
+          "ClassName": "\\› {local-test-case-name}$"
+        }
+      }
+    ]
+  },
+  "remote": {
+    "projectUrl": "ADO_PROJECT_URL",
+    "user": "ADO_PAT",
+    "testSuite": {
+      "name": "Demo"
+    }
+  },
+  "publishTestResults": {
+      "testConfiguration": {
+          "name": "Linux-X64"
+      },
+      "testRunSettings": {
+        "name": "GHA-2995833570-QA Env",
+        "runType": "automated",
+        "comment": "As Expected"
+      },
+      "treatInconclusiveAs": "NotExecuted"
+  },  
+  "synchronization": {
+    "format": {
+      "useExpectedResult": true,
+      "syncDataTableAsText": false,
+      "prefixBackgroundSteps": true,
+      "prefixTitle": true,
+      "showParameterListStep": "whenUnusedParameters"
+    },  
+    "fieldUpdates": {
+      "Description": "{local-test-case-description}"
+    },
+    "links": [
+      {
+        "tagPrefix": "story"
+      },
+      {
+        "tagPrefix": "bug"
+      }
+    ],
+    "disableLocalChanges": false,
+    "testCaseTagPrefix": "TC",
+    "pull": {
+        "enabled": true,
+        "enableCreatingScenariosForNewTestCases": true
+    },
+    "automation": {
+        "enabled": true,
+        "automatedTestType": "Script",
+        "condition": "not @manual"
+    },
+    "state": {
+        "setValueOnChangeTo": "Design"
+    },
+    "areaPath": {
+        "mode": "setOnLink",
+        "value": "\\Release 1"
+    },
+    "iterationPath": {
+        "mode": "setOnLink",
+        "value": "\\Sprint 1"
+    }    
+  }
+}

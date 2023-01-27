@@ -1,0 +1,33 @@
+name: excel-source
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches-ignore:    
+  #     - 'excel-ado-sync-**'
+  #   paths:
+  #     - '**.xlsx'
+  # pull_request:
+  #   types: [opened, reopened]
+  #   branches-ignore:
+  #     - 'excel-ado-syn-**'
+  #   paths:
+  #     - '**.xlsx'
+      
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Git Repo
+        uses: actions/checkout@v3
+      - name: Excel to ADO Sync
+        id: excel_sync
+        uses: ./
+        with:
+            test_cases_sync: 'true'
+            test_results_sync: 'false'
+            artifactory_user: ${{ secrets.ARTIFACTORY_USER }}
+            artifactory_token: ${{ secrets.ARTIFACTORY_TOKEN }}
+            ado_pat: ${{ secrets.ADO_PAT }}
+            ado_project_url: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training
+            excel_path: ./test/excel

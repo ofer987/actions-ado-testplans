@@ -1,0 +1,248 @@
+name: 'Excel to Azure DevOps Test Plans Sync'
+author: 'PavanMudigonda'
+description: 'A GitHub Action that Synchronizes Excel Test Cases and Test Results from GitHub to Azure DevOps'
+
+branding:
+  icon: 'repeat'
+  color: 'red'
+
+inputs:
+  env:
+    description: 'Test Environment'
+    required: false
+    default: 'QA'
+  artifactory_token:
+    description: 'JFROG TOKEN'
+    required: true
+  artifactory_user:
+    description: 'JFROG USER'
+    required: true
+  github_token:
+    description: 'GitHub API Access Token'
+    default: ${{ github.token }}
+    required: false
+  test_cases_sync:  
+    description: 'Test Cases Sync'
+    required: true
+    default: 'false'
+  test_results_sync:
+    description: 'Test Results Sync - Format Supported'
+    required: false
+    default: 'false'  
+  ado_pat:
+    description: 'Azure DevOps PAT'
+    required: true
+  ado_project_url:
+    description: 'ADO Project URL'
+    required: true
+  git_user_email:
+    description: 'Default Github Actions Email'
+    required: false
+    default: 'actions@github.com'
+  git_user_name:
+    description: 'Default Github Actions Name'
+    required: false
+    default: 'GitHub Actions'
+  excel_path:
+    description: 'Excel Path'
+    required: false
+    default: 'excel'
+  excel_branch_name:
+    description: 'Default Github Actions Name'
+    required: false
+    default: 'excel-ado-sync-${{ github.run_number }}'
+  temp_excel_branch_name:
+    description: 'Default Github Actions Name'
+    required: false
+    default: 'temp-excel-ado-sync-${{ github.run_number }}'    
+  test_results_run_name:
+    description: 'Test Result - Run NAme'
+    required: false
+    default: GHA-${{ github.run_number }}
+  test_results_attached_files:
+    description: 'Test Result '
+    required: false
+  test_results_path:
+    description: 'Test Results Path'
+    required: false
+  test_results_format:
+    description: 'Test Results Format'
+    required: false
+    default: 'CucumberJavaJUnitXml'
+  test_results_test_plan_id:
+    description: 'Test Results - Test Plan ID '
+    required: false
+  test_results_config:
+    description: 'Test Results Config'
+    required: false
+  run_comment:
+    description: 'Run Comment'
+    required: false  
+  run_result_comment:
+    description: 'Run Result Comment'
+    required: false 
+outputs:
+  ado_test_run_url:
+    value: ${{ steps.ado_run_step.outputs.ADO_RUN_URL }}
+    description: ADO Test Run URL
+  EXCEL_PR_URL:
+    value: ${{ steps.pr_url_step.outputs.EXCEL_PR_URL }}
+    description: Excel PR URL
+
+runs:
+  using: 'composite'
+  steps:
+      - name: Set Env Variables
+        shell: bash
+        run: |
+          echo ADO_PROJECT_URL=${{ inputs.ado_project_url }} >> $GITHUB_ENV
+          echo TEST_RESULTS_PATH=${{ inputs.test_results_path }} >> $GITHUB_ENV
+          echo TEST_RESULTS_FORMAT=${{ inputs.test_results_format }} >> $GITHUB_ENV
+          
+      - uses: microsoft/variable-substitution@v1
+        if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
+        with:
+          files: '${{ inputs.excel_path}}/*/specsync.json, ${{ inputs.excel_path}}/specsync-*.json'
+        env:
+          remote.projectUrl: ${{ inputs.ado_project_url }}
+          remote.user: ${{ inputs.ado_pat }}
+          publishTestResults.runName: ${{ inputs.test_results_run_name }}-${{ inputs.env }} Env
+
+      - name: Download SpecSync License From Artifactory
+        shell: bash
+        env:
+          ARTIFACTORY_TOKEN: ${{ inputs.artifactory_token }}
+          ARTIFACTORY_USER: ${{ inputs.artifactory_user }}
+        run: |
+          curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN} -O 'https://tr1.jfrog.io/artifactory/generic-local/devops-experience/specsync.lic'
+          mv specsync.lic ${{ inputs.excel_path }}
+          
+      - name: Set up .NET 7
+        if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "7.0.x"
+
+      - name: Install Dependencies
+        if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
+        shell: bash
+        run: |
+          export PATH="$PATH:/root/.dotnet/tools"
+          dotnet new tool-manifest
+          dotnet tool install --local SpecSync.AzureDevOps --version 3.4.0
+          dotnet specsync version
+
+      - name: Run Test Case Synchronization
+        if: ${{ inputs.test_cases_sync }}
+        shell: bash
+        run: |
+          find ${{ inputs.excel_path }} -type f -name "*.xlsx" | while read line;
+            do
+              TMP_HOME=${PWD}
+              line=$(echo $line)
+              DIR=$(dirname "$line")
+              echo $DIR
+              cd $DIR
+              dotnet specsync push;
+              cd ${TMP_HOME}
+            done;
+
+      - name: Run Test Results Synchronization
+        if: ${{ inputs.test_results_sync == 'true' && inputs.test_results_attached_files != 'true' }}
+        id: sync_without_attachment
+        shell: bash
+        run: |
+          BUILD_NUM=$(("${{ github.run_number }}"))
+          BUILD_ID=$(("${{ github.run_id }}"))
+          find ${{ inputs.excel_path }} -type f -name "*.xlsx" | while read line;
+            do
+                line=$(echo $line)
+                DIR=$(dirname "$line")
+                echo $DIR
+                cd $DIR
+                EXCEL_NAME=$(basename $DIR)
+                dotnet specsync publish-test-results --log output.txt -f CucumberJavaJUnitXml -r ${{ env.TEST_RESULTS_PATH }} -v --diagCategories TestResult --zeroExitCodeForWarnings --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}-Suite:${EXCEL_NAME}" --runComment "${{ inputs.run_comment }}" --testResultComment "${{ inputs.run_result_comment }}";
+                cat output.txt;
+                ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
+                ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
+                echo "##[set-output name=ADO_SUITE_RUN_URL;]${ADO_SUITE_RUN_URL}"
+                echo "TEST SUITE RUN URL for ${DIR} : ${ADO_SUITE_RUN_URL}" >> $GITHUB_STEP_SUMMARY
+                cd ${{ github.workspace }}
+            done;        
+
+      # - name: Run Test Results Synchronization with Attachments
+      #   if: ${{ inputs.test_results_sync == 'true' && inputs.test_results_attached_files == 'true' }}
+      #   id: sync_with_attachment
+      #   shell: bash
+      #   run: |
+      #     BUILD_NUM=${{ github.run_number }}
+      #     BUILD_ID=${{ github.run_id }}
+      #     BUILD_NUM=$((BUILD_NUM))
+      #     BUILD_ID=$((BUILD_ID))
+      #     find ${{ inputs.excel_path }} -type f -name "*.xlsx" | while read line;
+      #       do
+      #           line=$(echo $line)
+      #           DIR=$(dirname "$line")
+      #           echo $DIR
+      #           cd $DIR
+      #           EXCEL_NAME=$(basename $DIR)
+      #           dotnet specsync publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}-Suite:${EXCEL_NAME}" > output.txt;
+      #           cat output.txt
+      #           ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
+      #           ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
+      #           echo "##[set-output name=ADO_SUITE_RUN_URL;]${ADO_SUITE_RUN_URL}"
+      #           echo "TEST SUITE RUN URL for ${DIR} : ${ADO_SUITE_RUN_URL}" >> $GITHUB_STEP_SUMMARY
+      #           cd ${{ github.workspace }}
+      #       done;
+
+      - name: Erase SpecSync License Files
+        if: always()
+        shell: bash
+        run: rm -rf ${{ inputs.excel_path }}/specsync.lic
+        
+      - uses: dorny/paths-filter@v2
+        if: ${{ inputs.test_cases_sync == 'true' }}
+        id: post-ado-sync
+        with:
+          filters: |
+            excel:
+              - added|deleted|modified: '**.xlsx'
+
+      - name: Create Pull Request
+        id: create_pr
+        uses: peter-evans/create-pull-request@v4
+        with:
+          add-paths: '**.xlsx'
+          token: ${{ inputs.github_token }}
+          commit-message: Updated Excel with Azure DevOps Tags
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          signoff: true
+          branch: ${{ inputs.excel_branch_name }}
+          delete-branch: true
+          title: '[Excel Azure DevOps Sync] Automated Pull Request'
+          body: |
+            Updated Excel with Azure DevOps Tags
+            - Auto-generated by [excel-ado-sync][1]
+            [1]: https://github.com/tr/cicd_gh-actions-ado-specsync/actions/runs/${{ github.run_id }}
+          labels: |
+            excel ado sync
+          draft: false
+
+      - name: Publish Build/Job Summary - PR URL
+        if: ${{ inputs.test_cases_sync == 'true' }}
+        id: pr_url_step
+        shell: bash
+        run: |
+          echo "##[set-output name=EXCEL_PR_URL;]${{ steps.create_pr.outputs.pull-request-url }}"
+          echo "Excel PR URL: ${{ steps.create_pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Output Test Results URL
+        env:
+          ADO_PROJECT_URL: ${{ inputs.ado_project_url }}
+        if: ${{ inputs.test_results_sync == 'true' }}
+        id: test_run_step
+        shell: bash
+        run: |
+          echo "ADO TEST RUN URL: ${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery" >> $GITHUB_STEP_SUMMARY
+          echo "##[set-output name=ADO_RUN_URL;]${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery"

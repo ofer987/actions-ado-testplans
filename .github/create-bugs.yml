@@ -1,0 +1,26 @@
+name: Create-Bugs
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest  # For a list of available runner types, refer to
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0    
+    - name: create bugs for last run failure
+      uses: ./create-bugs
+      with:
+        organization: tr-ihn-sandbox
+        ado_pat: ${{ secrets.ADO_PAT }}
+        project: Azure-DevOps-Training
+        area: 'Release 1'
+        reason: 'CI Failure'
+        tags: 'Automated'
+        testRunName: 'GHA-27-Env:QA-Suite:AgeCalculations'
+        workItemType: 'Bug'
+        assignedTo: 'Pavan Mudigonda'

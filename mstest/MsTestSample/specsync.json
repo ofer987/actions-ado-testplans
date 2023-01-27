@@ -1,0 +1,40 @@
+{
+  "$schema": "http://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
+  "compatibilityVersion": "3.4.1",
+
+  "toolSettings": {
+    "licensePath": "specsync.lic",
+    "plugins": [
+      {
+        "packageId": "SpecSync.Plugin.MsTestTestSource",
+        "packageVersion": "1.0.1"
+      }
+    ]
+  },
+  "remote": {
+    "projectUrl": "https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training",
+    "user": "mffaiq6qalwjkx3ffcfpouv4j3ty4uwgrbd3mgzfviixlije77aq",
+    "testSuite": {
+      "testPlanId": 23913,
+      "name": "MsTest Tests"
+    }
+  },
+  "synchronization": {
+    "pull": {
+      "enabled": true,
+      "enableCreatingScenariosForNewTestCases": true
+    },
+    "links": [
+      {
+        "tagPrefix": "story"
+      }
+    ],
+    "automation": {
+      "enabled": true,
+      "automatedTestType": "MsTest Unit Test"
+    },
+    "fieldUpdates": {
+      "Description": "<pre>{feature-file-path}:{br}{scenario-source}</pre>"
+    }
+  }
+}
