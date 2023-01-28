@@ -34,6 +34,7 @@ $tags = Get-ActionInput tags -Required
 $testRunName = Get-ActionInput testRunName -Required
 $workItemType = Get-ActionInput workItemType -Required
 $runId = Get-ActionInput runId -Required
+$runId = [int]$runId
 
 function GetUrl() {
     param(
