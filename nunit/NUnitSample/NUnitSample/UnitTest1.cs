@@ -8,7 +8,7 @@ namespace NUnitTestProject
     {
         [Test]
         [Category("MyCategory")]
-        [Category("story:131")]
+        [Category("story:17372")]
         public void OnePassingTest()
         {
             // perform test
