@@ -86,10 +86,10 @@ jobs:
         draft: false
           
     - name: run specsync 2
+      working-directory: nunit/NUnitSample/NUnitSample
       if: always()
       shell: bash
-      working-directory: nunit/NUnitSample/NUnitSample
       run: |
         dotnet tool restore
-        dotnet specsync publish-test-results --testResultFile ${{github.workspace}}/TestResults.trx --license ./nunit/NUnitSample/NUnitSample/specsync.lic
+        dotnet specsync publish-test-results --testResultFile ${{github.workspace}}/TestResults.trx
         
