@@ -46,8 +46,7 @@ jobs:
     - name: Execute unit tests
       working-directory: nunit/NUnitSample
       run: |
-        dotnet test --logger "trx;LogFileName=TestResults.trx"
-        ls -R
+        dotnet test --logger "trx;LogFileName=${{github.workspace}}/TestResults.trx"
         
     - uses: dorny/paths-filter@v2.11.1
       if: always()
@@ -65,7 +64,6 @@ jobs:
         echo "Filter: ${{ steps.filter.outputs.src }}"
         
     - name: Create Pull Request
-      if: false
       id: create_pr
       uses: peter-evans/create-pull-request@v4.2.3
       with:
@@ -89,7 +87,7 @@ jobs:
     - name: run specsync 2
       if: always()
       shell: bash
-      working-directory: nunit/NUnitSample
+      working-directory: nunit/NUnitSample/NUnitSample
       run: |
         dotnet tool restore
         dotnet specsync publish-test-results --testResultFile ${{github.workspace}}/TestResults.trx
