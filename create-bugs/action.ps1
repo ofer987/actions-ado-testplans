@@ -142,9 +142,11 @@ $projects.value  | ForEach-Object {
     if ($projectVariable -eq $project) {
         if ($runId -eq '') {
             $testResultsRunUrl = "$adoBaseUrl/$project/_apis/test/Runs/$lastRunId/results?api-version=6.0"
+            Write-Host "testResultsRunUrl: $testResultsRunUrl"
         }
         else {
             $testResultsRunUrl = "$adoBaseUrl/$project/_apis/test/Runs/$runId/results?api-version=6.0"
+            Write-Host "testResultsRunUrl: $testResultsRunUrl"
         }
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
         $lastTestSuiteResult = Invoke-RestMethod $testResultsRunUrl -Method Get -ContentType "application/json" -Headers $header
