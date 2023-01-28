@@ -91,38 +91,38 @@ $projects.value | ForEach-Object {
     Write-Host $_.name
 }
 
-if ($runId -eq '') {
-    # Runs - List
-    Write-Host "Getting list of Test Runs"  -ForegroundColor Green
-    $projects.value  | ForEach-Object {
-        $projectVariable = $_.name
-        $testAreaId = "3b95fb80-fdda-4218-b60e-1052d070ae6b"
-        $testRunName = "$testRunName" # YOUR testRunName
-        $adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
+# Runs - List
+Write-Host "Getting list of Test Runs"  -ForegroundColor Green
+$projects.value  | ForEach-Object {
+    $projectVariable = $_.name
+    $testAreaId = "3b95fb80-fdda-4218-b60e-1052d070ae6b"
+    $testRunName = "$testRunName" # YOUR testRunName
+    $adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
 
-    Write-Host "ADO Base URL: $adoBaseUrl"
+Write-Host "ADO Base URL: $adoBaseUrl"
 
-        #  https://docs.microsoft.com/en-us/rest/api/azure/devops/test/runs/list?view=azure-devops-rest-6.0
-        if ($projectVariable -eq $project) {
-            $testRunUrl = "$adoBaseUrl/$project/_apis/test/runs?api-version=6.0"
-            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-            $testRunResultsUri = Invoke-RestMethod -Uri $testRunUrl -Method Get -ContentType "application/json" -Headers $header
-            $runResultDefs = $testRunResultsUri.value   
-            if ($runResultDefs.Count -gt 0) {
-                Write-Host "$project has $($runResultDefs.count) test runs" -ForegroundColor Blue
-                $lastRunResult = $runResultDefs[-1]
+    #  https://docs.microsoft.com/en-us/rest/api/azure/devops/test/runs/list?view=azure-devops-rest-6.0
+    if ($projectVariable -eq $project) {
+        $testRunUrl = "$adoBaseUrl/$project/_apis/test/runs?api-version=6.0"
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        $testRunResultsUri = Invoke-RestMethod -Uri $testRunUrl -Method Get -ContentType "application/json" -Headers $header
+        $runResultDefs = $testRunResultsUri.value
+        if ($runResultDefs.Count -gt 0) {
+            Write-Host "$project has $($runResultDefs.count) test runs" -ForegroundColor Blue
+            $lastRunResult = $runResultDefs[-1]
+            if ($runId -eq '') {
                 if ($lastRunResult.name -match $testRunName) {
                     $lastRunId = $lastRunResult.id
                     $lastTestName = $lastRunResult.name
                     Write-Host "Last test run id: " $lastRunId
                     Write-Host "Last test run name: " $lastTestName
-                }
+                }                
+            }
+            else {
+                $lastRunId = $runId
             }
         }
     }
-}
-else {
-    Write-Host "runId: $runId"
 }
 
 # Get test results for a test run.
@@ -142,14 +142,8 @@ $projects.value  | ForEach-Object {
 
     # https://docs.microsoft.com/en-us/rest/api/azure/devops/test/results/list?view=azure-devops-rest-6.0
     if ($projectVariable -eq $project) {
-        if ($runId -eq '') {
             $testResultsRunUrl = "$script:adoBaseUrl/$project/_apis/test/Runs/$lastRunId/results?api-version=6.0"
             Write-Host "testResultsRunUrl: $testResultsRunUrl"
-        }
-        else {
-            $testResultsRunUrl = "$script:adoBaseUrl/$project/_apis/test/Runs/$runId/results?api-version=6.0"
-            Write-Host "testResultsRunUrl: $testResultsRunUrl"
-        }
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
         $lastTestSuiteResult = Invoke-RestMethod $testResultsRunUrl -Method Get -ContentType "application/json" -Headers $header
         $lastTestSuiteScenariosRunResults = $lastTestSuiteResult.value
