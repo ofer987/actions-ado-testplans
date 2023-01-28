@@ -90,33 +90,38 @@ $projects.value | ForEach-Object {
     Write-Host $_.name
 }
 
-# Runs - List
-Write-Host "Getting list of Test Runs"  -ForegroundColor Green
-$projects.value  | ForEach-Object {
-    $projectVariable = $_.name
-    $testAreaId = "3b95fb80-fdda-4218-b60e-1052d070ae6b"
-    $testRunName = "$testRunName" # YOUR testRunName
-    $adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
+if ($runId -eq '') {
+    # Runs - List
+    Write-Host "Getting list of Test Runs"  -ForegroundColor Green
+    $projects.value  | ForEach-Object {
+        $projectVariable = $_.name
+        $testAreaId = "3b95fb80-fdda-4218-b60e-1052d070ae6b"
+        $testRunName = "$testRunName" # YOUR testRunName
+        $adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
 
-Write-Host "ADO Base URL: $adoBaseUrl"
+    Write-Host "ADO Base URL: $adoBaseUrl"
 
-    #  https://docs.microsoft.com/en-us/rest/api/azure/devops/test/runs/list?view=azure-devops-rest-6.0
-    if ($projectVariable -eq $project) {
-        $testRunUrl = "$adoBaseUrl/$project/_apis/test/runs?api-version=6.0"
-        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        $testRunResultsUri = Invoke-RestMethod -Uri $testRunUrl -Method Get -ContentType "application/json" -Headers $header
-        $runResultDefs = $testRunResultsUri.value   
-        if ($runResultDefs.Count -gt 0) {
-            Write-Host "$project has $($runResultDefs.count) test runs" -ForegroundColor Blue
-            $lastRunResult = $runResultDefs[-1]
-            if ($lastRunResult.name -match $testRunName) {
-                $lastRunId = $lastRunResult.id
-                $lastTestName = $lastRunResult.name
-                Write-Host "Last test run id: " $lastRunId
-                Write-Host "Last test run name: " $lastTestName
+        #  https://docs.microsoft.com/en-us/rest/api/azure/devops/test/runs/list?view=azure-devops-rest-6.0
+        if ($projectVariable -eq $project) {
+            $testRunUrl = "$adoBaseUrl/$project/_apis/test/runs?api-version=6.0"
+            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+            $testRunResultsUri = Invoke-RestMethod -Uri $testRunUrl -Method Get -ContentType "application/json" -Headers $header
+            $runResultDefs = $testRunResultsUri.value   
+            if ($runResultDefs.Count -gt 0) {
+                Write-Host "$project has $($runResultDefs.count) test runs" -ForegroundColor Blue
+                $lastRunResult = $runResultDefs[-1]
+                if ($lastRunResult.name -match $testRunName) {
+                    $lastRunId = $lastRunResult.id
+                    $lastTestName = $lastRunResult.name
+                    Write-Host "Last test run id: " $lastRunId
+                    Write-Host "Last test run name: " $lastTestName
+                }
             }
         }
     }
+}
+else {
+    Write-Host "runId: $runId"
 }
 
 # Get test results for a test run.
@@ -134,7 +139,7 @@ $projects.value  | ForEach-Object {
 
     # https://docs.microsoft.com/en-us/rest/api/azure/devops/test/results/list?view=azure-devops-rest-6.0
     if ($projectVariable -eq $project) {
-        if ($runId -ne '') {
+        if ($runId -eq '') {
             $testResultsRunUrl = "$adoBaseUrl/$project/_apis/test/Runs/$lastRunId/results?api-version=6.0"
         }
         else {
@@ -205,19 +210,13 @@ $projects.value  | ForEach-Object {
                     $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
                     Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
                 }
+                else {
+                    Write-Host "All Tests Passed"
+                }
             }
+        }
+        else {
+            Write-Host "lastTestSuiteScenariosRunResults: 0"
         }
     }
 }
-
-
-$greeting = "$($salutation) $($audience)!"
-
-## Persist the greeting in the environment for all subsequent steps
-Set-ActionVariable -Name build_greeting -Value greeting
-
-## Expose the greeting as an output value of this step instance
-Set-ActionOutput -Name greeting -Value $greeting
-
-## Write it out to the log for good measure
-Write-ActionInfo $greeting
