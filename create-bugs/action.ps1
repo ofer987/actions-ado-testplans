@@ -135,16 +135,21 @@ $projects.value  | ForEach-Object {
     $AssignedTo = "$assignedTo"
     $Reason = "$reason"
     $tags = "$tags"
-    $adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
+
     $adoWorkTrackingItemUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $workTrackingAreaId
+    Write-Host "adoWorkTrackingItemUrl: $adoWorkTrackingItemUrl"
 
     # https://docs.microsoft.com/en-us/rest/api/azure/devops/test/results/list?view=azure-devops-rest-6.0
     if ($projectVariable -eq $project) {
         if ($runId -eq '') {
+            $adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
+            Write-Host "adoBaseUrl: $adoBaseUrl"
             $testResultsRunUrl = "$adoBaseUrl/$project/_apis/test/Runs/$lastRunId/results?api-version=6.0"
             Write-Host "testResultsRunUrl: $testResultsRunUrl"
         }
         else {
+            $adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
+            Write-Host "adoBaseUrl: $adoBaseUrl"
             $testResultsRunUrl = "$adoBaseUrl/$project/_apis/test/Runs/$runId/results?api-version=6.0"
             Write-Host "testResultsRunUrl: $testResultsRunUrl"
         }
