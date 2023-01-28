@@ -92,7 +92,7 @@ $projects.value | ForEach-Object {
 # Runs - List
 Write-Host "Getting list of Test Runs"  -ForegroundColor Green
 $projects.value  | ForEach-Object {
-    $project = $_.name
+    $projectVariable = $_.name
     $testAreaId = "3b95fb80-fdda-4218-b60e-1052d070ae6b"
     $testRunName = "$testRunName" # YOUR testRunName
     $adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
@@ -100,12 +100,11 @@ $projects.value  | ForEach-Object {
 Write-Host "ADO Base URL: $adoBaseUrl"
 
     #  https://docs.microsoft.com/en-us/rest/api/azure/devops/test/runs/list?view=azure-devops-rest-6.0
-    if ($project -eq '$project') {
+    if ($projectVariable -eq $project) {
         $testRunUrl = "$adoBaseUrl/$project/_apis/test/runs?api-version=6.0"
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
         $testRunResultsUri = Invoke-RestMethod -Uri $testRunUrl -Method Get -ContentType "application/json" -Headers $header
-        $runResultDefs = $testRunResultsUri.value
-        
+        $runResultDefs = $testRunResultsUri.value   
         if ($runResultDefs.Count -gt 0) {
             Write-Host "$project has $($runResultDefs.count) test runs" -ForegroundColor Blue
             $lastRunResult = $runResultDefs[-1]
