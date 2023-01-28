@@ -33,6 +33,7 @@ $reason   = Get-ActionInput reason -Required
 $tags = Get-ActionInput tags -Required
 $testRunName = Get-ActionInput testRunName -Required
 $workItemType = Get-ActionInput workItemType -Required
+$runId = Get-ActionInput runId -Required
 
 function GetUrl() {
     param(
@@ -133,7 +134,12 @@ $projects.value  | ForEach-Object {
 
     # https://docs.microsoft.com/en-us/rest/api/azure/devops/test/results/list?view=azure-devops-rest-6.0
     if ($projectVariable -eq $project) {
-        $testResultsRunUrl = "$adoBaseUrl/$project/_apis/test/Runs/$lastRunId/results?api-version=6.0"
+        if ($runId -ne '') {
+            $testResultsRunUrl = "$adoBaseUrl/$project/_apis/test/Runs/$lastRunId/results?api-version=6.0"
+        }
+        else {
+            $testResultsRunUrl = "$adoBaseUrl/$project/_apis/test/Runs/$runId/results?api-version=6.0"
+        }
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
         $lastTestSuiteResult = Invoke-RestMethod $testResultsRunUrl -Method Get -ContentType "application/json" -Headers $header
         $lastTestSuiteScenariosRunResults = $lastTestSuiteResult.value
@@ -203,7 +209,6 @@ $projects.value  | ForEach-Object {
         }
     }
 }
-
 
 
 $greeting = "$($salutation) $($audience)!"

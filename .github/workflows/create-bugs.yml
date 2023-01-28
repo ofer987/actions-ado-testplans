@@ -21,6 +21,6 @@ jobs:
         area: 'Release 1'
         reason: 'CI Failure'
         tags: 'Automated'
-        testRunName: 'GHA-27-Env:QA-Suite:AgeCalculations'
+        runId: 1468
         workItemType: 'Bug'
         assignedTo: 'Pavan Mudigonda'

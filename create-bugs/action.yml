@@ -30,10 +30,10 @@ inputs:
     default: 'Automation'
   testRunName:
     description: 'Run Name'
-    required: true 
-  testId:
+    required: false 
+  runId:
     description: 'Run ID'
-    required: true     
+    required: false     
   workItemType:
     description: 'Work Item Type'
     required: true
