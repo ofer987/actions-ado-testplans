@@ -89,7 +89,7 @@ jobs:
     - name: run specsync 2
       if: always()
       shell: bash
-      working-directory: nunit
+      working-directory: nunit/NUnitSample
       run: |
         dotnet tool restore
         dotnet specsync publish-test-results --testResultFile ${{github.workspace}}/TestResults.trx
