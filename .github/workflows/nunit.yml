@@ -65,6 +65,7 @@ jobs:
         
     - name: Create Pull Request
       id: create_pr
+      if: always()
       uses: peter-evans/create-pull-request@v4.2.3
       with:
         add-paths: '**.cs'
@@ -90,5 +91,5 @@ jobs:
       working-directory: nunit/NUnitSample/NUnitSample
       run: |
         dotnet tool restore
-        dotnet specsync publish-test-results --testResultFile ${{github.workspace}}/TestResults.trx
+        dotnet specsync publish-test-results --testResultFile ${{github.workspace}}/TestResults.trx --license ./nunit/NUnitSample/NUnitSample/specsync.lic
         
