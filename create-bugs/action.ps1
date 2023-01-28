@@ -72,12 +72,18 @@ $header = @{authorization = "Basic $token" }
 # Projects - List
 Write-Host "Getting list of projects" -ForegroundColor Green
 $coreAreaId = "79134c72-4a58-4b42-976c-04e7115f32bf"
-$tfsBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $coreAreaId
+$adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $coreAreaId
 
+Write-Host "ADO Base URL: $adoBaseUrl"
 # https://docs.microsoft.com/en-us/rest/api/azure/devops/core/projects/list?view=azure-devops-rest-5.1
-$projectsUrl = "$($tfsBaseUrl)_apis/projects?api-version=6.0"
+$projectsUrl = "$($adoBaseUrl)_apis/projects?api-version=6.0"
+Write-Host "ADO Projects URL: $projectsUrl"
+
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 $projects = Invoke-RestMethod -Uri $projectsUrl -Method Get -ContentType "application/json" -Headers $header
+
+Write-Host "ADO Projects: $projects"
+
 
 $projects.value | ForEach-Object {
     Write-Host $_.name
@@ -89,11 +95,13 @@ $projects.value  | ForEach-Object {
     $project = $_.name
     $testAreaId = "3b95fb80-fdda-4218-b60e-1052d070ae6b"
     $testRunName = "$testRunName" # YOUR testRunName
-    $tfsBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
+    $adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
+
+Write-Host "ADO Base URL: $adoBaseUrl"
 
     #  https://docs.microsoft.com/en-us/rest/api/azure/devops/test/runs/list?view=azure-devops-rest-6.0
     if ($project -eq '$project') {
-        $testRunUrl = "$tfsBaseUrl/$project/_apis/test/runs?api-version=6.0"
+        $testRunUrl = "$adoBaseUrl/$project/_apis/test/runs?api-version=6.0"
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
         $testRunResultsUri = Invoke-RestMethod -Uri $testRunUrl -Method Get -ContentType "application/json" -Headers $header
         $runResultDefs = $testRunResultsUri.value
@@ -108,26 +116,25 @@ $projects.value  | ForEach-Object {
                 Write-Host "Last test run name: " $lastTestName
             }
         }
-
     }
 }
 
 # Get test results for a test run.
 Write-Host "Getting passed/failed results from last run" -ForegroundColor Green
 $projects.value  | ForEach-Object {
-    $project = $_.name
+    $projectVariable = $_.name
     $workTrackingAreaId = "85f8c7b6-92fe-4ba6-8b6d-fbb67c809341"
     $workitemType = "$bug"
     $Area = "$area_path"
     $AssignedTo = "$assignedTo"
     $Reason = "$reason"
     $tags = "$tags"
-    $tfsBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
-    $tfsWorkTrackingItemUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $workTrackingAreaId
+    $adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
+    $adoWorkTrackingItemUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $workTrackingAreaId
 
     # https://docs.microsoft.com/en-us/rest/api/azure/devops/test/results/list?view=azure-devops-rest-6.0
-    if ($project -eq '{PROJECT_NAME}') {
-        $testResultsRunUrl = "$tfsBaseUrl/$project/_apis/test/Runs/$lastRunId/results?api-version=6.0"
+    if ($projectVariable -eq $project) {
+        $testResultsRunUrl = "$adoBaseUrl/$project/_apis/test/Runs/$lastRunId/results?api-version=6.0"
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
         $lastTestSuiteResult = Invoke-RestMethod $testResultsRunUrl -Method Get -ContentType "application/json" -Headers $header
         $lastTestSuiteScenariosRunResults = $lastTestSuiteResult.value
@@ -138,7 +145,7 @@ $projects.value  | ForEach-Object {
                 if ($currentTestCase.outcome -ne "Passed") {
                     Write-Host "Creating bug for failed test case" -ForegroundColor Green
                     # https://docs.microsoft.com/en-us/rest/api/azure/devops/wit/work%20items/create?view=azure-devops-rest-6.0
-                    $createBugWorkItemUrl = "$tfsWorkTrackingItemUrl/$project/_apis/wit/workitems/" + "$" + $workitemType + "?api-version=6.0"
+                    $createBugWorkItemUrl = "$adoWorkTrackingItemUrl/$project/_apis/wit/workitems/" + "$" + $workitemType + "?api-version=6.0"
                     $resultID = $currentTestCase.id
                     $bodyDesc = "Get full details of error message & stack trace on below link:" + "`n" + "https://{project_url}/_TestManagement/Runs?runId=" + $lastRunId + "&_a=resultSummary&resultId=" + $resultID + " "
                     $err = ""
