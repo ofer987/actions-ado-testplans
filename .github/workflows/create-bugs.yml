@@ -19,7 +19,7 @@ jobs:
         ado_pat: ${{ secrets.ADO_PAT }}
         project: Azure-DevOps-Training
         area: 'Release 1'
-        reason: 'CI Failure'
+        reason: 'New'
         tags: 'Automated'
         runId: 1468
         workItemType: 'bug'
