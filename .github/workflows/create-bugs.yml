@@ -19,8 +19,12 @@ jobs:
         ado_pat: ${{ secrets.ADO_PAT }}
         project: Azure-DevOps-Training
         area: 'Release 1'
+        # New defect reported
+        # Build Failure
         reason: 'New defect reported'
         tags: 'Automated'
         runId: 1468
-        workItemType: 'bug'
+        # bug
+        # task
+        workItemType: 'task'
         assignedTo: 'Pavan Mudigonda'
