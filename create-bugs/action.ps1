@@ -136,7 +136,6 @@ Write-Host "Getting passed/failed results from last run" -ForegroundColor Green
 $projects.value  | ForEach-Object {
     $projectVariable = $_.name
     $workTrackingAreaId = "85f8c7b6-92fe-4ba6-8b6d-fbb67c809341"
-    $workitemType = "{WIT}"
     $AREA = $area_path
     $Area = "{AREA}"
     $AssignedTo = "{ASSIGNED_TO}"
@@ -161,7 +160,7 @@ $projects.value  | ForEach-Object {
                 if ($currentTestCase.outcome -ne "Passed") {
                     Write-Host "Creating bug for failed test case" -ForegroundColor Green
                     # https://docs.microsoft.com/en-us/rest/api/azure/devops/wit/work%20items/create?view=azure-devops-rest-6.0
-                    $createBugWorkItemUrl = "$tfsWorkTrackingItemUrl/$project/_apis/wit/workitems/" + "$" + $workitemType + "?api-version=6.0"
+                    $createBugWorkItemUrl = "$tfsWorkTrackingItemUrl/$project/_apis/wit/workitems/" + $workitemType + "?api-version=6.0"
                     Write-Host "createBugWorkItemUrl: $createBugWorkItemUrl"
                     $resultID = $currentTestCase.id
                     $bodyDesc = "Get full details of error message & stack trace on below link:" + "`n" + "https://{project_url}/_TestManagement/Runs?runId=" + $lastRunId + "&_a=resultSummary&resultId=" + $resultID + " "
