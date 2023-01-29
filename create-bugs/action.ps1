@@ -31,15 +31,15 @@ $testRunName = Get-ActionInput testRunName -Required
 $runId = Get-ActionInput runId -Required
 $runId = [int]$runId
 $workItemType = Get-ActionInput workItemType -Required
-WIT = Get-ActionInput workItemType -Required
-area = Get-ActionInput area -Required
-AREA = Get-ActionInput area -Required
-assignedTo = Get-ActionInput assignedTo -Required
-ASSIGNED_TO = Get-ActionInput assignedTo -Required
-reason = Get-ActionInput reason -Required
-REASON = Get-ActionInput reason -Required
+$WIT = Get-ActionInput workItemType -Required
+$area = Get-ActionInput area -Required
+$AREA = Get-ActionInput area -Required
+$assignedTo = Get-ActionInput assignedTo -Required
+$ASSIGNED_TO = Get-ActionInput assignedTo -Required
+$reason = Get-ActionInput reason -Required
+$REASON = Get-ActionInput reason -Required
 $tags = Get-ActionInput tags -Required
-TAGS = Get-ActionInput tags -Required
+$TAGS = Get-ActionInput tags -Required
 
 
 function GetUrl() {
