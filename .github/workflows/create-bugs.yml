@@ -13,7 +13,7 @@ jobs:
       with:
         fetch-depth: 0    
     - name: create bugs for last run failure
-      uses: ./create-bugs
+      uses: cicd_gh-actions-ado-testplans/create-bugs@v1.0
       with:
         organization: tr-ihn-sandbox
         ado_pat: ${{ secrets.ADO_PAT }}
