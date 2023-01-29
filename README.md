@@ -11,12 +11,12 @@ This is a TR Internal GitHub Action for Azure DevOps TestPlans Automation.
 
 ## 2. Cucumber based Patterns
 
-- [Introduction](./docs/1-Introduction.md)
-- [Preparation](./docs/2-Preparation.md)
-- [Sample Screenshots](./docs/3-Action-Screenshots.md)
-- [Inputs and Outputs](./docs/4-Inputs-Outputs.md)
-- [Examples](./docs/5-Examples.md)
-- [SpecSync Config Templates](./docs/specsync-templates)
+- [Introduction](./cucumber/docs/1-Introduction.md)
+- [Preparation](./cucumber/docs/2-Preparation.md)
+- [Sample Screenshots](./cucumber/docs/3-Action-Screenshots.md)
+- [Inputs and Outputs](./cucumber/docs/4-Inputs-Outputs.md)
+- [Examples](./cucumber/docs/5-Examples.md)
+- [SpecSync Config Templates](./cucumber/docs/specsync-templates)
 - [SpecSync Documentation](https://specsolutions.gitbook.io/specsync/)
 - [Demo Selenium C# SpecSync Project](https://github.com/tr/tech_toc-selenium-dotnet-core)
 - [Playwright TypeScript Cucumber](https://github.com/tr/tech_toc-cucumber-e2e)
@@ -24,27 +24,35 @@ This is a TR Internal GitHub Action for Azure DevOps TestPlans Automation.
 
 ## 3. Non-Cucumber based Patterns
 
-- [Introduction](./docs/1-Introduction.md)
-- [Preparation](./docs/2-Preparation.md)
-- [Sample Screenshots](./docs/3-Action-Screenshots.md)
-- [Inputs and Outputs](./docs/4-Inputs-Outputs.md)
-- [Examples](./docs/5-Examples.md)
-- [SpecSync Config Templates](./docs/specsync-templates)
+- [Introduction](./excel/docs/1-Introduction.md)
+- [Preparation](./excel/docs/2-Preparation.md)
+- [Sample Screenshots](./excel/docs/3-Action-Screenshots.md)
+- [Inputs and Outputs](./excel/docs/4-Inputs-Outputs.md)
+- [Examples](./excel/docs/5-Examples.md)
+- [SpecSync Config Templates](./excel/docs/specsync-templates)
 - [SpecSync Documentation](https://specsolutions.gitbook.io/specsync/)
-- [Playwright Sample Project with Excel Test Cases](./test)
+- [Playwright Sample Project with Excel Test Cases](./excel/test)
 
 
 ## 4. MSTest - with no test cases written
 - [MSTest ReadMe](./mstest/README.md)
+- [MSTest Create Tests Sample Workflow](./.github/workflows/mstest-create-tests.yml)
+- [MSTest Push Test Results Sample Workflow](./.github/workflows/mstest-test-results.yml)
+
 
 ## 5. NUnit - with no test cases written
 - [NUnit ReadMe](./nunit/README.md)
+- [NUnit Create Tests Sample Workflow](./.github/workflows/nunit-create-tests.yml)
+- [NUnit Push Test Results Sample Workflow](./.github/workflows/nunit-test-results.yml)
+
 
 ## 6. Create Test Plan
 - [Create Test Plan ReadMe](./create-test-plan/README.md)
+- [Create TestPlan Sample Workflow](./.github/workflows/create-test-plan.yml)
 
 ## 7. Create Bugs
 - [Create Bugs ReadMe](./create-bugs/README.md)
+- [Create Bugs Sample Workflow](./.github/workflows/create-bugs.yml)
 
 
 ## Support
