@@ -156,7 +156,7 @@ $projects.value  | ForEach-Object {
                     $createBugWorkItemUrl = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + "$" + $workitemType + "?api-version=7.0"
                     Write-Host "createBugWorkItemUrl: $createBugWorkItemUrl"
                     $resultID = $currentTestCase.id
-                    $bodyDesc = "Get full details of error message & stack trace on below link:" + "`n" + "https://{project_url}/_TestManagement/Runs?runId=" + $lastRunId + "&_a=resultSummary&resultId=" + $resultID + " "
+                    $bodyDesc = "Get full details of error message & stack trace on below link:" + "`n" + "https://$adoBaseUrl/$project/_TestManagement/Runs?runId=" + $lastRunId + "&_a=resultSummary&resultId=" + $resultID + " "
                     $err = ""
                     $errLen = $currentTestCase.stackTrace.Length
                     if ($errLen -gt 1) {
