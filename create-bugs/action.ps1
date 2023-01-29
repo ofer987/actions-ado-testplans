@@ -202,6 +202,17 @@ $projects.value  | ForEach-Object {
                         "op": "add",
                         "path": "/fields/System.Tags",
                         "value": "$($tags)"
+                    },
+                    {
+                        "op": "add",
+                        "path": "/relations/-",
+                        "value": {
+                        "rel": "System.LinkTypes.Hierarchy-Reverse",
+                        "url": "https://dev.azure.com/$organization/_apis/wit/workItems/$resultID",
+                        "attributes": {
+                                        "comment": "Linked Bug with Failed Test Case"
+                                    }
+                                }
                     }
                 ] 
 "@
@@ -209,6 +220,7 @@ $projects.value  | ForEach-Object {
                     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                     $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
                     Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
+                    "Test ID: {$currentTestCase.id} Bug Id: {$bugWorkItemURI.id}" >> $env:GITHUB_STEP_SUMMARY
                 }
                 else {
                     Write-Host "All Tests Passed"
