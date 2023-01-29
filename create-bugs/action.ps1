@@ -181,7 +181,7 @@ $projects.value  | ForEach-Object {
                     {
                         "op" : "add",
                         "path" : "/fields/System.AreaPath",
-                        "value" : "$($currentTestCase.project.name)\\$($AREA_ONLY)"
+                        "value" : "$($currentTestCase.project.name)\\$area_path"
                     },
                     {
                         "op": "add",
