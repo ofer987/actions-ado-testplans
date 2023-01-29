@@ -24,10 +24,10 @@ jobs:
           # Build Failure
         # Task:
           # New task
-        reason: 'New task'
-        tags: ${{ github.run_id }}
+        reason: 'New defect reported'
+        tags: "${{ github.run_id }}, ${{ github.workflow }}, Automated"
         runId: 1468
         # bug
         # task
-        workItemType: 'task'
+        workItemType: 'bug'
         assignedTo: 'Pavan Mudigonda'
