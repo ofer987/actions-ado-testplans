@@ -19,9 +19,12 @@ jobs:
         ado_pat: ${{ secrets.ADO_PAT }}
         project: Azure-DevOps-Training
         area: 'Release 1'
-        # New defect reported
-        # Build Failure
-        reason: 'New defect reported'
+        # Bug:
+          # New defect reported
+          # Build Failure
+        # Task:
+          # New task
+        reason: 'New task'
         tags: ${{ github.run_id }}
         runId: 1468
         # bug
