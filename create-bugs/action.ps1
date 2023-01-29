@@ -41,7 +41,6 @@ $REASON = Get-ActionInput reason -Required
 $tags = Get-ActionInput tags -Required
 $TAGS = Get-ActionInput tags -Required
 
-
 function GetUrl() {
     param(
         [string]$orgUrl, 
@@ -138,6 +137,7 @@ $projects.value  | ForEach-Object {
     $workTrackingAreaId = "85f8c7b6-92fe-4ba6-8b6d-fbb67c809341"
     $AssignedTo = "{ASSIGNED_TO}"
     $Reason = "{REASON}"
+    $Area = "{area_path}"
     $tags = "{TAGS}"
     $adoWorkTrackingItemUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $workTrackingAreaId
     Write-Host "adoWorkTrackingItemUrl: $adoWorkTrackingItemUrl"
@@ -186,7 +186,7 @@ $projects.value  | ForEach-Object {
                     {
                         "op" : "add",
                         "path" : "/fields/System.AreaPath",
-                        "value" : "$($currentTestCase.project.name)\\$($area_path)"
+                        "value" : "$($currentTestCase.project.name)\\$($Area)"
                     },
                     {
                         "op": "add",
