@@ -136,8 +136,6 @@ Write-Host "Getting passed/failed results from last run" -ForegroundColor Green
 $projects.value  | ForEach-Object {
     $projectVariable = $_.name
     $workTrackingAreaId = "85f8c7b6-92fe-4ba6-8b6d-fbb67c809341"
-    $AREA = $area_path
-    $Area = "{AREA}"
     $AssignedTo = "{ASSIGNED_TO}"
     $Reason = "{REASON}"
     $tags = "{TAGS}"
@@ -188,7 +186,7 @@ $projects.value  | ForEach-Object {
                     {
                         "op" : "add",
                         "path" : "/fields/System.AreaPath",
-                        "value" : "$($currentTestCase.project.name)\\$($Area)"
+                        "value" : "$($currentTestCase.project.name)\\$($area_path)"
                     },
                     {
                         "op": "add",
