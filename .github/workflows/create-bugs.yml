@@ -22,5 +22,5 @@ jobs:
         reason: 'CI Failure'
         tags: 'Automated'
         runId: 1468
-        workItemType: 'Bug'
+        workItemType: 'bug'
         assignedTo: 'Pavan Mudigonda'
