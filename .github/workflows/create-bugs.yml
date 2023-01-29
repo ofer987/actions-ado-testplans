@@ -21,7 +21,7 @@ jobs:
         area: 'Release 1'
         # New defect reported
         # Build Failure
-        reason: 'Build Failure'
+        reason: 'New defect reported'
         tags: ${{ github.run_id }}
         runId: 1468
         # bug
