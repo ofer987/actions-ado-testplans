@@ -130,10 +130,10 @@ Write-Host "Getting passed/failed results from last run" -ForegroundColor Green
 $projects.value  | ForEach-Object {
     $projectVariable = $_.name
     $workTrackingAreaId = "85f8c7b6-92fe-4ba6-8b6d-fbb67c809341"
-    $AssignedTo = "{assignedTo}"
-    $Reason = "{reason}"
-    $AREA_ONLY = "{area}"
-    $tags = "{tags}"
+    $AssignedTo = "${assignedTo}"
+    $Reason = "${reason}"
+    $AREA_ONLY = "${area}"
+    $tags = "${tags}"
     $adoWorkTrackingItemUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $workTrackingAreaId
     Write-Host "adoWorkTrackingItemUrl: $adoWorkTrackingItemUrl"
     $script:adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
