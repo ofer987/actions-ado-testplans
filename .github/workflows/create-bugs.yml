@@ -21,8 +21,8 @@ jobs:
         area: 'Release 1'
         # New defect reported
         # Build Failure
-        reason: 'New defect reported'
-        tags: 'Automated'
+        reason: 'Build Failure'
+        tags: ${{ github.run_id }}
         runId: 1468
         # bug
         # task
