@@ -181,7 +181,7 @@ $projects.value  | ForEach-Object {
                     {
                         "op" : "add",
                         "path" : "/fields/System.AreaPath",
-                        "value" : "$($currentTestCase.project.name)\\$area_path"
+                        "value" : "$($currentTestCase.project.name)\\$($AREA_ONLY)"
                     },
                     {
                         "op": "add",
@@ -205,6 +205,7 @@ $projects.value  | ForEach-Object {
                     }
                 ] 
 "@
+                    Write-Host $body
                     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                     $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
                     Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
