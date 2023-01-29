@@ -27,14 +27,20 @@ Import-Module GitHubActions
 $organization = Get-ActionInput organization -Required
 $project   = Get-ActionInput project -Required
 $personalToken   = Get-ActionInput ado_pat -Required
-$area_path   = Get-ActionInput area -Required
-$assignedTo   = Get-ActionInput assignedTo -Required
-$reason   = Get-ActionInput reason -Required
-$tags = Get-ActionInput tags -Required
 $testRunName = Get-ActionInput testRunName -Required
-$workItemType = Get-ActionInput workItemType -Required
 $runId = Get-ActionInput runId -Required
 $runId = [int]$runId
+$workItemType = Get-ActionInput workItemType -Required
+WIT = Get-ActionInput workItemType -Required
+area = Get-ActionInput area -Required
+AREA = Get-ActionInput area -Required
+assignedTo = Get-ActionInput assignedTo -Required
+ASSIGNED_TO = Get-ActionInput assignedTo -Required
+reason = Get-ActionInput reason -Required
+REASON = Get-ActionInput reason -Required
+$tags = Get-ActionInput tags -Required
+TAGS = Get-ActionInput tags -Required
+
 
 function GetUrl() {
     param(
@@ -130,11 +136,12 @@ Write-Host "Getting passed/failed results from last run" -ForegroundColor Green
 $projects.value  | ForEach-Object {
     $projectVariable = $_.name
     $workTrackingAreaId = "85f8c7b6-92fe-4ba6-8b6d-fbb67c809341"
-    $workitemType = "$bug"
-    $Area = "$area_path"
-    $AssignedTo = "$assignedTo"
-    $Reason = "$reason"
-    $tags = "$tags"
+    $workitemType = "{WIT}"
+    $AREA = $area_path
+    $Area = "{AREA}"
+    $AssignedTo = "{ASSIGNED_TO}"
+    $Reason = "{REASON}"
+    $tags = "{TAGS}"
     $adoWorkTrackingItemUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $workTrackingAreaId
     Write-Host "adoWorkTrackingItemUrl: $adoWorkTrackingItemUrl"
     $script:adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
@@ -154,7 +161,7 @@ $projects.value  | ForEach-Object {
                 if ($currentTestCase.outcome -ne "Passed") {
                     Write-Host "Creating bug for failed test case" -ForegroundColor Green
                     # https://docs.microsoft.com/en-us/rest/api/azure/devops/wit/work%20items/create?view=azure-devops-rest-6.0
-                    $createBugWorkItemUrl = "$adoWorkTrackingItemUrl/$project/_apis/wit/workitems/$workitemType?api-version=6.0"
+                    $createBugWorkItemUrl = "$tfsWorkTrackingItemUrl/$project/_apis/wit/workitems/" + "$" + $workitemType + "?api-version=6.0"
                     Write-Host "createBugWorkItemUrl: $createBugWorkItemUrl"
                     $resultID = $currentTestCase.id
                     $bodyDesc = "Get full details of error message & stack trace on below link:" + "`n" + "https://{project_url}/_TestManagement/Runs?runId=" + $lastRunId + "&_a=resultSummary&resultId=" + $resultID + " "
@@ -177,7 +184,7 @@ $projects.value  | ForEach-Object {
                     {
                         "op" : "add",
                         "path" : "/fields/System.Reason",
-                        "value" : "$($reason)"
+                        "value" : "$($Reason)"
                     },
                     {
                         "op" : "add",
@@ -187,7 +194,7 @@ $projects.value  | ForEach-Object {
                     {
                         "op": "add",
                         "path": "/fields/System.AssignedTo",
-                        "value": "$($assignedTo)"
+                        "value": "$($AssignedTo)"
                     },
                     {
                         "op": "add",
