@@ -132,7 +132,7 @@ $projects.value  | ForEach-Object {
     $workTrackingAreaId = "85f8c7b6-92fe-4ba6-8b6d-fbb67c809341"
     $AssignedTo = "{assignedTo}"
     $Reason = "{reason}"
-    $Area = "{area}"
+    $AREA_ONLY = "{area}"
     $tags = "{tags}"
     $adoWorkTrackingItemUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $workTrackingAreaId
     Write-Host "adoWorkTrackingItemUrl: $adoWorkTrackingItemUrl"
@@ -181,7 +181,7 @@ $projects.value  | ForEach-Object {
                     {
                         "op" : "add",
                         "path" : "/fields/System.AreaPath",
-                        "value" : "$($currentTestCase.project.name)\\$($Area)"
+                        "value" : "$($currentTestCase.project.name)\\$($AREA_ONLY)"
                     },
                     {
                         "op": "add",
