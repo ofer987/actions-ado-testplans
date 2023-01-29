@@ -31,15 +31,10 @@ $testRunName = Get-ActionInput testRunName -Required
 $runId = Get-ActionInput runId -Required
 $runId = [int]$runId
 $workItemType = Get-ActionInput workItemType -Required
-$WIT = Get-ActionInput workItemType -Required
 $area = Get-ActionInput area -Required
-$AREA = Get-ActionInput area -Required
 $assignedTo = Get-ActionInput assignedTo -Required
-$ASSIGNED_TO = Get-ActionInput assignedTo -Required
 $reason = Get-ActionInput reason -Required
-$REASON = Get-ActionInput reason -Required
 $tags = Get-ActionInput tags -Required
-$TAGS = Get-ActionInput tags -Required
 
 function GetUrl() {
     param(
@@ -135,10 +130,10 @@ Write-Host "Getting passed/failed results from last run" -ForegroundColor Green
 $projects.value  | ForEach-Object {
     $projectVariable = $_.name
     $workTrackingAreaId = "85f8c7b6-92fe-4ba6-8b6d-fbb67c809341"
-    $AssignedTo = "{ASSIGNED_TO}"
-    $Reason = "{REASON}"
-    $Area = "{area_path}"
-    $tags = "{TAGS}"
+    $AssignedTo = "{assignedTo}"
+    $Reason = "{reason}"
+    $Area = "{area}"
+    $tags = "{tags}"
     $adoWorkTrackingItemUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $workTrackingAreaId
     Write-Host "adoWorkTrackingItemUrl: $adoWorkTrackingItemUrl"
     $script:adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
