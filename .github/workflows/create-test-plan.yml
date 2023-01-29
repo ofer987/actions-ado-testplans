@@ -28,7 +28,7 @@ jobs:
       with:
         fetch-depth: 0    
     - name: create test plan
-      uses: cicd_gh-actions-ado-testplans/create-test-plan@v1.0
+      uses: cicd_gh-actions-ado-testplans/create-test-plan@v1.3
       with:
         organization: tr-ihn-sandbox
         ado_pat: ${{ secrets.ADO_PAT }}

@@ -31,7 +31,7 @@ jobs:
 
       - name: MS Teams Notify
         if: ${{ always() }}
-        uses: tr/cicd_gh-actions-notification@v1.0
+        uses: tr/cicd_gh-actions-notification@v1.3
         with:
           WEBHOOK_URL: ${{ secrets.MS_TEAMS_HOOK }}
           WEBHOOK_TYPE: TEAMS
@@ -99,7 +99,7 @@ jobs:
 
     - name: MS Teams Notify
       if: ${{ always() }}
-      uses: tr/cicd_gh-actions-notification@v1.0
+      uses: tr/cicd_gh-actions-notification@v1.3
       with:
         WEBHOOK_URL: ${{ secrets.MS_TEAMS_HOOK }}
         WEBHOOK_TYPE: TEAMS
