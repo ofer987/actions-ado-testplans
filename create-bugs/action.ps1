@@ -155,6 +155,7 @@ $projects.value  | ForEach-Object {
                     # https://docs.microsoft.com/en-us/rest/api/azure/devops/wit/work%20items/create?view=azure-devops-rest-6.0
                     $createBugWorkItemUrl = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + "$" + $workitemType + "?api-version=7.0"
                     Write-Host "createBugWorkItemUrl: $createBugWorkItemUrl"
+                    Write-Host "$currentTestCase"
                     $resultID = $currentTestCase.id
                     $bodyDesc = "Get full details of error message & stack trace on below link:" + "`n" + "https://$adoBaseUrl/$project/_TestManagement/Runs?runId=" + $lastRunId + "&_a=resultSummary&resultId=" + $resultID + " "
                     $err = ""
