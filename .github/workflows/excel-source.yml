@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Excel to ADO Sync
         id: excel_sync
-      uses: cicd_gh-actions-ado-testplans/excel@v1.3
+        uses: cicd_gh-actions-ado-testplans/excel@v1.3
         with:
             test_cases_sync: 'true'
             test_results_sync: 'false'
