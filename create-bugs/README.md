@@ -29,10 +29,9 @@ This Action defines the following formal inputs.
 
 ### Outputs
 
-This Action defines the following formal outputs.
+Failed Test Case ID, Test Run URL along with corresponding Bug ID and Bug URL will be printed on Summary as below.
 
-| Name | Description
-|-|-|
+<img width="993" alt="image" src="https://user-images.githubusercontent.com/86745613/215378111-2c8e179f-8a6a-432d-a6a5-61ee55a3504f.png">
 
 
 
