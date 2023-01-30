@@ -222,7 +222,7 @@ $projects.value  | ForEach-Object {
                     $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
                     Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
                     $bugID = $bugWorkItemURI.id
-                    "Test ID: $testCaseID Linked with Bug Id: $bugID" >> $env:GITHUB_STEP_SUMMARY
+                    "Test ID: [$testCaseID](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) Linked with Bug Id: [$bugID](https://dev.azure.com/$organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY
                 }
                 else {
                     Write-Host "All Tests Passed"
