@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Cucumber to ADO Sync
         id: ado_sync
-        uses: tr/cicd_gh-actions-cucumber-ado-sync/cucumber@v1.3
+        uses: tr/cicd_gh-actions-cucumber-ado-sync/cucumber@v1.0
         with:
             test_cases_sync: 'true'
             test_results_sync: 'false'
@@ -31,7 +31,7 @@ jobs:
 
       - name: MS Teams Notify
         if: ${{ always() }}
-        uses: tr/cicd_gh-actions-notification@v1.3
+        uses: tr/cicd_gh-actions-notification@v1.0
         with:
           WEBHOOK_URL: ${{ secrets.MS_TEAMS_HOOK }}
           WEBHOOK_TYPE: TEAMS
@@ -83,7 +83,7 @@ jobs:
 
     - name: Cucumber to ADO Test Results Sync
       id: ado_sync
-      uses: tr/cicd_gh-actions-ado-testplans/cucumber@v1.3
+      uses: tr/cicd_gh-actions-ado-testplans/cucumber@v1.0
       with:
         ado_pat: ${{ secrets.ADO_PAT }}
         artifactory_token: ${{ secrets.ARTIFACTORY_TOKEN }}
@@ -99,7 +99,7 @@ jobs:
 
     - name: MS Teams Notify
       if: ${{ always() }}
-      uses: tr/cicd_gh-actions-notification@v1.3
+      uses: tr/cicd_gh-actions-notification@v1.0
       with:
         WEBHOOK_URL: ${{ secrets.MS_TEAMS_HOOK }}
         WEBHOOK_TYPE: TEAMS

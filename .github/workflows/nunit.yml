@@ -93,3 +93,23 @@ jobs:
         dotnet tool restore
         dotnet specsync publish-test-results --testResultFile ${{github.workspace}}/TestResults.trx
         
+
+    - name: create bugs for last run failure
+      uses: ./create-bugs
+      with:
+        organization: tr-ihn-sandbox
+        ado_pat: ${{ secrets.ADO_PAT }}
+        project: Azure-DevOps-Training
+        area: 'Release 1'
+        # Bug:
+          # New defect reported
+          # Build Failure
+        # Task:
+          # New task
+        reason: 'New defect reported'
+        tags: "${{ github.run_id }}, ${{ github.workflow }}, Automated"
+        runId: 1468
+        # bug
+        # task
+        workItemType: 'bug'
+        assignedTo: 'Pavan Mudigonda'

@@ -31,7 +31,7 @@ jobs:
         retention-days: 1
     - name: Cucumber to ADO Test Results Sync
       id: ado_sync
-      uses: tr/cicd_gh-actions-excel-ado-sync@v1.2
+      uses: tr/cicd_gh-actions-excel-ado-sync@v1.0
       with:
         ado_pat: ${{ secrets.ADO_PAT }}
         artifactory_token: ${{ secrets.ARTIFACTORY_TOKEN }}
@@ -44,3 +44,23 @@ jobs:
         ado_project_url: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training
         run_comment: "[GitHub Pages Allure Report](https://reimagined-memory-3352d180.pages.github.io/pytest/e2e/qa/944063316223/)"
         run_result_comment: "[GitHub Pages Allure Report](https://reimagined-memory-3352d180.pages.github.io/pytest/e2e/qa/944063316223/)"        
+
+    - name: create bugs for last run failure
+      uses: ./create-bugs
+      with:
+        organization: tr-ihn-sandbox
+        ado_pat: ${{ secrets.ADO_PAT }}
+        project: Azure-DevOps-Training
+        area: 'Release 1'
+        # Bug:
+          # New defect reported
+          # Build Failure
+        # Task:
+          # New task
+        reason: 'New defect reported'
+        tags: "${{ github.run_id }}, ${{ github.workflow }}, Automated"
+        runId: 1468
+        # bug
+        # task
+        workItemType: 'bug'
+        assignedTo: 'Pavan Mudigonda'
