@@ -59,7 +59,7 @@ jobs:
           # New task
         reason: 'New defect reported'
         tags: "${{ github.run_id }}, ${{ github.workflow }}, Automated"
-        runId: 1468
+        runId: ${{ env.ado_run_id }}
         # bug
         # task
         workItemType: 'bug'
