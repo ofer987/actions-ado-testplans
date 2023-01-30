@@ -35,7 +35,7 @@ jobs:
     - name: run specsync 1
       if: always()
       shell: bash
-      working-directory: nunit/NUnitSample/NUnitSample
+      working-directory: nunit/NUnitSample
       run: |
         dotnet tool restore
         dotnet specsync push
@@ -86,7 +86,7 @@ jobs:
         draft: false
           
     - name: run specsync 2
-      working-directory: nunit/NUnitSample/NUnitSample
+      working-directory: nunit/NUnitSample
       if: always()
       shell: bash
       run: |
