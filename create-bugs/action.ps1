@@ -155,7 +155,6 @@ $projects.value  | ForEach-Object {
                     # https://docs.microsoft.com/en-us/rest/api/azure/devops/wit/work%20items/create?view=azure-devops-rest-6.0
                     $createBugWorkItemUrl = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + "$" + $workitemType + "?api-version=7.0"
                     Write-Host "createBugWorkItemUrl: $createBugWorkItemUrl"
-                    Write-Host "$currentTestCase"
                     $resultID = $currentTestCase.id
                     $testCaseID = $currentTestCase.testCase.id
                     $bodyDesc = "Get full details of error message & stack trace on below link:" + "`n" + "https://$adoBaseUrl/$project/_TestManagement/Runs?runId=" + $lastRunId + "&_a=resultSummary&resultId=" + $resultID + " "
@@ -222,7 +221,8 @@ $projects.value  | ForEach-Object {
                     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                     $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
                     Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
-                    "Test ID: {$testCaseID} Bug Id: {$bugWorkItemURI.id}" >> $env:GITHUB_STEP_SUMMARY
+                    $bugID = $bugWorkItemURI.id
+                    "Test ID: $testCaseID Linked with Bug Id: $bugID" >> $env:GITHUB_STEP_SUMMARY
                 }
                 else {
                     Write-Host "All Tests Passed"
