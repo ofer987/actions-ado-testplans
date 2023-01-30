@@ -47,7 +47,8 @@ jobs:
       working-directory: nunit/NUnitSample/NUnitSample
       run: |
         dotnet test --logger "trx;LogFileName=${{github.workspace}}/TestResults.trx"
-        
+        dotnet specsync publish-test-results --testResultFile ${{github.workspace}}/TestResults.trx
+
     - uses: dorny/paths-filter@v2.11.1
       if: always()
       id: filter
@@ -84,15 +85,6 @@ jobs:
         labels: |
           ado sync
         draft: false
-          
-    - name: run specsync 2
-      working-directory: nunit/NUnitSample/NUnitSample
-      if: always()
-      shell: bash
-      run: |
-        dotnet tool restore
-        dotnet specsync publish-test-results --testResultFile ${{github.workspace}}/TestResults.trx
-        
 
     - name: create bugs for last run failure
       uses: ./create-bugs
