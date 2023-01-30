@@ -85,10 +85,12 @@ outputs:
   ado_test_run_url:
     value: ${{ steps.ado_run_step.outputs.ADO_RUN_URL }}
     description: ADO Test Run URL
-  EXCEL_PR_URL:
+  excel_pr_url:
     value: ${{ steps.pr_url_step.outputs.EXCEL_PR_URL }}
     description: Excel PR URL
-
+  ado_test_run_id:
+    value: ${{ steps.ado_run_step.outputs.ADO_RUN_ID }}
+    description: ADO Test Run URL   
 runs:
   using: 'composite'
   steps:
@@ -165,35 +167,11 @@ runs:
                 cat output.txt;
                 ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
                 ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
-                echo "##[set-output name=ADO_SUITE_RUN_URL;]${ADO_SUITE_RUN_URL}"
+                echo "ADO_SUITE_RUN_URL=$ADO_SUITE_RUN_URL" >> $GITHUB_ENV
+                echo "ADO_SUITE_RUN_URL=$ADO_SUITE_RUN_URL" >> $GITHUB_OUTPUT
                 echo "TEST SUITE RUN URL for ${DIR} : ${ADO_SUITE_RUN_URL}" >> $GITHUB_STEP_SUMMARY
                 cd ${{ github.workspace }}
             done;        
-
-      # - name: Run Test Results Synchronization with Attachments
-      #   if: ${{ inputs.test_results_sync == 'true' && inputs.test_results_attached_files == 'true' }}
-      #   id: sync_with_attachment
-      #   shell: bash
-      #   run: |
-      #     BUILD_NUM=${{ github.run_number }}
-      #     BUILD_ID=${{ github.run_id }}
-      #     BUILD_NUM=$((BUILD_NUM))
-      #     BUILD_ID=$((BUILD_ID))
-      #     find ${{ inputs.excel_path }} -type f -name "*.xlsx" | while read line;
-      #       do
-      #           line=$(echo $line)
-      #           DIR=$(dirname "$line")
-      #           echo $DIR
-      #           cd $DIR
-      #           EXCEL_NAME=$(basename $DIR)
-      #           dotnet specsync publish-test-results --zeroExitCodeForWarnings --attachedFiles ${{ inputs.test_results_attached_files }} --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}-Suite:${EXCEL_NAME}" > output.txt;
-      #           cat output.txt
-      #           ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
-      #           ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
-      #           echo "##[set-output name=ADO_SUITE_RUN_URL;]${ADO_SUITE_RUN_URL}"
-      #           echo "TEST SUITE RUN URL for ${DIR} : ${ADO_SUITE_RUN_URL}" >> $GITHUB_STEP_SUMMARY
-      #           cd ${{ github.workspace }}
-      #       done;
 
       - name: Erase SpecSync License Files
         if: always()
@@ -241,8 +219,9 @@ runs:
         env:
           ADO_PROJECT_URL: ${{ inputs.ado_project_url }}
         if: ${{ inputs.test_results_sync == 'true' }}
-        id: test_run_step
+        id: ado_run_step
         shell: bash
         run: |
+          ADO_RUN_ID=$(echo ${{ env.ADO_SUITE_RUN_URL }} | awk -F'=' '{print $2;}' | sed 's|&_a||g')
           echo "ADO TEST RUN URL: ${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery" >> $GITHUB_STEP_SUMMARY
-          echo "##[set-output name=ADO_RUN_URL;]${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery"
+          echo "ADO_PROJECT_URL=${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery" >> $GITHUB_OUTPUT

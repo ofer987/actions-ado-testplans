@@ -19,8 +19,9 @@ This Action defines the following formal inputs.
 
 Please note enabling **`test_cases_sync`** will create a cucumber branch with feature files updates with work item number as tags and a PR will be created. Which you can use in conjunction with MS Teams Notification Action to ensure your team takes action on PR assigned.
 
--  **`pr_url`** : PR URL. Example: https://github.com/tr/tech-toc_cucumber-template/pull/12
+-  **`excel_pr_url`** : PR URL. Example: https://github.com/tr/tech-toc_cucumber-template/pull/12
 
 Please note enabling **`test_results_sync`** will output test run url which you can use in conjunction with MS Teams Notification Action to ensure your team takes action on failed test cases.
 
 -  **`ado_test_run_url`** : Output of Test RUN URL. Example: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training/_testManagement/runs?_a=runCharts&runId=844
+-  **`ado_test_run_id`** : Output of Test RUN ID. Example: 844

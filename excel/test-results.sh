@@ -69,7 +69,6 @@ do
     cat output.txt;
     ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
     ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
-    echo "##[set-output name=ADO_SUITE_RUN_URL;]${ADO_SUITE_RUN_URL}"
     echo "TEST SUITE RUN URL for ${DIR} : ${ADO_SUITE_RUN_URL}" >> $GITHUB_STEP_SUMMARY
     cd ${{ github.workspace }}
 done;   

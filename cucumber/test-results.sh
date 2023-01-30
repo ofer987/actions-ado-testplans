@@ -70,7 +70,8 @@ results_with_attachments() {
         cat output.txt;
         ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
         ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"
-        echo "##[set-output name=ADO_SUITE_RUN_URL;]${ADO_SUITE_RUN_URL}"
+        echo "ADO_SUITE_RUN_URL=$ADO_SUITE_RUN_URL" >> $GITHUB_ENV
+        echo "ADO_SUITE_RUN_URL=$ADO_SUITE_RUN_URL" >> $GITHUB_OUTPUT
         echo "TEST SUITE RUN URL for ${DIR} : ${ADO_SUITE_RUN_URL}"
         cd $CWD
     done;
