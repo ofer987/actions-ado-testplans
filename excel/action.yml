@@ -180,7 +180,7 @@ runs:
         
       - uses: dorny/paths-filter@v2
         if: ${{ inputs.test_cases_sync == 'true' }}
-        id: post-ado-sync
+        id: filter
         with:
           filters: |
             excel:
@@ -188,6 +188,7 @@ runs:
 
       - name: Create Pull Request
         id: create_pr
+        if: ${{ steps.filter.outputs.excel == 'true' }}        
         uses: peter-evans/create-pull-request@v4
         with:
           add-paths: '**.xlsx'
