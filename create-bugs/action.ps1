@@ -157,6 +157,7 @@ $projects.value  | ForEach-Object {
                     Write-Host "createBugWorkItemUrl: $createBugWorkItemUrl"
                     Write-Host "$currentTestCase"
                     $resultID = $currentTestCase.id
+                    $testCaseID = $currentTestCase.testCase.id
                     $bodyDesc = "Get full details of error message & stack trace on below link:" + "`n" + "https://$adoBaseUrl/$project/_TestManagement/Runs?runId=" + $lastRunId + "&_a=resultSummary&resultId=" + $resultID + " "
                     $err = ""
                     $errLen = $currentTestCase.stackTrace.Length
@@ -209,7 +210,7 @@ $projects.value  | ForEach-Object {
                         "path": "/relations/-",
                         "value": {
                         "rel": "System.LinkTypes.Hierarchy-Reverse",
-                        "url": "https://dev.azure.com/$organization/_apis/wit/workItems/$resultID",
+                        "url": "https://dev.azure.com/$organization/_apis/wit/workItems/$testCaseID",
                         "attributes": {
                                         "comment": "Linked Bug with Failed Test Case"
                                     }
@@ -221,7 +222,7 @@ $projects.value  | ForEach-Object {
                     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                     $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
                     Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
-                    "Test ID: {$currentTestCase.id} Bug Id: {$bugWorkItemURI.id}" >> $env:GITHUB_STEP_SUMMARY
+                    "Test ID: {$testCaseID} Bug Id: {$bugWorkItemURI.id}" >> $env:GITHUB_STEP_SUMMARY
                 }
                 else {
                     Write-Host "All Tests Passed"
