@@ -35,7 +35,7 @@ jobs:
     - name: run specsync 1
       if: always()
       shell: bash
-      working-directory: nunit/NUnitSample
+      working-directory: nunit/NUnitSample/NUnitSample
       run: |
         dotnet tool restore
         dotnet specsync push
@@ -44,7 +44,7 @@ jobs:
         
     # Execute all unit tests in the solution
     - name: Execute unit tests
-      working-directory: nunit/NUnitSample
+      working-directory: nunit/NUnitSample/NUnitSample
       run: |
         dotnet test --logger "trx;LogFileName=${{github.workspace}}/TestResults.trx"
         
@@ -86,7 +86,7 @@ jobs:
         draft: false
           
     - name: run specsync 2
-      working-directory: nunit/NUnitSample
+      working-directory: nunit/NUnitSample/NUnitSample
       if: always()
       shell: bash
       run: |
@@ -108,7 +108,7 @@ jobs:
           # New task
         reason: 'New defect reported'
         tags: "${{ github.run_id }}, ${{ github.workflow }}, Automated"
-        runId: 1468
+        runId: ${{ env.ado_run_id }}
         # bug
         # task
         workItemType: 'bug'
