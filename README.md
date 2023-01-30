@@ -19,7 +19,7 @@ This is a TR Internal GitHub Action for Azure DevOps TestPlans Automation.
 - [SpecSync Config Templates](./cucumber/docs/specsync-templates)
 - [SpecSync Documentation](https://specsolutions.gitbook.io/specsync/)
 - [Demo Selenium C# SpecSync Project](https://github.com/tr/tech_toc-selenium-dotnet-core)
-- [Playwright TypeScript Cucumber](https://github.com/tr/tech_toc-cucumber-e2e)
+- [Playwright TypeScript Cucumber Sample Project](https://github.com/tr/tech_toc-cucumber-e2e)
 
 
 ## 3. Non-Cucumber based Patterns
@@ -36,12 +36,14 @@ This is a TR Internal GitHub Action for Azure DevOps TestPlans Automation.
 
 ## 4. MSTest - with no test cases written
 - [MSTest ReadMe](./mstest/README.md)
+- [MSTest Sample Project](./mstest/MsTestSample/)
 - [MSTest Create Tests Sample Workflow](./.github/workflows/mstest-create-tests.yml)
 - [MSTest Push Test Results Sample Workflow](./.github/workflows/mstest-test-results.yml)
 
 
 ## 5. NUnit - with no test cases written
 - [NUnit ReadMe](./nunit/README.md)
+- [NUnit Sample Project](./nunit/NUnitSample/)
 - [NUnit Create Tests Sample Workflow](./.github/workflows/nunit-create-tests.yml)
 - [NUnit Push Test Results Sample Workflow](./.github/workflows/nunit-test-results.yml)
 
