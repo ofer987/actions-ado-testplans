@@ -59,16 +59,13 @@ inputs:
     description: 'Test Result - Run NAme'
     required: false
     default: GHA-${{ github.run_number }}
-  test_results_attached_files:
-    description: 'Test Result '
-    required: false
-    default: 'false'
   test_results_path:
     description: 'Test Results Path'
     required: false
   test_results_format:
     description: 'Test Results Format'
     required: false
+    default: 'trx'
   test_results_test_plan_id:
     description: 'Test Results - Test Plan ID'
     required: false
@@ -119,13 +116,33 @@ runs:
       dotnet tool install --local SpecSync.AzureDevOps --version 3.4.1
       dotnet specsync version
 
+  - name: Download SpecSync License From Artifactory
+    shell: bash
+    env:
+      ARTIFACTORY_TOKEN: ${{ inputs.artifactory_token }}
+      ARTIFACTORY_USER: ${{ inputs.artifactory_user }}
+    run: |
+      curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN} -O 'https://tr1.jfrog.io/artifactory/generic-local/devops-experience/specsync.lic'
+      NUNIT_DIRNAME=$(dirname ${{ inputs.nunit_path }} )
+      mv specsync.lic ${NUNIT_DIRNAME}
+
   - name: Run Test Case Synchronization
     if: ${{ inputs.test_cases_sync == 'true' }}
     shell: bash
     run: |
-      dotnet tool restore
-      dotnet specsync push
-      dotnet specsync pull
+      find . -type f -name "specsync.json" | while read line;
+        do
+          CWD=$PWD
+          line=$(echo $line)
+          DIR=$(dirname "$line")
+          echo $DIR
+          cd $DIR
+          ls
+          dotnet tool restore
+          dotnet specsync push --user "${{ inputs.ado_pat }}";
+          dotnet specsync pull --user "${{ inputs.ado_pat }}";
+          cd $CWD
+        done;      
       
   - uses: dorny/paths-filter@v2
     if: ${{ inputs.test_cases_sync == 'true' }}
@@ -162,7 +179,7 @@ runs:
     if: ${{ inputs.test_results_sync == 'true' }}
     shell: bash
     run: |
-      dotnet specsync publish-test-results --testResultFile ${{github.workspace}}/TestResults.trx
+      dotnet specsync publish-test-results --testResultFile ${{ inputs.test_results_path }}
 
   - name: Erase SpecSync License Files
     if: always()
