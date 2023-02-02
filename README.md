@@ -54,7 +54,7 @@ This is a TR Internal GitHub Action for Azure DevOps Test and Bug Management Aut
 
 ## 7. Create Bugs or Work Items
 - [Create Bugs ReadMe](./create-bugs/README.md)
-- [Create Bugs Sample Workflow](./.github/workflows/create-bugs.yml)
+- [Create Bugs Sample Workflow](https://github.com/tr/cicd_gh-actions-ado-testplans/blob/e436e9c41cb2d28c2f5c0d5595468fdfe0c09381/.github/workflows/nunit.yml#L89)
 
 
 ## Support
