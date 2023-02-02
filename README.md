@@ -1,6 +1,6 @@
 # cicd_gh-actions-ado-testplans
 
-This is a TR Internal GitHub Action for Azure DevOps TestPlans Automation.
+This is a TR Internal GitHub Action for Azure DevOps TestPlans and Bug Management Automation to enable Continous Delivery.
 
 ## 1. Framework Architecture
 
@@ -52,7 +52,7 @@ This is a TR Internal GitHub Action for Azure DevOps TestPlans Automation.
 - [Create Test Plan ReadMe](./create-test-plan/README.md)
 - [Create TestPlan Sample Workflow](./.github/workflows/create-test-plan.yml)
 
-## 7. Create Bugs
+## 7. Create Bugs or Work Items
 - [Create Bugs ReadMe](./create-bugs/README.md)
 - [Create Bugs Sample Workflow](./.github/workflows/create-bugs.yml)
 
