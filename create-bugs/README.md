@@ -7,7 +7,7 @@ This custom workflow examines the last test run id using the Run ID or Run Name 
 
 Here's a quick example of how to use this action in your own GitHub Workflows.
 
-[Sample Create Bugs Workflow](./github/create-bugs.yml)
+[Sample Create Bugs Workflow]([./github/create-bugs.yml](https://github.com/tr/cicd_gh-actions-ado-testplans/blob/e436e9c41cb2d28c2f5c0d5595468fdfe0c09381/.github/workflows/nunit.yml#L89))
 
 ### Inputs
 
