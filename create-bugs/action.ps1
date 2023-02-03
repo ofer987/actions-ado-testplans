@@ -157,6 +157,7 @@ $projects.value  | ForEach-Object {
                     Write-Host "createBugWorkItemUrl: $createBugWorkItemUrl"
                     $resultID = $currentTestCase.id
                     $testCaseID = $currentTestCase.testCase.id
+                    $getLinkedBugURI = https://dev.azure.com/$organization/$project/_apis/wit/workItems/$testCaseID?%24expand=1
                     $bodyDesc = "Get full details of error message & stack trace on below link:" + "`n" + "https://$adoBaseUrl/$project/_TestManagement/Runs?runId=" + $lastRunId + "&_a=resultSummary&resultId=" + $resultID + " "
                     $err = ""
                     $errLen = $currentTestCase.stackTrace.Length
@@ -211,17 +212,22 @@ $projects.value  | ForEach-Object {
                         "rel": "System.LinkTypes.Hierarchy-Reverse",
                         "url": "https://dev.azure.com/$organization/_apis/wit/workItems/$testCaseID",
                         "attributes": {
-                                        "comment": "Linked Bug with Failed Test Case"
+                                        "comment": "Created by TR ADO Test Automation"
                                     }
                                 }
                     }
                 ] 
 "@
-                    Write-Host $body
+                    
                     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+                    $getLinkedBugs = Invoke-RestMethod $getLinkedBugURI -Method -GET -ContentType "application/json" -Headers $header
                     $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
                     Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
                     $bugID = $bugWorkItemURI.id
+                    $parentRelation = 'System.LinkTypes.Hierarchy-Forward'
+                    $findExistingBugs = $getLinkedBugs | where-object { $_.rel -match $parentRelation -and $_.attributes.comment -match "Created by ADO Test Automation"}
+                    $existingBugId = $findExistingBugs.id
+                    Write-Host "Existing bug: $existingBugId"
                     "Failed Test ID: [$testCaseID](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) Linked with New Bug Id: [$bugID](https://dev.azure.com/$organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY
                 }
                 else {
