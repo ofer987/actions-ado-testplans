@@ -26,10 +26,11 @@
     },
     "links": [
       {
-        "targetWorkItemType": "ProductBacklogItem",
-        "tagPrefix": "pbi",
-        "relationship": "Child"
+        "tagPrefix": "pbi"
       },
+      {
+        "tagPrefix": "story"
+      },      
       {
         "tagPrefix": "bug"
       }
