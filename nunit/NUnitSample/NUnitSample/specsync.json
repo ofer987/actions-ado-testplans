@@ -26,7 +26,12 @@
     },
     "links": [
       {
-        "tagPrefix": "story"
+        "targetWorkItemType": "ProductBacklogItem",
+        "tagPrefix": "pbi",
+        "relationship": "Child"
+      },
+      {
+        "tagPrefix": "bug"
       }
     ],
     "automation": {
