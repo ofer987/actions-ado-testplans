@@ -81,12 +81,14 @@ jobs:
 
     # Execute all unit tests in the solution
     - name: Execute unit tests
+      if: always()
       working-directory: nunit/NUnitSample/NUnitSample
       run: |
         dotnet test --logger "trx;LogFileName=${{github.workspace}}/TestResults.trx"
         dotnet specsync publish-test-results --testResultFile ${{github.workspace}}/TestResults.trx
 
     - name: create bugs for last run failure
+      if: always()
       uses: ./create-bugs
       with:
         organization: tr-ihn-sandbox
