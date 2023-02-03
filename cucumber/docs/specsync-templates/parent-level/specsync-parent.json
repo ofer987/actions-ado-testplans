@@ -85,7 +85,7 @@
         "customFieldUpdates": {
             "enabled": true,
             "updates": {
-                "System.Description": "<b>Synchronized By</b>: GHActions tr/cicd_gh-actions-cucumber-ado-sync <br/> <b>Feature Name</b>: {feature-name} <br/> <b>Feature Description:</b> {feature-description} <br/> <b>Feature File Name:</b> {feature-file-name} <br/> <b>Feature File Folder:</b> {feature-file-folder} <br/> <b>Feature File Path:</b> {feature-file-path}"
+                "System.Description": "<b>Synchronized By</b>: GHActions tr/cicd_gh-actions-ado-testplans <br/> <b>Feature Name</b>: {feature-name} <br/> <b>Feature Description:</b> {feature-description} <br/> <b>Feature File Name:</b> {feature-file-name} <br/> <b>Feature File Folder:</b> {feature-file-folder} <br/> <b>Feature File Path:</b> {feature-file-path}"
             }
         }
     }

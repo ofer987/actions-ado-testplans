@@ -9,5 +9,5 @@ This action is for "Non-BDD Automated Testing (using MS Test or NUnit or PostMan
 
 
 Note:- See other patterns
-- [Cucumber Framework with Test Cases in Feature Files to ADO - 2 Way Sync](https://github.com/tr/cicd_gh-actions-cucumber-ado-sync)
+- [Cucumber Framework with Test Cases in Feature Files to ADO - 2 Way Sync](https://github.com/tr/cicd_gh-actions-ado-testplans)
 - [Non-Cucumber Framework with Test Cases in Excel Files to ADO - 2 Way Sync](https://github.com/tr/cicd_gh-actions-excel-ado-sync)

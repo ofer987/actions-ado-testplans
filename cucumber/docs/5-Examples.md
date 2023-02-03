@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Cucumber to ADO Sync
         id: ado_sync
-        uses: tr/cicd_gh-actions-cucumber-ado-sync/cucumber@v1.0
+        uses: tr/cicd_gh-actions-ado-testplans/cucumber@v1.0
         with:
             test_cases_sync: 'true'
             test_results_sync: 'false'
