@@ -24,13 +24,7 @@
       "enabled": true,
       "enableCreatingScenariosForNewTestCases": true
     },
-    "links": [
-      {
-        "tagPrefix": "pbi"
-      },
-      {
-        "tagPrefix": "story"
-      },      
+    "links": [    
       {
         "tagPrefix": "bug"
       }
