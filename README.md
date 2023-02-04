@@ -6,6 +6,8 @@ This is a TR Internal GitHub Action for Azure DevOps Test and Bug Management Aut
 
 <img width="1140" alt="tr-e2e-framework-v1 1" src="https://user-images.githubusercontent.com/86745613/211696307-1e90e627-1545-43a8-b742-ebc8ab036a9d.png">
 
+![PE DevOps CT - ado](https://user-images.githubusercontent.com/86745613/216777944-cab0aed5-ccf0-4be2-a949-1bd2390d576d.jpeg)
+
 ![PE DevOps CT - ADO TestPlans Automation-6](https://user-images.githubusercontent.com/86745613/214972549-8b8ea766-3fd0-4611-96a2-19baebb06ea0.jpeg)
 
 
