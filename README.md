@@ -8,8 +8,7 @@ This is a TR Internal GitHub Action for Azure DevOps Test and Bug Management Aut
 
 ![PE DevOps CT - ado](https://user-images.githubusercontent.com/86745613/216777944-cab0aed5-ccf0-4be2-a949-1bd2390d576d.jpeg)
 
-![PE DevOps CT - ADO TestPlans Automation-6](https://user-images.githubusercontent.com/86745613/214972549-8b8ea766-3fd0-4611-96a2-19baebb06ea0.jpeg)
-
+![PE DevOps CT - ADO TestPlans Automation](https://user-images.githubusercontent.com/86745613/216778017-c5b1139e-9a43-4093-8c6c-9ed287bab313.jpeg)
 
 ## 2. Cucumber based Patterns
 
