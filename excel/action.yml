@@ -188,7 +188,7 @@ runs:
               else 
                   echo "$FILE does not exist."
                   cp ${{ env.SPECSYNC_JSON_PATH }} ./
-                  sed -i "s/##Dummy-Test-Suite-Name##/$SUBDIR/g" ./specsync.json
+                  sed -i "s/Dummy-Test-Suite-Name/$SUBDIR/g" ./specsync.json
               fi           
               dotnet specsync push --user "${{ inputs.ado_pat }}" --license ${{ env.LICENSE_PATH }};
               cd ${TMP_HOME}
@@ -218,7 +218,7 @@ runs:
                 else 
                     echo "$FILE does not exist."
                     cp ${{ env.SPECSYNC_JSON_PATH }} ./
-                    sed -i "s/##Dummy-Test-Suite-Name##/$SUBDIR/g" ./specsync.json
+                    sed -i "s/Dummy-Test-Suite-Name/$SUBDIR/g" ./specsync.json
                 fi               
                 dotnet specsync publish-test-results --user "${{ inputs.ado_pat }}" --license ${{ env.LICENSE_PATH }} --log output.txt -f CucumberJavaJUnitXml -r ${{ env.TEST_RESULTS_PATH }} -v --diagCategories TestResult --zeroExitCodeForWarnings --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}-Suite:${EXCEL_NAME}" --runComment "${{ inputs.run_comment }}" --testResultComment "${{ inputs.run_result_comment }}";
                 cat output.txt;
