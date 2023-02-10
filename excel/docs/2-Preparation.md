@@ -41,9 +41,11 @@ First, we need to organize the folder structure of the EXCEL SHEETS the way we w
 <!-- ![Feature Folder Structure](./images/feature-folder-structure.jpg) -->
 
 ## 7. Configuration Files
+### 7.1. SpecSync JSON Config File - Option 1
+We create the SpecSync Json Config File automatically for you. This is a standard way. If you want to customize, you need to go for Option# 2
 
--   **Parent configuration files** Parent config file needs to be located at the Root of your EXCEL folder name "specsync-parent.json". This config has config variables which are common for whole project. We have a [template specsync-common.json](./specsync-templates/parent-level/specsync-parent.json) that you can copy and make changes. [Reference Documentation Located at](https://specsolutions.gitbook.io/specsync/features)
--   **EXCEL File Level (Child) configuration files** EXCEL File Level configuration files need to be located at EXCEL level and has definitions for only feature level specific config. For example if you have different Test Suites for each Excel File. We have a [template specsync-common.json](./specsync-templates/child-level/specsync.json) that you can copy and make changes. [Reference Documentation Located at](https://specsolutions.gitbook.io/specsync/features)
+### 7.2. SpecSync JSON Config File - Option 2
+-   **EXCEL File Level configuration files** EXCEL File Level configuration files need to be located at EXCEL level and has definitions for only feature level specific config. For example if you have different Test Suites for each Excel File. We have a [template specsync-common.json](./specsync-templates/child-level/specsync.json) that you can copy and make changes. [Reference Documentation Located at](https://specsolutions.gitbook.io/specsync/features)
 
 - **Test Results Sync** For making test results sync work we need to have to tweak the RegEx  for Test Case Name Matching in specsync json file.
 

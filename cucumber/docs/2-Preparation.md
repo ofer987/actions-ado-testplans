@@ -40,14 +40,17 @@ We need to create test configuration to define Operating System the test will be
 ## 6. Organize Folder Structure
 First, we need to organize the folder structure of the feature the way we want to see them in ADO Test Plan. Each folder will provision one test suite under specified TestPlan.
 
+NOTE: ignore specsync.json files in this image. They are not required.
+
 ![Feature Folder Structure](./images/feature-folder-structure.jpg)
+
 ## 7. Configuration Files
 
--   **Parent configuration files** Parent config file needs to be located at the Root of your features folder name "specsync-parent.json". This config has config variables which are common for whole project. We have a [template specsync-parent.json](./specsync-templates/parent-level/specsync-parent.json) that you can copy and make changes. [Reference Documentation Located at](https://specsolutions.gitbook.io/specsync/features)
--   **Feature File Level (Child) configuration files** Feature File Level configuration files need to be located at Feature level and has definitions for only feature level specific config. For example if you have different Test Suites for each Feature File.We have a [template specsync.json](./specsync-templates/child-level/specsync.json) that you can copy and make changes. [Reference Documentation Located at](https://specsolutions.gitbook.io/specsync/features)
+### 7.1. SpecSync JSON Config File - Option 1
+We create the SpecSync Json Config File automatically for you. This is a standard way. If you want to customize, you need to go for Option# 2
 
-Step# 4
-![Create Test Plan-ID](./images/test-plan-id.jpg)
+### 7.2. SpecSync JSON Config File - Option 2
+Feature File Level configuration files need to be located at Feature level and has definitions for only feature level specific config. For example if you have different Test Suites for each Feature File.We have a [template specsync.json](./specsync-templates/specsync.json) that you can copy and make changes. [Reference Documentation Located at](https://specsolutions.gitbook.io/specsync/features)
 
 ## 8. Tag User Story and/or Bug Number
 

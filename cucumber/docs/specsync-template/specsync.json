@@ -1,25 +1,28 @@
 {
     "$schema": "https://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
     "compatibilityVersion": "3.4.0",
-    "toolSettings": {
-        "licensePath": "specsync.lic",
-        "disableStats": true,
-        "outputLevel": "normal"
+    "local": {
+        "folder": "./",
+        "projectType": "folder",
+        "defaultFeatureLanguage": "en-US"
     },
     "remote": {
-        "projectUrl": "ADO_PROJECT_URL",
-        "user": "ADO_PAT"
-    },
+        "projectUrl": "https://dev.azure.com/fakeUrl",
+        "testSuite": {
+            "testPlanId": 999999,
+            "name": "Dummy-Test-Suite-Name"
+        }
+    },    
     "publishTestResults": {
         "treatInconclusiveAs": "NotExecuted",
         "testRunSettings":{
             "runName": "TEST_RESULTS_RUN_NAME",
             "runType": "automated",
             "runComment": "test",
-            "testResultComment": "As Expected"    
+            "testResultComment": ""    
         },
         "testResultSettings": {
-            "comment": "As Expected"
+            "comment": ""
         }
     },
     "synchronization": {
@@ -61,7 +64,7 @@
             "showParameterListStep": "whenUnusedParameters"
         }
     },
-    "customizations": {
+    "customizations": {   
         "ignoreNotSupportedLocalTags": {
             "enabled": true
         },
@@ -85,7 +88,7 @@
         "customFieldUpdates": {
             "enabled": true,
             "updates": {
-                "System.Description": "<b>Synchronized By</b>: GHActions tr/cicd_gh-actions-ado-testplans <br/> <b>Feature Name</b>: {feature-name} <br/> <b>Feature Description:</b> {feature-description} <br/> <b>Feature File Name:</b> {feature-file-name} <br/> <b>Feature File Folder:</b> {feature-file-folder} <br/> <b>Feature File Path:</b> {feature-file-path}"
+                "System.Description": "<b>Synchronized By</b>: GHActions tr/cicd_gh-actions-ado-testplans <br/> <b>Feature Name</b>: {feature-name:HTML} <br/> <b>Feature Description:</b> {feature-description:HTML} <br/> <b>Feature File Name:</b> {feature-file-name} <br/> <b>Feature File Folder:</b> {feature-file-folder} <br/> <b>Feature File Path:</b> {feature-file-path} <br/> <b>Scenario Description:</b> {scenario-description:HTML}"
             }
         }
     }

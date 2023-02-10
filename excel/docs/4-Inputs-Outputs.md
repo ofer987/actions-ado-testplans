@@ -13,9 +13,11 @@ This Action defines the following formal inputs.
 | **`excel_path`**  | Test Cases Sync | true | false | Provide path to folder where features are present.
 | **`test_result_run_name`**  | Test Results Sync | conditional | false | GH-Actions-${{ github.run_id }}-${{ env.ENV }} Environment
 | **`test_results_attached_files`**  | Test Results Sync | conditional | none | Semicolon separated list of file paths that should be attached to the test run additionally. (e.g. error1.png;error2.log) Wildcards are currently not supported. if you don't specify this then only test result file will be attached. This in turn you need to configure in your Selenium4, WebDriverIO or Playwright so it can output images with that name. 
-| **`run_comment`**  | Run Comment | conditional | false | Could provide GitHub Pages URL where your test results are hosted.
-| **`run_result_comment`**  | Run Comment | conditional | false | Could provide GitHub Pages URL where your test results are hosted.
-
+| **`run_comment`**  | Test Results Sync | conditional | false | Could provide GitHub Pages URL where your test results are hosted.
+| **`run_result_comment`**  | Test Results Sync | conditional | false | Could provide GitHub Pages URL where your test results are hosted.
+| **`ado_area_path`**  | Test Results Sync | none | false | ADO Area Path
+| **`ado_iteration_path`**  | Test Results Sync | none | false | ADO Iteration Path
+|**`standard_specsync_json`** | Common | true | false | If you would like to customize specsync.json config file them enter 'false'. Defaults to true
 
 ## Outputs
 
