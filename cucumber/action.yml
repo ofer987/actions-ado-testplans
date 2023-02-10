@@ -116,8 +116,8 @@ runs:
 
       - name: download specsync json from jfrog
         env: 
-          ARTIFACTORY_USER: ${{ env.artifactory_user }}
-          ARTIFACTORY_TOKEN: ${{ env.artifactory_token }}
+          ARTIFACTORY_USER: ${{ inputs.artifactory_user }}
+          ARTIFACTORY_TOKEN: ${{ inputs.artifactory_token }}
         working-directory: ${{ github.workspace }}
         if: ${{ inputs.standard_specsync_json }}
         shell: bash
