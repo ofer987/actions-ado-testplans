@@ -71,7 +71,7 @@ inputs:
     default: 'CucumberJavaJUnitXml'
   test_results_test_plan_id:
     description: 'Test Results - Test Plan ID '
-    required: false
+    required: true
   test_results_config:
     description: 'Test Results Config'
     required: false
@@ -81,6 +81,16 @@ inputs:
   run_result_comment:
     description: 'Run Result Comment'
     required: false 
+  ado_area_path:
+    description: 'ADO Area Path'
+    required: true 
+  ado_iteration_path:
+    description: 'ADO Iteration Path'
+    required: true    
+  standard_specsync_json: 
+    description: 'Using Own SpecSync Json'
+    required: false
+    default: 'true'    
 outputs:
   ado_test_run_url:
     value: ${{ steps.ado_run_step.outputs.ADO_RUN_URL }}
@@ -90,7 +100,7 @@ outputs:
     description: Excel PR URL
   ado_test_run_id:
     value: ${{ steps.ado_run_step.outputs.ADO_RUN_ID }}
-    description: ADO Test Run URL   
+    description: ADO Test Run URL
 runs:
   using: 'composite'
   steps:
@@ -100,15 +110,35 @@ runs:
           echo ADO_PROJECT_URL=${{ inputs.ado_project_url }} >> $GITHUB_ENV
           echo TEST_RESULTS_PATH=${{ inputs.test_results_path }} >> $GITHUB_ENV
           echo TEST_RESULTS_FORMAT=${{ inputs.test_results_format }} >> $GITHUB_ENV
-          
+
+      - name: download specsync json from jfrog
+        env: 
+          ARTIFACTORY_USER: ${{ env.artifactory_user }}
+          ARTIFACTORY_TOKEN: ${{ env.artifactory_token }}
+        working-directory: ${{ github.workspace }}
+        if: ${{ inputs.standard_specsync_json }}
+        shell: bash
+        run: |
+          curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN} -O 'https://tr1.jfrog.io/artifactory/generic-local/devops-experience/cucumber/specsync.json'
+          CWD=$PWD
+          SPECSYNC_JSON_PATH=$CWD/specsync.json
+          echo SPECSYNC_JSON_PATH=${SPECSYNC_JSON_PATH} >> $GITHUB_ENV
+          echo "SpecSync Json Path: $SPECSYNC_JSON_PATH"
+          SPECSYNC_JSON=$(find . -iname "specsync.json" | tr '\n' ',' )
+          echo SPECSYNC_JSON=${SPECSYNC_JSON} >> $GITHUB_ENV
+          echo "SpecSync Json: $SPECSYNC_JSON"
+
       - uses: microsoft/variable-substitution@v1
-        if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
+        if: ${{ inputs.standard_specsync_json }}
         with:
           files: '${{ inputs.excel_path}}/*/specsync.json, ${{ inputs.excel_path}}/specsync-*.json'
         env:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
           publishTestResults.runName: ${{ inputs.test_results_run_name }}-${{ inputs.env }} Env
+          remote.testSuite.testPlanId: ${{ inputs.test_results_test_plan_id }}
+          synchronization.areaPath.value: ${{ inputs.ado_area_path }}
+          synchronization.iterationPath.value: ${{ inputs.ado_iteration_path }}
 
       - name: Download SpecSync License From Artifactory
         shell: bash
@@ -117,7 +147,11 @@ runs:
           ARTIFACTORY_USER: ${{ inputs.artifactory_user }}
         run: |
           curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN} -O 'https://tr1.jfrog.io/artifactory/generic-local/devops-experience/specsync.lic'
-          mv specsync.lic ${{ inputs.excel_path }}
+          CWD=$PWD
+          LICENSE_PATH=$CWD/specsync.lic
+          echo LICENSE_PATH=${LICENSE_PATH} >> $GITHUB_ENV
+          echo "SpecSync License Path: $LICENSE_PATH"
+          CUCUMBER_DIRNAME=$(dirname ${{ inputs.cucumber_path }} )
           
       - name: Set up .NET 7
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
@@ -145,7 +179,19 @@ runs:
               DIR=$(dirname "$line")
               echo $DIR
               cd $DIR
-              dotnet specsync push;
+              DIR="${DIR%/}"
+              SUBDIR="${DIR##*/}"
+              DIR="${DIR%/}"
+              SUBDIR="${DIR##*/}"
+              FILE=specsync.json
+              if [ -f "$FILE" ]; then
+              echo "$FILE exists."
+              else 
+                  echo "$FILE does not exist."
+                  cp ${{ env.SPECSYNC_JSON_PATH }} ./
+                  sed -i "s/##Dummy-Test-Suite-Name##/$SUBDIR/g" ./specsync.json
+              fi           
+              dotnet specsync push --user "${{ inputs.ado_pat }}" --license ${{ env.LICENSE_PATH }};
               cd ${TMP_HOME}
             done;
 
@@ -163,7 +209,19 @@ runs:
                 echo $DIR
                 cd $DIR
                 EXCEL_NAME=$(basename $DIR)
-                dotnet specsync publish-test-results --log output.txt -f CucumberJavaJUnitXml -r ${{ env.TEST_RESULTS_PATH }} -v --diagCategories TestResult --zeroExitCodeForWarnings --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}-Suite:${EXCEL_NAME}" --runComment "${{ inputs.run_comment }}" --testResultComment "${{ inputs.run_result_comment }}";
+                DIR="${DIR%/}"
+                SUBDIR="${DIR##*/}"
+                DIR="${DIR%/}"
+                SUBDIR="${DIR##*/}"
+                FILE=specsync.json
+                if [ -f "$FILE" ]; then
+                echo "$FILE exists."
+                else 
+                    echo "$FILE does not exist."
+                    cp ${{ env.SPECSYNC_JSON_PATH }} ./
+                    sed -i "s/##Dummy-Test-Suite-Name##/$SUBDIR/g" ./specsync.json
+                fi               
+                dotnet specsync publish-test-results --user "${{ inputs.ado_pat }}" --license ${{ env.LICENSE_PATH }} --log output.txt -f CucumberJavaJUnitXml -r ${{ env.TEST_RESULTS_PATH }} -v --diagCategories TestResult --zeroExitCodeForWarnings --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}-Suite:${EXCEL_NAME}" --runComment "${{ inputs.run_comment }}" --testResultComment "${{ inputs.run_result_comment }}";
                 cat output.txt;
                 ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
                 ADO_SUITE_RUN_URL="$ADO_SUITE_RUN_URL"

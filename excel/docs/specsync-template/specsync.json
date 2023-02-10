@@ -22,10 +22,11 @@
     ]
   },
   "remote": {
-    "projectUrl": "ADO_PROJECT_URL",
+    "projectUrl": "https://dev.azure.com/fakeUrl",
     "user": "ADO_PAT",
     "testSuite": {
-      "name": "Demo"
+      "testPlanId": 999999,      
+      "name": "Dummy-Test-Suite-Name"
     }
   },
   "publishTestResults": {
