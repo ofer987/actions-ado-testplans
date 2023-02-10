@@ -16,7 +16,7 @@
     "publishTestResults": {
         "treatInconclusiveAs": "NotExecuted",
         "testRunSettings":{
-            "runName": "TEST_RESULTS_RUN_NAME",
+            "name": "GHA-2995833570-QA Env",
             "runType": "automated",
             "runComment": "test",
             "testResultComment": ""    
