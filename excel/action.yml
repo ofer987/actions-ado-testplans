@@ -151,7 +151,6 @@ runs:
           LICENSE_PATH=$CWD/specsync.lic
           echo LICENSE_PATH=${LICENSE_PATH} >> $GITHUB_ENV
           echo "SpecSync License Path: $LICENSE_PATH"
-          CUCUMBER_DIRNAME=$(dirname ${{ inputs.cucumber_path }} )
           
       - name: Set up .NET 7
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
