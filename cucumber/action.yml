@@ -134,7 +134,7 @@ runs:
       - uses: microsoft/variable-substitution@v1
         if: ${{ inputs.standard_specsync_json }}
         with:
-          files: "${{ env.SPECSYNC_JSON }}"
+          files: ${{ env.SPECSYNC_JSON_PATH }}
         env:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
