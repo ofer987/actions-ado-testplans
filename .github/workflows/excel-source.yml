@@ -30,7 +30,7 @@ jobs:
             artifactory_token: ${{ secrets.ARTIFACTORY_TOKEN }}
             ado_pat: ${{ secrets.ADO_PAT }}
             ado_project_url: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training
-            excel_path: ./test/excel
+            excel_path: ./excel/test/excel
             test_results_test_plan_id: 24118
             ado_area_path: '\\Release 1'
             ado_iteration_path: '\\Sprint 1'
