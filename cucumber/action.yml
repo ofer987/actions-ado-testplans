@@ -77,7 +77,7 @@ inputs:
     required: false
   test_results_test_plan_id:
     description: 'Test Results - Test Plan ID'
-    required: false
+    required: true
   test_results_config:
     description: 'Test Results - Config'
     required: false
@@ -140,8 +140,8 @@ runs:
           remote.user: ${{ inputs.ado_pat }}
           publishTestResults.runName: ${{ inputs.test_results_run_name }}-${{ inputs.env }} Env
           remote.testSuite.testPlanId: ${{ inputs.test_results_test_plan_id }}
-          synchronization.areaPath: ${{ inputs.ado_area_path }}
-          synchronization.iterationPath: ${{ inputs.ado_iteration_path }}
+          synchronization.areaPath.value: ${{ inputs.ado_area_path }}
+          synchronization.iterationPath.value: ${{ inputs.ado_iteration_path }}
 
       - name: Download SpecSync License From Artifactory
         shell: bash
