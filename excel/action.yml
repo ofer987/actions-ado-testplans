@@ -135,7 +135,7 @@ runs:
         env:
           remote.projectUrl: ${{ inputs.ado_project_url }}
           remote.user: ${{ inputs.ado_pat }}
-          publishTestResults.runName: ${{ inputs.test_results_run_name }}-${{ inputs.env }} Env
+          publishTestResults.testRunSettings.name: ${{ inputs.test_results_run_name }}-${{ inputs.env }} Env
           remote.testSuite.testPlanId: ${{ inputs.test_results_test_plan_id }}
           synchronization.areaPath.value: ${{ inputs.ado_area_path }}
           synchronization.iterationPath.value: ${{ inputs.ado_iteration_path }}
