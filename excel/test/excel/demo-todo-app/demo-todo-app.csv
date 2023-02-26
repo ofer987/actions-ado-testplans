@@ -1,0 +1,118 @@
+﻿ID,Work Item Type,Title,Description,Test Step,Step Action,Step Expected,Area Path,Assigned To,State,Tags,Priority,Automation Status
+,Test Case,should allow me to add todo items,should allow me to add todo items,,,,Release 1,Pavan Mudigonda,Design,story:23732,1,Automated
+,,,,1,Step 1,Expected 1,,,,,,
+,,,,2,Step 2,"Expected 2
+",,,,,,
+,,,,3,Step 3,Expected 3,,,,,,
+,Test Case,should clear text input field when an item is added,should clear text input field when an item is added,,,,Release 1,Pavan Mudigonda,Design,story:23732,2,Automated
+,,,,1,Step 1,Expected 1,,,,,,
+,,,,2,Step 2,"Expected 2
+",,,,,,
+,,,,3,Step 3,Expected 3,,,,,,
+,Test Case,should append new items to the bottom of the list,should append new items to the bottom of the list,,,,Release 1,Pavan Mudigonda,Design,story:23732,3,Automated
+,,,,1,Step 1,Verify that,,,,,,
+,,,,2,Step 2,Verify that as well,,,,,,
+,Test Case,should allow me to clear the complete state of all items,should allow me to clear the complete state of all items,,,,Release 1,Pavan Mudigonda,Design,story:23732,1,Automated
+,,,,1,Step 1,Expected 1,,,,,,
+,,,,2,Step 2,"Expected 2
+",,,,,,
+,,,,3,Step 3,Expected 3,,,,,,
+,Test Case,complete all checkbox should update state when items are completed / cleared,complete all checkbox should update state when items are completed / cleared,,,,Release 1,Pavan Mudigonda,Design,story:23732,2,Automated
+,,,,1,Step 1,Expected 1,,,,,,
+,,,,2,Step 2,"Expected 2
+",,,,,,
+,,,,3,Step 3,Expected 3,,,,,,
+,Test Case,should allow me to mark items as complete,should allow me to mark items as complete,,,,Release 1,Pavan Mudigonda,Design,story:23732,3,Automated
+,,,,1,Step 1,Verify that,,,,,,
+,,,,2,Step 2,Verify that as well,,,,,,
+,Test Case,should allow me to edit an item,should allow me to edit an item,,,,Release 1,Pavan Mudigonda,Design,story:23732,1,Automated
+,,,,1,Step 1,Expected 1,,,,,,
+,,,,2,Step 2,"Expected 2
+",,,,,,
+,,,,3,Step 3,Expected 3,,,,,,
+,Test Case,should hide other controls when editing,should hide other controls when editing,,,,Release 1,Pavan Mudigonda,Design,story:23732,2,Automated
+,,,,1,Step 1,Expected 1,,,,,,
+,,,,2,Step 2,"Expected 2
+",,,,,,
+,,,,3,Step 3,Expected 3,,,,,,
+,Test Case,should save edits on blur,should save edits on blur,,,,Release 1,Pavan Mudigonda,Design,story:23732,3,Automated
+,,,,1,Step 1,Verify that,,,,,,
+,,,,2,Step 2,Verify that as well,,,,,,
+,Test Case,should trim entered text,should trim entered text,,,,Release 1,Pavan Mudigonda,Design,story:23732,1,Automated
+,,,,1,Step 1,Expected 1,,,,,,
+,,,,2,Step 2,"Expected 2
+",,,,,,
+,,,,3,Step 3,Expected 3,,,,,,
+,Test Case,should remove the item if an empty text string was entered,should remove the item if an empty text string was entered,,,,Release 1,Pavan Mudigonda,Design,story:23732,2,Automated
+,,,,1,Step 1,Expected 1,,,,,,
+,,,,2,Step 2,"Expected 2
+",,,,,,
+,,,,3,Step 3,Expected 3,,,,,,
+,Test Case,should cancel edits on escape,should cancel edits on escape,,,,Release 1,Pavan Mudigonda,Design,story:23732,3,Automated
+,,,,1,Step 1,Verify that,,,,,,
+,,,,2,Step 2,Verify that as well,,,,,,
+,Test Case,should display the current number of todo items,should display the current number of todo items,,,,Release 1,Pavan Mudigonda,Design,story:23732,1,Automated
+,,,,1,Step 1,Expected 1,,,,,,
+,,,,2,Step 2,"Expected 2
+",,,,,,
+,,,,3,Step 3,Expected 3,,,,,,
+,Test Case,should display the correct text,should display the correct text,,,,Release 1,Pavan Mudigonda,Design,story:23732,2,Automated
+,,,,1,Step 1,Expected 1,,,,,,
+,,,,2,Step 2,"Expected 2
+",,,,,,
+,,,,3,Step 3,Expected 3,,,,,,
+,Test Case,should remove completed items when clicked,should remove completed items when clicked,,,,Release 1,Pavan Mudigonda,Design,story:23732,3,Automated
+,,,,1,Step 1,Verify that,,,,,,
+,,,,2,Step 2,Verify that as well,,,,,,
+,Test Case,should be hidden when there are no items that are completed,should be hidden when there are no items that are completed,,,,Release 1,Pavan Mudigonda,Design,story:23732,1,Automated
+,,,,1,Step 1,Expected 1,,,,,,
+,,,,2,Step 2,"Expected 2
+",,,,,,
+,,,,3,Step 3,Expected 3,,,,,,
+,Test Case,should persist its data,should persist its data,,,,Release 1,Pavan Mudigonda,Design,story:23732,2,Automated
+,,,,1,Step 1,Expected 1,,,,,,
+,,,,2,Step 2,"Expected 2
+",,,,,,
+,,,,3,Step 3,Expected 3,,,,,,
+,Test Case,should allow me to mark items as complete,should allow me to mark items as complete,,,,Release 1,Pavan Mudigonda,Design,story:23732,3,Automated
+,,,,1,Step 1,Verify that,,,,,,
+,,,,2,Step 2,Verify that as well,,,,,,
+,Test Case,should allow me to display active items,should allow me to display active items,,,,Release 1,Pavan Mudigonda,Design,story:23732,1,Automated
+,,,,1,Step 1,Expected 1,,,,,,
+,,,,2,Step 2,"Expected 2
+",,,,,,
+,,,,3,Step 3,Expected 3,,,,,,
+,Test Case,should hide other controls when editing,should hide other controls when editing,,,,Release 1,Pavan Mudigonda,Design,story:23732,2,Automated
+,,,,1,Step 1,Expected 1,,,,,,
+,,,,2,Step 2,"Expected 2
+",,,,,,
+,,,,3,Step 3,Expected 3,,,,,,
+,Test Case,should respect the back button,should respect the back button,,,,Release 1,Pavan Mudigonda,Design,story:23732,3,Automated
+,,,,1,Step 1,Verify that,,,,,,
+,,,,2,Step 2,Verify that as well,,,,,,
+,Test Case,Showing all items,Showing all items,,,,Release 1,Pavan Mudigonda,Design,story:23732,1,Automated
+,,,,1,Step 1,Expected 1,,,,,,
+,,,,2,Step 2,"Expected 2
+",,,,,,
+,,,,3,Step 3,Expected 3,,,,,,
+,Test Case,Showing active items,Showing active items,,,,Release 1,Pavan Mudigonda,Design,story:23732,2,Automated
+,,,,1,Step 1,Expected 1,,,,,,
+,,,,2,Step 2,"Expected 2
+",,,,,,
+,,,,3,Step 3,Expected 3,,,,,,
+,Test Case,Showing completed items,Showing completed items,,,,Release 1,Pavan Mudigonda,Design,story:23732,3,Automated
+,,,,1,Step 1,Verify that,,,,,,
+,,,,2,Step 2,Verify that as well,,,,,,
+,Test Case,should allow me to display completed items,should allow me to display completed items,,,,Release 1,Pavan Mudigonda,Design,story:23732,3,Automated
+,,,,1,Step 1,Verify that,,,,,,
+,,,,2,Step 2,Verify that as well,,,,,,
+,Test Case,should allow me to display all items,should allow me to display all items,,,,Release 1,Pavan Mudigonda,Design,story:23732,1,Automated
+,,,,1,Step 1,Expected 1,,,,,,
+,,,,2,Step 2,"Expected 2
+",,,,,,
+,,,,3,Step 3,Expected 3,,,,,,
+,Test Case,should highlight the currently applied filter,should highlight the currently applied filter,,,,Release 1,Pavan Mudigonda,Design,story:23732,2,Automated
+,,,,1,Step 1,Expected 1,,,,,,
+,,,,2,Step 2,"Expected 2
+",,,,,,
+,,,,3,Step 3,Expected 3,,,,,,

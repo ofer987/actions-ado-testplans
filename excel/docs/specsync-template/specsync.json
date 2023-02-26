@@ -9,7 +9,7 @@
     "plugins": [
       {
         "packageId": "SpecSync.Plugin.ExcelTestSource",
-        "packageVersion": "1.0.0 "        
+        "packageVersion": "1.0.0 "    
      },
       {
         "packageId": "SpecSync.Plugin.GenericTestResultMatcher",
