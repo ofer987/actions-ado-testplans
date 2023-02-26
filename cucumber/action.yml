@@ -189,8 +189,9 @@ runs:
               else 
                   echo "$FILE does not exist."
                   cp ${{ env.SPECSYNC_JSON_PATH }} ./
-                  sed -i "s/Dummy-Test-Suite-Name/$SUBDIR/g" ./specsync.json
-              fi
+                  tmp=$(mktemp)
+                  jq --arg a "$SUBDIR" '.remote.testSuite.name = $a' ./specsync.json > "$tmp" && mv "$tmp" ./specsync.json
+              fi;
               dotnet specsync push --verbose --user "${{ inputs.ado_pat }}" --license ${{ env.LICENSE_PATH }};
               dotnet specsync pull --verbose --user "${{ inputs.ado_pat }}" --license ${{ env.LICENSE_PATH }};
               cd $CWD
@@ -216,7 +217,8 @@ runs:
                 else 
                     echo "$FILE does not exist."
                     cp ${{ env.SPECSYNC_JSON_PATH }} ./
-                    sed -i "s/##Dummy-Test-Suite-Name##/$SUBDIR/g" ./specsync.json
+                  tmp=$(mktemp)
+                  jq --arg a "$SUBDIR" '.remote.testSuite.name = $a' ./specsync.json > "$tmp" && mv "$tmp" ./specsync.json
                 fi
                 FEATURE_NAME=$(basename $DIR)      
                 dotnet specsync publish-test-results --license ${{ env.LICENSE_PATH }} --user "${{ inputs.ado_pat }}" -v --log output.txt --zeroExitCodeForWarnings -r "${{ inputs.test_results_path }}" -f "${{ inputs.test_results_format }}" -c "${{ inputs.test_results_config }}" --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}-Suite:${FEATURE_NAME}" --runComment "${{ inputs.run_comment }}" --testResultComment "${{ inputs.run_result_comment }}" 2> /dev/null;
@@ -249,7 +251,8 @@ runs:
                 else 
                     echo "$FILE does not exist."
                     cp ${{ env.SPECSYNC_JSON_PATH }} ./
-                    sed -i "s/##Dummy-Test-Suite-Name##/$SUBDIR/g" ./specsync.json
+                  tmp=$(mktemp)
+                  jq --arg a "$SUBDIR" '.remote.testSuite.name = $a' ./specsync.json > "$tmp" && mv "$tmp" ./specsync.json
                 fi                
                 FEATURE_NAME=$(basename $DIR)
                 dotnet specsync publish-test-results --license ${{ env.LICENSE_PATH }} --user "${{ inputs.ado_pat }}" -v --log output.txt --zeroExitCodeForWarnings -r "${{ inputs.test_results_path }}" -f "${{ inputs.test_results_format }}" -c "${{ inputs.test_results_config }}" --attachedFiles "${{ inputs.test_results_attached_files }}" --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}-Suite:${FEATURE_NAME}" --runComment "${{ inputs.run_comment }}" --testResultComment "${{ inputs.run_result_comment }}" 2> /dev/null;

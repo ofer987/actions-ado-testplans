@@ -1,0 +1,95 @@
+{
+  "$schema": "https://schemas.specsolutions.eu/specsync4azuredevops-config-latest.json",
+  "compatibilityVersion": "3.4.0",
+  "local": {
+    "folder": "./",
+    "projectType": "folder",
+    "defaultFeatureLanguage": "en-US"
+  },
+  "remote": {
+    "projectUrl": "https://dev.azure.com/fakeUrl",
+    "testSuite": {
+      "testPlanId": 999999,
+      "name": "$SUBDIR"
+    }
+  },
+  "publishTestResults": {
+    "treatInconclusiveAs": "NotExecuted",
+    "testRunSettings": {
+      "name": "GHA-2995833570-QA Env",
+      "runType": "automated",
+      "runComment": "test",
+      "testResultComment": ""
+    },
+    "testResultSettings": {
+      "comment": ""
+    }
+  },
+  "synchronization": {
+    "disableLocalChanges": false,
+    "testCaseTagPrefix": "TC",
+    "pull": {
+      "enabled": true,
+      "enableCreatingScenariosForNewTestCases": true
+    },
+    "automation": {
+      "enabled": true,
+      "condition": "not @manual",
+      "testExecutionStrategy": "testSuiteBasedExecutionWithScenarioOutlineWrappers"
+    },
+    "state": {
+      "setValueOnChangeTo": "Design"
+    },
+    "areaPath": {
+      "mode": "setOnLink",
+      "value": "\\Release 1"
+    },
+    "iterationPath": {
+      "mode": "setOnLink",
+      "value": "\\Sprint 1"
+    },
+    "links": [
+      {
+        "tagPrefix": "story"
+      },
+      {
+        "tagPrefix": "bug"
+      }
+    ],
+    "format": {
+      "useExpectedResult": false,
+      "syncDataTableAsText": false,
+      "prefixBackgroundSteps": true,
+      "prefixTitle": true,
+      "showParameterListStep": "whenUnusedParameters"
+    }
+  },
+  "customizations": {
+    "ignoreNotSupportedLocalTags": {
+      "enabled": true
+    },
+    "ignoreTestCaseSteps": {
+      "enabled": true,
+      "ignoredPrefixes": [
+        "COMMENT"
+      ]
+    },
+    "ignoreTestCaseTags": {
+      "enabled": true,
+      "tags": [
+        "ignore"
+      ]
+    },
+    "resetTestCaseState": {
+      "enabled": true,
+      "state": "Ready",
+      "condition": "@ready"
+    },
+    "customFieldUpdates": {
+      "enabled": true,
+      "updates": {
+        "System.Description": "<b>Synchronized By</b>: GHActions tr/cicd_gh-actions-ado-testplans <br/> <b>Feature Name</b>: {feature-name:HTML} <br/> <b>Feature Description:</b> {feature-description:HTML} <br/> <b>Feature File Name:</b> {feature-file-name} <br/> <b>Feature File Folder:</b> {feature-file-folder} <br/> <b>Feature File Path:</b> {feature-file-path} <br/> <b>Scenario Description:</b> {scenario-description:HTML}"
+      }
+    }
+  }
+}
