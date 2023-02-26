@@ -131,7 +131,7 @@ runs:
           echo SPECSYNC_JSON=${SPECSYNC_JSON} >> $GITHUB_ENV
           echo "SpecSync Json: $SPECSYNC_JSON"
 
-      - uses: microsoft/variable-substitution@v1
+      - uses: TomaszKandula/variable-substitution@v1.0.1
         if: ${{ inputs.standard_specsync_json }}
         with:
           files: ${{ env.SPECSYNC_JSON_PATH }}
