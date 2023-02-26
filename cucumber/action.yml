@@ -189,7 +189,7 @@ runs:
               else 
                   echo "$FILE does not exist."
                   cp ${{ env.SPECSYNC_JSON_PATH }} ./
-                  sed -i "s/##Dummy-Test-Suite-Name##/$SUBDIR/g" ./specsync.json
+                  sed -i "s/Dummy-Test-Suite-Name/$SUBDIR/g" ./specsync.json
               fi
               dotnet specsync push --user "${{ inputs.ado_pat }}" --license ${{ env.LICENSE_PATH }};
               dotnet specsync pull --user "${{ inputs.ado_pat }}" --license ${{ env.LICENSE_PATH }};
