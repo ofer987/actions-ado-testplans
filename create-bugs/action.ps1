@@ -35,10 +35,6 @@ $area = Get-ActionInput area -Required
 $assignedTo = Get-ActionInput assignedTo -Required
 $reason = Get-ActionInput reason -Required
 $tags = Get-ActionInput tags -Required
-
-RunNumber = ParseLongSafely $env:GITHUB_RUN_NUMBER
-RunId = ParseLongSafely $env:GITHUB_RUN_ID
-
 function GetUrl() {
     param(
         [string]$orgUrl, 
@@ -176,7 +172,7 @@ $projects.value  | ForEach-Object {
                     {
                         "op" : "add",
                         "path" : "/fields/System.Title",
-                        "value" : "$($currentTestCase.testCaseTitle) test case failed in GH Run# $($RunNumber)"
+                        "value" : "$($currentTestCase.testCaseTitle) test case failed in GH Run# $($env:GITHUB_RUN_NUMBER)"
                     },
                     {
                         "op" : "add",
@@ -230,9 +226,11 @@ $projects.value  | ForEach-Object {
                     $parentRelation = 'System.LinkTypes.Hierarchy-Forward'
                     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                     $getLinkedBugs = Invoke-RestMethod $getLinkedBugURI -Method Get -ContentType "application/json" -Headers $header
-                    $findExistingBugs = $getLinkedBugs | where-object { $_.rel -match $parentRelation -and $_.attributes.comment -match "Created by ADO Test Automation"}
+                    # $findExistingBugs = $getLinkedBugs | where-object { $_.rel -match $parentRelation -and $_.attributes.comment -match "Created by ADO Test Automation"}
+                    $findExistingBugs = $getLinkedBugs
                     $existingBugId = $findExistingBugs.id
                     Write-Host "Existing bug: $existingBugId"
+                    Write-Host $findExistingBugs
                 }
                 else {
                     Write-Host "All Tests Passed"
