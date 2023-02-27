@@ -157,6 +157,7 @@ $projects.value  | ForEach-Object {
                     $resultID = $currentTestCase.id
                     $testCaseID = $currentTestCase.testCase.id
                     $getLinkedBugURI = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $testCaseID + "?%24expand=1" + "&api-version=7.0"
+                    $getWorkItem = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $witNum + "?api-version=7.0"
                     Write-Host $getLinkedBugURI
                     $bodyDesc = "Get full details of error message & stack trace on below link:" + "`n" + "https://$adoBaseUrl/$project/_TestManagement/Runs?runId=" + $lastRunId + "&_a=resultSummary&resultId=" + $resultID + " "
                     $err = ""
@@ -222,9 +223,14 @@ $projects.value  | ForEach-Object {
                     Invoke-RestMethod $getLinkedBugURI -Method GET -ContentType "application/json" -Headers $header -outFile work.json
                     $parentRelation = 'System.LinkTypes.Hierarchy-Forward'                    
                     $findExistingBugs = Get-Content -Path work.json | ConvertFrom-Json | Where-Object { ($_.relations.rel -match $parentRelation) -and ($_.relations.attributes.comment -match "Created by TR ADO Test Automation")}
-                    $existingBugId = $findExistingBugs.id
-                    Write-Host "Existing bug: $existingBugId"
-                    if ($existingBugId -eq "") {          
+                    $existingBugId = $findExistingBugs.url.Split('/')[8]
+                    $witNum = $existingBugId
+                    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+                    $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
+                    $bugWorkItemStatus = $bugWorkItem.fields.System.Reason
+                    Write-Host "Existing bug: $existingBugId" >> $env:GITHUB_STEP_SUMMARY
+                    Write-Host "Existing bug Status: $bugWorkItemStatus" >> $env:GITHUB_STEP_SUMMARY
+                    if ($existingBugId -eq "" $bugWorkItemStatus -ne "") {          
                         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                         $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
                         Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
