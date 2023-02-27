@@ -217,18 +217,20 @@ $projects.value  | ForEach-Object {
                     }
                 ] 
 "@
-                    
-                    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-                    $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
-                    Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
-                    $bugID = $bugWorkItemURI.id
-                    "Failed Test ID: [$testCaseID](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) Linked with New Bug Id: [$bugID](https://dev.azure.com/$organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY
                     $parentRelation = 'System.LinkTypes.Hierarchy-Forward'
                     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-                    $getLinkedBugs = Invoke-RestMethod $getLinkedBugURI -Method GET -ContentType "application/json" -Headers $header -outFile work.json
+                    Invoke-RestMethod $getLinkedBugURI -Method GET -ContentType "application/json" -Headers $header -outFile work.json
                     $findExistingBugs = Get-Content -Path work.json | ConvertFrom-Json | Where-Object { ($_.relations.rel -match $parentRelation) -and ($_.relations.attributes.comment -match "Created by TR ADO Test Automation")}
                     $existingBugId = $findExistingBugs.id
-                    Write-Host "Existing bug: $existingBugId"            
+                    Write-Host "Existing bug: $existingBugId"
+                    if ($existingBugId -eq "") {          
+                        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+                        $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
+                        Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
+                        $bugID = $bugWorkItemURI.id
+                        "Failed Test ID: [$testCaseID](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) Linked with New Bug Id: [$bugID](https://dev.azure.com/$organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY
+                    }
+           
                 }
                 else {
                     Write-Host "All Tests Passed"
