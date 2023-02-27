@@ -36,6 +36,9 @@ $assignedTo = Get-ActionInput assignedTo -Required
 $reason = Get-ActionInput reason -Required
 $tags = Get-ActionInput tags -Required
 
+RunNumber = ParseLongSafely $env:GITHUB_RUN_NUMBER
+RunId = ParseLongSafely $env:GITHUB_RUN_ID
+
 function GetUrl() {
     param(
         [string]$orgUrl, 
@@ -173,7 +176,7 @@ $projects.value  | ForEach-Object {
                     {
                         "op" : "add",
                         "path" : "/fields/System.Title",
-                        "value" : "$($currentTestCase.testCaseTitle) test case failed in build $($currentTestCase.build.name)"
+                        "value" : "$($currentTestCase.testCaseTitle) test case failed in GH Run# $($RunNumber)"
                     },
                     {
                         "op" : "add",
