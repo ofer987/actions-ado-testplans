@@ -156,7 +156,7 @@ $projects.value  | ForEach-Object {
                     Write-Host "createBugWorkItemUrl: $createBugWorkItemUrl"
                     $resultID = $currentTestCase.id
                     $testCaseID = $currentTestCase.testCase.id
-                    $getLinkedBugURI = "https://dev.azure.com/$organization/$project/_apis/wit/workItems/$testCaseID?%24expand=1"
+                    $getLinkedBugURI = "https://dev.azure.com/$organization/$project/_apis/wit/workItems/$testCaseID?%24expand=1&api-version=7.0"
                     $bodyDesc = "Get full details of error message & stack trace on below link:" + "`n" + "https://$adoBaseUrl/$project/_TestManagement/Runs?runId=" + $lastRunId + "&_a=resultSummary&resultId=" + $resultID + " "
                     $err = ""
                     $errLen = $currentTestCase.stackTrace.Length
@@ -225,12 +225,10 @@ $projects.value  | ForEach-Object {
                     "Failed Test ID: [$testCaseID](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) Linked with New Bug Id: [$bugID](https://dev.azure.com/$organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY
                     $parentRelation = 'System.LinkTypes.Hierarchy-Forward'
                     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-                    $getLinkedBugs = Invoke-RestMethod $getLinkedBugURI -Method Get -ContentType "application/json" -Headers $header
-                    # $findExistingBugs = $getLinkedBugs | where-object { $_.rel -match $parentRelation -and $_.attributes.comment -match "Created by ADO Test Automation"}
-                    $findExistingBugs = $getLinkedBugs
+                    $getLinkedBugs = Invoke-RestMethod $getLinkedBugURI -Method GET -ContentType "application/json" -Headers $header -outFile work.json
+                    $findExistingBugs = Get-Content -Path work.json | ConvertFrom-Json | Where-Object { ($_.relations.rel -match $parentRelation) -and ($_.relations.attributes.comment -match "Created by TR ADO Test Automation")}
                     $existingBugId = $findExistingBugs.id
-                    Write-Host "Existing bug: $existingBugId"
-                    Write-Host $findExistingBugs
+                    Write-Host "Existing bug: $existingBugId"            
                 }
                 else {
                     Write-Host "All Tests Passed"

@@ -1,0 +1,157 @@
+{
+    "id": 24214,
+    "rev": 1,
+    "fields": {
+        "System.AreaPath": "Azure-DevOps-Training\\Release 1",
+        "System.TeamProject": "Azure-DevOps-Training",
+        "System.IterationPath": "Azure-DevOps-Training\\Sprint 1",
+        "System.WorkItemType": "Test Case",
+        "System.State": "Design",
+        "System.Reason": "New",
+        "System.AssignedTo": {
+            "displayName": "Pavan Mudigonda",
+            "url": "https://spsprodcus5.vssps.visualstudio.com/Aa54c069e-cb83-4866-8576-4c18a880b9f1/_apis/Identities/0ebe27af-3910-6da8-9616-260af97d0d0d",
+            "_links": {
+                "avatar": {
+                    "href": "https://dev.azure.com/tr-ihn-sandbox/_apis/GraphProfile/MemberAvatars/aad.MGViZTI3YWYtMzkxMC03ZGE4LTk2MTYtMjYwYWY5N2QwZDBk"
+                }
+            },
+            "id": "0ebe27af-3910-6da8-9616-260af97d0d0d",
+            "uniqueName": "NagaPavanKumar.Mudigonda@thomsonreuters.com",
+            "imageUrl": "https://dev.azure.com/tr-ihn-sandbox/_apis/GraphProfile/MemberAvatars/aad.MGViZTI3YWYtMzkxMC03ZGE4LTk2MTYtMjYwYWY5N2QwZDBk",
+            "descriptor": "aad.MGViZTI3YWYtMzkxMC03ZGE4LTk2MTYtMjYwYWY5N2QwZDBk"
+        },
+        "System.CreatedDate": "2023-02-26T23:47:59.1Z",
+        "System.CreatedBy": {
+            "displayName": "Pavan Mudigonda",
+            "url": "https://spsprodcus5.vssps.visualstudio.com/Aa54c069e-cb83-4866-8576-4c18a880b9f1/_apis/Identities/0ebe27af-3910-6da8-9616-260af97d0d0d",
+            "_links": {
+                "avatar": {
+                    "href": "https://dev.azure.com/tr-ihn-sandbox/_apis/GraphProfile/MemberAvatars/aad.MGViZTI3YWYtMzkxMC03ZGE4LTk2MTYtMjYwYWY5N2QwZDBk"
+                }
+            },
+            "id": "0ebe27af-3910-6da8-9616-260af97d0d0d",
+            "uniqueName": "NagaPavanKumar.Mudigonda@thomsonreuters.com",
+            "imageUrl": "https://dev.azure.com/tr-ihn-sandbox/_apis/GraphProfile/MemberAvatars/aad.MGViZTI3YWYtMzkxMC03ZGE4LTk2MTYtMjYwYWY5N2QwZDBk",
+            "descriptor": "aad.MGViZTI3YWYtMzkxMC03ZGE4LTk2MTYtMjYwYWY5N2QwZDBk"
+        },
+        "System.ChangedDate": "2023-02-26T23:47:59.1Z",
+        "System.ChangedBy": {
+            "displayName": "Pavan Mudigonda",
+            "url": "https://spsprodcus5.vssps.visualstudio.com/Aa54c069e-cb83-4866-8576-4c18a880b9f1/_apis/Identities/0ebe27af-3910-6da8-9616-260af97d0d0d",
+            "_links": {
+                "avatar": {
+                    "href": "https://dev.azure.com/tr-ihn-sandbox/_apis/GraphProfile/MemberAvatars/aad.MGViZTI3YWYtMzkxMC03ZGE4LTk2MTYtMjYwYWY5N2QwZDBk"
+                }
+            },
+            "id": "0ebe27af-3910-6da8-9616-260af97d0d0d",
+            "uniqueName": "NagaPavanKumar.Mudigonda@thomsonreuters.com",
+            "imageUrl": "https://dev.azure.com/tr-ihn-sandbox/_apis/GraphProfile/MemberAvatars/aad.MGViZTI3YWYtMzkxMC03ZGE4LTk2MTYtMjYwYWY5N2QwZDBk",
+            "descriptor": "aad.MGViZTI3YWYtMzkxMC03ZGE4LTk2MTYtMjYwYWY5N2QwZDBk"
+        },
+        "System.CommentCount": 1,
+        "System.Title": "Scenario Outline: Changing theme to from one mode to another link",
+        "Microsoft.VSTS.Common.StateChangeDate": "2023-02-26T23:47:59.1Z",
+        "Microsoft.VSTS.Common.ActivatedDate": "2023-02-26T23:47:59.1Z",
+        "Microsoft.VSTS.Common.ActivatedBy": {
+            "displayName": "Pavan Mudigonda",
+            "url": "https://spsprodcus5.vssps.visualstudio.com/Aa54c069e-cb83-4866-8576-4c18a880b9f1/_apis/Identities/0ebe27af-3910-6da8-9616-260af97d0d0d",
+            "_links": {
+                "avatar": {
+                    "href": "https://dev.azure.com/tr-ihn-sandbox/_apis/GraphProfile/MemberAvatars/aad.MGViZTI3YWYtMzkxMC03ZGE4LTk2MTYtMjYwYWY5N2QwZDBk"
+                }
+            },
+            "id": "0ebe27af-3910-6da8-9616-260af97d0d0d",
+            "uniqueName": "NagaPavanKumar.Mudigonda@thomsonreuters.com",
+            "imageUrl": "https://dev.azure.com/tr-ihn-sandbox/_apis/GraphProfile/MemberAvatars/aad.MGViZTI3YWYtMzkxMC03ZGE4LTk2MTYtMjYwYWY5N2QwZDBk",
+            "descriptor": "aad.MGViZTI3YWYtMzkxMC03ZGE4LTk2MTYtMjYwYWY5N2QwZDBk"
+        },
+        "Microsoft.VSTS.Common.Priority": 2,
+        "Microsoft.VSTS.TCM.AutomatedTestName": "Changing theme to from one mode to another link",
+        "Microsoft.VSTS.TCM.AutomatedTestStorage": "playwright.outline.feature",
+        "Microsoft.VSTS.TCM.AutomatedTestId": "4bdd1323-50ee-7e60-c4a6-3157ba41379e",
+        "Microsoft.VSTS.TCM.AutomatedTestType": "Script",
+        "Microsoft.VSTS.TCM.AutomationStatus": "Automated",
+        "System.History": "SpecSync-Source-Version:I1f205af4dafb9cc74438f1cc36546cc2,C8e5149e319e37dae482791e2a06e8f0a,F33",
+        "Microsoft.VSTS.TCM.Steps": "<steps id=\"0\" last=\"3\"><step id=\"1\" type=\"ActionStep\"><parameterizedString isformatted=\"true\">&lt;p&gt;Background: &lt;b&gt;Given &lt;/b&gt;Go to the playwright website&lt;/p&gt;</parameterizedString><parameterizedString isformatted=\"true\"></parameterizedString><description></description></step><step id=\"2\" type=\"ActionStep\"><parameterizedString isformatted=\"true\">&lt;p&gt;&lt;b&gt;When &lt;/b&gt;Change theme to &amp;quot;@ThemeOne &amp;quot; mode&lt;/p&gt;</parameterizedString><parameterizedString isformatted=\"true\">&lt;p&gt;&lt;b&gt;Then &lt;/b&gt;Snapshot &amp;quot;@ThemeOne &amp;quot;&lt;/p&gt;</parameterizedString><description></description></step><step id=\"3\" type=\"ActionStep\"><parameterizedString isformatted=\"true\">&lt;p&gt;&lt;b&gt;When &lt;/b&gt;Change theme to &amp;quot;@ThemeTwo &amp;quot; mode&lt;/p&gt;</parameterizedString><parameterizedString isformatted=\"true\">&lt;p&gt;&lt;b&gt;Then &lt;/b&gt;Snapshot &amp;quot;@ThemeTwo &amp;quot;&lt;/p&gt;</parameterizedString><description></description></step></steps>",
+        "Microsoft.VSTS.TCM.Parameters": "<parameters>\n  <param name=\"ThemeOne\" bind=\"default\" />\n  <param name=\"ThemeTwo\" bind=\"default\" />\n</parameters>",
+        "Microsoft.VSTS.TCM.LocalDataSource": "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<NewDataSet>\n  <xs:schema id=\"NewDataSet\" xmlns=\"\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:msdata=\"urn:schemas-microsoft-com:xml-msdata\">\n    <xs:element name=\"NewDataSet\" msdata:IsDataSet=\"true\" msdata:Locale=\"\">\n      <xs:complexType>\n        <xs:choice minOccurs=\"0\" maxOccurs=\"unbounded\">\n          <xs:element name=\"Table1\">\n            <xs:complexType>\n              <xs:sequence>\n                <xs:element name=\"ThemeOne\" type=\"xs:string\" minOccurs=\"0\" />\n                <xs:element name=\"ThemeTwo\" type=\"xs:string\" minOccurs=\"0\" />\n              </xs:sequence>\n            </xs:complexType>\n          </xs:element>\n        </xs:choice>\n      </xs:complexType>\n    </xs:element>\n  </xs:schema>\n  <Table1>\n    <ThemeOne>light</ThemeOne>\n    <ThemeTwo>dark</ThemeTwo>\n  </Table1>\n  <Table1>\n    <ThemeOne>dark</ThemeOne>\n    <ThemeTwo>light</ThemeTwo>\n  </Table1>\n</NewDataSet>",
+        "System.Tags": "ado; attachment:TC1-expected-response.json; attachment:TC1-request.json; cucumber; sync"
+    },
+    "relations": [
+        {
+            "rel": "System.LinkTypes.Hierarchy-Forward",
+            "url": "https://dev.azure.com/tr-ihn-sandbox/2f1b9b80-14ef-44bb-a488-501f80c84a08/_apis/wit/workItems/24218",
+            "attributes": {
+                "isLocked": false,
+                "comment": "Created by TR ADO Test Automation",
+                "name": "Child"
+            }
+        },
+        {
+            "rel": "Microsoft.VSTS.Common.TestedBy-Reverse",
+            "url": "https://dev.azure.com/tr-ihn-sandbox/2f1b9b80-14ef-44bb-a488-501f80c84a08/_apis/wit/workItems/17372",
+            "attributes": {
+                "isLocked": false,
+                "comment": "Synched-by-SpecSync",
+                "name": "Tests"
+            }
+        },
+        {
+            "rel": "System.LinkTypes.Hierarchy-Forward",
+            "url": "https://dev.azure.com/tr-ihn-sandbox/2f1b9b80-14ef-44bb-a488-501f80c84a08/_apis/wit/workItems/24217",
+            "attributes": {
+                "isLocked": false,
+                "comment": "Created by TR ADO Test Automation",
+                "name": "Child"
+            }
+        },
+        {
+            "rel": "System.LinkTypes.Hierarchy-Forward",
+            "url": "https://dev.azure.com/tr-ihn-sandbox/2f1b9b80-14ef-44bb-a488-501f80c84a08/_apis/wit/workItems/24216",
+            "attributes": {
+                "isLocked": false,
+                "comment": "Created by TR ADO Test Automation",
+                "name": "Child"
+            }
+        },
+        {
+            "rel": "Microsoft.VSTS.Common.TestedBy-Reverse",
+            "url": "https://dev.azure.com/tr-ihn-sandbox/2f1b9b80-14ef-44bb-a488-501f80c84a08/_apis/wit/workItems/17373",
+            "attributes": {
+                "isLocked": false,
+                "comment": "Synched-by-SpecSync",
+                "name": "Tests"
+            }
+        }
+    ],
+    "commentVersionRef": {
+        "commentId": 13520049,
+        "version": 1,
+        "url": "https://dev.azure.com/tr-ihn-sandbox/2f1b9b80-14ef-44bb-a488-501f80c84a08/_apis/wit/workItems/24214/comments/13520049/versions/1"
+    },
+    "_links": {
+        "self": {
+            "href": "https://dev.azure.com/tr-ihn-sandbox/2f1b9b80-14ef-44bb-a488-501f80c84a08/_apis/wit/workItems/24214"
+        },
+        "workItemUpdates": {
+            "href": "https://dev.azure.com/tr-ihn-sandbox/2f1b9b80-14ef-44bb-a488-501f80c84a08/_apis/wit/workItems/24214/updates"
+        },
+        "workItemRevisions": {
+            "href": "https://dev.azure.com/tr-ihn-sandbox/2f1b9b80-14ef-44bb-a488-501f80c84a08/_apis/wit/workItems/24214/revisions"
+        },
+        "workItemComments": {
+            "href": "https://dev.azure.com/tr-ihn-sandbox/2f1b9b80-14ef-44bb-a488-501f80c84a08/_apis/wit/workItems/24214/comments"
+        },
+        "html": {
+            "href": "https://dev.azure.com/tr-ihn-sandbox/2f1b9b80-14ef-44bb-a488-501f80c84a08/_workitems/edit/24214"
+        },
+        "workItemType": {
+            "href": "https://dev.azure.com/tr-ihn-sandbox/2f1b9b80-14ef-44bb-a488-501f80c84a08/_apis/wit/workItemTypes/Test%20Case"
+        },
+        "fields": {
+            "href": "https://dev.azure.com/tr-ihn-sandbox/2f1b9b80-14ef-44bb-a488-501f80c84a08/_apis/wit/fields"
+        }
+    },
+    "url": "https://dev.azure.com/tr-ihn-sandbox/2f1b9b80-14ef-44bb-a488-501f80c84a08/_apis/wit/workItems/24214"
+}
