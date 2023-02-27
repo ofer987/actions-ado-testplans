@@ -230,7 +230,7 @@ $projects.value  | ForEach-Object {
                     $bugWorkItemStatus = $bugWorkItem.fields.System.Reason
                     Write-Host "Existing bug: $existingBugId" >> $env:GITHUB_STEP_SUMMARY
                     Write-Host "Existing bug Status: $bugWorkItemStatus" >> $env:GITHUB_STEP_SUMMARY
-                    if ($existingBugId -eq "" $bugWorkItemStatus -ne "") {          
+                    if ($existingBugId -eq "" -and $bugWorkItemStatus -ne "New") {          
                         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                         $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
                         Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
