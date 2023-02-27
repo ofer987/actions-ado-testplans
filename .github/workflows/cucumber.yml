@@ -1,0 +1,48 @@
+name: cucumber
+
+on:
+  push:
+    branches:  
+      - '!cucumber-ado-syn-**'
+  pull_request:
+    types: [opened, reopened]
+    branches:
+      - '!cucumber-ado-syn-**'
+
+  workflow_dispatch:
+      
+jobs:
+  test:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'cucumber ado sync') }} == 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Git Repo
+        uses: actions/checkout@v3
+      - name: Cucumber to ADO Sync
+        id: ado_sync
+        if: always()
+        uses: tr/cicd_gh-actions-ado-testplans/cucumber@v1.2
+        with:
+          env: QA
+          artifactory_token: ${{ secrets.ARTIFACTORY_TOKEN }}
+          artifactory_user: ${{ secrets.ARTIFACTORY_USER }}        
+          test_cases_sync: true
+          test_results_sync: false
+          ado_iteration_path: '\\Sprint 1' 
+          ado_area_path: '\\Release 1'
+          ado_pat: ${{ secrets.ADO_PAT }}
+          cucumber_path: features
+          ado_project_url: https://dev.azure.com/tr-ihn-sandbox/Azure-DevOps-Training
+          test_results_test_plan_id: 24209
+
+      - name: MS Teams Notify
+        if: always()
+        uses: tr/cicd_gh-actions-notification@v1.4
+        with:
+          WEBHOOK_URL1: ${{ secrets.MS_TEAMS_HOOK }}
+          WEBHOOK_TYPE: "TEAMS"
+          TEST_ENV: "ADO"
+          CICD_WORKFLOW_VERSION: "1"
+          LINK1_NAME: "View Cucumber PR"
+          LINK1_URL: "${{ steps.ado_sync.outputs.cucumber_pr_url }}"
+        
