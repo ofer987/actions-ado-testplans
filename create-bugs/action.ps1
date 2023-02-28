@@ -157,8 +157,7 @@ $projects.value  | ForEach-Object {
                     $resultID = $currentTestCase.id
                     $testCaseID = $currentTestCase.testCase.id
                     $getLinkedBugURI = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $testCaseID + "?%24expand=1" + "&api-version=7.0"
-                    $getWorkItem = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $witNum + "?api-version=7.0"
-                    Write-Host $getLinkedBugURI
+                    Write-Host "getLinkedBugURI: $getLinkedBugURI"
                     $bodyDesc = "Get full details of error message & stack trace on below link:" + "`n" + "https://$adoBaseUrl/$project/_TestManagement/Runs?runId=" + $lastRunId + "&_a=resultSummary&resultId=" + $resultID + " "
                     $err = ""
                     $errLen = $currentTestCase.stackTrace.Length
@@ -224,7 +223,9 @@ $projects.value  | ForEach-Object {
                     $parentRelation = 'System.LinkTypes.Hierarchy-Forward'                    
                     $findExistingBugs = Get-Content -Path work.json | ConvertFrom-Json | Where-Object { ($_.relations.rel -match $parentRelation) -and ($_.relations.attributes.comment -match "Created by TR ADO Test Automation")}
                     $existingBugId = $findExistingBugs.url.Split('/')[8]
-                    $witNum = $existingBugId
+                    Write-Host "existingBugId: $existingBugId"
+                    $getWorkItem = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $existingBugId + "?api-version=7.0"
+                    Write-Host "getWorkItem: $getWorkItem"
                     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                     $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
                     $bugWorkItemStatus = $bugWorkItem.fields."System.Reason"
