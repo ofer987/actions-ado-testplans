@@ -1,4 +1,7 @@
-$parentRelation = 'System.LinkTypes.Hierarchy-Forward'
-$findExistingBugs = Get-Content -Path work.json | ConvertFrom-Json | Where-Object { ($_.relations.rel -match $parentRelation) -and ($_.relations.attributes.comment -match "Created by TR ADO Test Automation")}
-$existingBugId = $findExistingBugs.id
-Write-Host "Existing bug: $existingBugId"
+$parentRelation = "System.LinkTypes.Hierarchy-Forward"
+$autoDefectComment= "Created by TR ADO Test Automation"
+$json=Get-Content -Raw -Path 'work.json' | Out-String | ConvertFrom-Json
+$output = $json.relations | Where-Object ({($_.rel -match $parentRelation) -and ($_.attributes.comment -match $autoDefectComment ) -and ($_.attributes.name -match "child")})
+Write-Host $output.url
+$existingDefectCount = ($output.url | Measure-Object -Property length -Minimum -Maximum -Sum -Average).Count
+Write-Host $existingDefectCount
