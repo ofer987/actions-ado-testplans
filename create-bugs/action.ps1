@@ -225,18 +225,21 @@ $projects.value  | ForEach-Object {
                     $existingBugId = $findExistingBugs.url.Split('/')[8]
                     Write-Host "existingBugId: $existingBugId"
                     $getWorkItem = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $existingBugId + "?api-version=7.0"
-                    Write-Host "getWorkItem: $getWorkItem"
+                    Write-Host "getWorkItem: $getWorkItem" 
                     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                     $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
                     $bugWorkItemStatus = $bugWorkItem.fields."System.Reason"
-                    Write-Host "Existing bug: $existingBugId" >> $env:GITHUB_STEP_SUMMARY
-                    Write-Host "Existing bug Status: $bugWorkItemStatus" >> $env:GITHUB_STEP_SUMMARY
-                    if ($existingBugId -eq "" -and $bugWorkItemStatus -ne "Done") {
+                    "Existing bug: $existingBugId" >> $env:GITHUB_STEP_SUMMARY
+                    "Existing bug Status: $bugWorkItemStatus" >> $env:GITHUB_STEP_SUMMARY
+                    if ($existingBugId -eq "" -and $bugWorkItemStatus -eq "Done") {
                         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                         $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
                         Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
                         $bugID = $bugWorkItemURI.id
                         "Failed Test ID: [$testCaseID](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) Linked with New Bug Id: [$bugID](https://dev.azure.com/$organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY
+                    }
+                    else {
+                        Write-Host "Already active bug present for test case: $testCaseId - Bug: $existingBugId"
                     }
            
                 }
