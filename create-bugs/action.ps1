@@ -227,10 +227,10 @@ $projects.value  | ForEach-Object {
                     $witNum = $existingBugId
                     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                     $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
-                    $bugWorkItemStatus = $bugWorkItem.fields.System.Reason
+                    $bugWorkItemStatus = $bugWorkItem.fields."System.Reason"
                     Write-Host "Existing bug: $existingBugId" >> $env:GITHUB_STEP_SUMMARY
                     Write-Host "Existing bug Status: $bugWorkItemStatus" >> $env:GITHUB_STEP_SUMMARY
-                    if ($existingBugId -eq "" -and $bugWorkItemStatus -ne "New") {          
+                    if ($existingBugId -eq "" -and $bugWorkItemStatus -ne "Done") {
                         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                         $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
                         Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
