@@ -223,22 +223,23 @@ $projects.value  | ForEach-Object {
                     $parentRelation = "System.LinkTypes.Hierarchy-Forward"
                     $autoDefectComment= "Created by TR ADO Test Automation"
                     $json=Get-Content -Raw -Path 'work.json' | Out-String | ConvertFrom-Json
-                    $output = $json.relations | Where-Object ({($_.rel -match $parentRelation) -and ($_.attributes.comment -match $autoDefectComment ) -and ($_.attributes.name -match "child")})
-                    existingDefectCount = ($output.url | Measure-Object -Property length -Minimum -Maximum -Sum -Average).Count
+                    $outputBug = $json.relations | Where-Object ({($_.rel -match $parentRelation) -and ($_.attributes.comment -match $autoDefectComment ) -and ($_.attributes.name -match "child")})
+                    $existingDefectCount = ($outputBug.url | Measure-Object -Property length -Minimum -Maximum -Sum -Average).Count
+                    $existingDefectUrl = $outputBug.url
                     if ($existingDefectCount -eq 1 ) {
-                    $existingBugId = $findExistingBugs.url.Split('/')[8]
-                    Write-Host "existingBugId: $existingBugId"
-                    $getWorkItem = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $existingBugId + "?api-version=7.0"
-                    Write-Host "getWorkItem: $getWorkItem" 
-                    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-                    $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
-                    $bugWorkItemStatus = $bugWorkItem.fields."System.Reason"
-                    "Existing bug: $existingBugId" >> $env:GITHUB_STEP_SUMMARY
-                    "Existing bug Status: $bugWorkItemStatus" >> $env:GITHUB_STEP_SUMMARY                    
+                        $existingBugId = $existingDefectUrl.url.Split('/')[8]
+                        Write-Host "existingBugId: $existingBugId"
+                        $getWorkItem = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $existingBugId + "?api-version=7.0"
+                        Write-Host "getWorkItem: $getWorkItem" 
+                        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+                        $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
+                        $bugWorkItemStatus = $bugWorkItem.fields."System.Reason"
+                        "Existing bug: $existingBugId" >> $env:GITHUB_STEP_SUMMARY
+                        "Existing bug Status: $bugWorkItemStatus" >> $env:GITHUB_STEP_SUMMARY                    
                     }
                     else {
                         "Multiple Existing Defects found for $testCaseId" >> $env:GITHUB_STEP_SUMMARY
-                        "URL(s) for Existing Defects on $testCaseId : $output.url" >> $env:GITHUB_STEP_SUMMARY
+                        "URL(s) for Existing Defects on $testCaseId : $existingDefectUrl" >> $env:GITHUB_STEP_SUMMARY
                     }
                     if ($existingBugId -eq "" -and $bugWorkItemStatus -eq "Done") {
                         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
