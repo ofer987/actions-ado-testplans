@@ -237,8 +237,8 @@ $projects.value  | ForEach-Object {
                         "Existing bug: [$existingBugId](existingDefectUrl) - $bugWorkItemStatus" >> $env:GITHUB_STEP_SUMMARY            
                         }
                     else {
-                        "Multiple Existing Defects found for $testCaseId[https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID]" >> $env:GITHUB_STEP_SUMMARY
-                        foreach ( $node in $bugUrlArray )
+                        "Multiple Existing Defects found for [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID)" >> $env:GITHUB_STEP_SUMMARY
+                        foreach ( $node in $existingDefectUrl )
                         {
                             $bugId = $node.url.Split('/')[8]
                             $existingBugId = $bugId
