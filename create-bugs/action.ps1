@@ -234,14 +234,10 @@ $projects.value  | ForEach-Object {
                         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                         $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
                         $bugWorkItemStatus = $bugWorkItem.fields."System.Reason"
-                        "Existing bug: $existingBugId" >> $env:GITHUB_STEP_SUMMARY
-                        "Existing bug Status: $bugWorkItemStatus" >> $env:GITHUB_STEP_SUMMARY                    
+                        "Existing bug: [$existingBugId](existingDefectUrl) - $bugWorkItemStatus" >> $env:GITHUB_STEP_SUMMARY            
                         }
                     else {
                         "Multiple Existing Defects found for $testCaseId[https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID]" >> $env:GITHUB_STEP_SUMMARY
-                        "$existingDefectUrl" >> $env:GITHUB_STEP_SUMMARY
-                        $bugUrlArray =$existingDefectUrl.Split(" ")
-                        $bugUrlArray | ForEach-Object {"Item: [$PSItem]"}
                         foreach ( $node in $bugUrlArray )
                         {
                             $bugId = $node.url.Split('/')[8]
@@ -262,7 +258,6 @@ $projects.value  | ForEach-Object {
                     else {
                         Write-Host "Already active bug present for test case: $testCaseId - Bug: $existingBugId"
                     }
-           
                 }
                 else {
                     Write-Host "All Tests Passed"
