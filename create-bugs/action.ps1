@@ -226,7 +226,7 @@ $projects.value  | ForEach-Object {
                     $outputBug = $json.relations | Where-Object ({($_.rel -match $parentRelation) -and ($_.attributes.comment -match $autoDefectComment ) -and ($_.attributes.name -match "child")})
                     $existingDefectCount = ($outputBug.url | Measure-Object -Property length -Minimum -Maximum -Sum -Average).Count
                     $existingDefectUrl = $outputBug.url
-                    if ($existingDefectCount -gt 0 ) {
+                    if ($existingDefectCount -eq 1 ) {
                         $existingBugId = $existingDefectUrl.url.Split('/')[8]
                         Write-Host "existingBugId: $existingBugId"
                         $getWorkItem = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $existingBugId + "?api-version=7.0"
