@@ -197,9 +197,9 @@ runs:
               cd $CWD
             done;
 
-      - name: Run Test Results Synchronization with out Attachments
+      - name: Run Test Results Synchronization
         if: ${{ inputs.test_results_sync == 'true' && inputs.test_results_attached_files == 'false' }}
-        id: sync_without_attachment
+        id: ado_run_step
         shell: bash
         run: |
           find ${{ inputs.cucumber_path }} -type f -name "*.feature" | while read line;
@@ -235,40 +235,10 @@ runs:
                 ADO_RUN_URL_ARRAY+=("$ADO_SUITE_RUN_URL")
                 cd $CWD
             done;
-            
-      - name: Run Test Results Synchronization with Attachments
-        if: ${{ inputs.test_results_sync == 'true' && inputs.test_results_attached_files == 'true' }}
-        id: sync_with_attachment
-        shell: bash
-        run: |
-          find ${{ inputs.cucumber_path }} -type f -name "*.feature" | while read line;
-            do
-                CWD=$PWD
-                line=$(echo $line)
-                DIR=$(dirname "$line")
-                echo $DIR
-                cd $DIR
-                DIR="${DIR%/}"
-                SUBDIR="${DIR##*/}"
-                FILE=specsync.json
-                if [ -f "$FILE" ]; then
-                echo "$FILE exists."
-                else 
-                    echo "$FILE does not exist."
-                    cp ${{ env.SPECSYNC_JSON_PATH }} ./
-                  tmp=$(mktemp)
-                  jq --arg a "$SUBDIR" '.remote.testSuite.name = $a' ./specsync.json > "$tmp" && mv "$tmp" ./specsync.json
-                fi                
-                FEATURE_NAME=$(basename $DIR)
-                dotnet specsync publish-test-results --license ${{ env.LICENSE_PATH }} --user "${{ inputs.ado_pat }}" -v --log output.txt --zeroExitCodeForWarnings -r "${{ inputs.test_results_path }}" -f "${{ inputs.test_results_format }}" -c "${{ inputs.test_results_config }}" --attachedFiles "${{ inputs.test_results_attached_files }}" --runName "${{ inputs.test_results_run_name }}-Env:${{ inputs.env }}-Suite:${FEATURE_NAME}" --runComment "${{ inputs.run_comment }}" --testResultComment "${{ inputs.run_result_comment }}" 2> /dev/null;
-                cat output.txt
-                ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
-                echo "ADO_SUITE_RUN_URL=$ADO_SUITE_RUN_URL" >> $GITHUB_ENV
-                echo "ADO_SUITE_RUN_URL=$ADO_SUITE_RUN_URL" >> $GITHUB_OUTPUT
-                echo "TEST SUITE RUN URL for ${DIR} : ${ADO_SUITE_RUN_URL}" >> $GITHUB_STEP_SUMMARY
-                cd $CWD
-            done;
-            
+            echo "ADO_PROJECT_URL=${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery" >> $GITHUB_OUTPUT
+            echo "ADO_RUN_ID_ARRAY=$ADO_RUN_ID_ARRAY" >> $GITHUB_OUTPUT
+            echo "ADO_RUN_URL_ARRAY=$ADO_RUN_URL_ARRAY" >> $GITHUB_OUTPUT
+
       - name: Erase SpecSync License Files
         if: always()
         shell: bash
@@ -312,12 +282,3 @@ runs:
           echo "CUCUMBER_PR_URL=${{ steps.create_pr.outputs.pull-request-url }}" >> $GITHUB_OUTPUT
           echo "Cucumber PR URL: ${{ steps.create_pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
 
-      - name: Output Test Results URL
-        env:
-          ADO_PROJECT_URL: ${{ inputs.ado_project_url }}
-        if: ${{ inputs.test_results_sync == 'true' }}
-        id: ado_run_step
-        shell: bash
-        run: |
-          echo "ADO_PROJECT_URL=${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery" >> $GITHUB_OUTPUT
-          echo "ADO_RUN_ID_ARRAY=ADO_RUN_ID_ARRAY" >> $GITHUB_OUTPUT
