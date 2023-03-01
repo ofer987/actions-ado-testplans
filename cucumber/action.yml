@@ -315,5 +315,4 @@ runs:
         shell: bash
         run: |
           ADO_RUN_ID=$(echo ${{ env.ADO_SUITE_RUN_URL }} | awk -F'=' '{print $2;}' | sed 's|&_a||g')
-#          echo "ADO TEST RUN URL: ${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery" >> $GITHUB_STEP_SUMMARY
           echo "ADO_PROJECT_URL=${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery" >> $GITHUB_OUTPUT
