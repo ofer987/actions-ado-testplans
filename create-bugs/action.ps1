@@ -238,9 +238,10 @@ $projects.value  | ForEach-Object {
                         }
                     else {
                         "Multiple Existing Defects found for [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID)" >> $env:GITHUB_STEP_SUMMARY
-                        foreach ( $node in $existingDefectUrl )
+                        $bugUrlArray =$existingDefectUrl.Split(" ")
+                        foreach ( $node in $bugUrlArray )
                         {
-                            $bugId = $node.url.Split('/')[8]
+                            $bugId = $node.Split('/')[8]
                             $existingBugId = $bugId
                             [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                             $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
