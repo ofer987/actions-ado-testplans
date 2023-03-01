@@ -237,12 +237,13 @@ $projects.value  | ForEach-Object {
                         "Existing bug: [$existingBugId](existingDefectUrl) - $bugWorkItemStatus" >> $env:GITHUB_STEP_SUMMARY            
                         }
                     else {
-                        "Multiple Existing Defects found for [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID)" >> $env:GITHUB_STEP_SUMMARY
+                        "Multiple Existing Defects found for Test Case: [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID)" >> $env:GITHUB_STEP_SUMMARY
                         $bugUrlArray =$existingDefectUrl.Split(" ")
                         foreach ( $node in $bugUrlArray )
                         {
                             $bugId = $node.Split('/')[8]
                             $existingBugId = $bugId
+                            $getWorkItem = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $existingBugId + "?api-version=7.0"
                             [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                             $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
                             $bugStatus = $bugWorkItem.fields."System.Reason"
