@@ -230,16 +230,27 @@ $projects.value  | ForEach-Object {
                         $existingBugId = $existingDefectUrl.url.Split('/')[8]
                         Write-Host "existingBugId: $existingBugId"
                         $getWorkItem = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $existingBugId + "?api-version=7.0"
-                        Write-Host "getWorkItem: $getWorkItem" 
+                        Write-Host "getWorkItem: $getWorkItem"
                         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                         $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
                         $bugWorkItemStatus = $bugWorkItem.fields."System.Reason"
                         "Existing bug: $existingBugId" >> $env:GITHUB_STEP_SUMMARY
                         "Existing bug Status: $bugWorkItemStatus" >> $env:GITHUB_STEP_SUMMARY                    
-                    }
+                        }
                     else {
-                        "Multiple Existing Defects found for $testCaseId" >> $env:GITHUB_STEP_SUMMARY
-                        "URL(s) for Existing Defects on $testCaseId : $existingDefectUrl" >> $env:GITHUB_STEP_SUMMARY
+                        "Multiple Existing Defects found for $testCaseId[https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID]" >> $env:GITHUB_STEP_SUMMARY
+                        "$existingDefectUrl" >> $env:GITHUB_STEP_SUMMARY
+                        $bugUrlArray =$existingDefectUrl.Split(" ")
+                        $bugUrlArray | ForEach-Object {"Item: [$PSItem]"}
+                        foreach ( $node in $bugUrlArray )
+                        {
+                            $bugId = $node.url.Split('/')[8]
+                            $existingBugId = $bugId
+                            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+                            $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
+                            $bugStatus = $bugWorkItem.fields."System.Reason"
+                            "[$bugId]($node): $bugStatus" >> $env:GITHUB_STEP_SUMMARY
+                        }
                     }
                     if ($existingBugId -eq "" -and $bugWorkItemStatus -eq "Done") {
                         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
