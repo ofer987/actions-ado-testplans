@@ -94,11 +94,11 @@ inputs:
     default: 'true'
 outputs:
   ado_test_run_url:
-    value: ${{ steps.ado_run_step.outputs.ADO_RUN_URL }}
-    description: ADO Test Run URL
+    value: ${{ steps.ado_run_step.outputs.ADO_RUN_URL_ARRAY }}
+    description: ADO Test Run URL Array
   ado_test_run_id:
-    value: ${{ steps.ado_run_step.outputs.ADO_RUN_ID }}
-    description: ADO Test Run URL    
+    value: ${{ steps.ado_run_step.outputs.ADO_RUN_ID_ARRAY }}
+    description: ADO Test Run ID Array
   cucumber_pr_url:
     value: ${{ steps.pr_url_step.outputs.CUCUMBER_PR_URL }}
     description: Cucumber PR URL
@@ -228,6 +228,11 @@ runs:
                 echo "ADO_SUITE_RUN_URL=$ADO_SUITE_RUN_URL" >> $GITHUB_ENV
                 echo "ADO_SUITE_RUN_URL=$ADO_SUITE_RUN_URL" >> $GITHUB_OUTPUT
                 echo "TestSuite Run [${DIR}](${ADO_SUITE_RUN_URL})" >> $GITHUB_STEP_SUMMARY
+                ADO_RUN_ID=$(echo $ADO_SUITE_RUN_URL | awk -F'=' '{print $2;}' | sed 's|&_a||g')
+                declare -a ADO_RUN_ID_ARRAY
+                declare -a ADO_RUN_URL_ARRAY
+                ADO_RUN_ID_ARRAY+=("$ADO_RUN_ID")
+                ADO_RUN_URL_ARRAY+=("$ADO_SUITE_RUN_URL")
                 cd $CWD
             done;
             
@@ -314,5 +319,5 @@ runs:
         id: ado_run_step
         shell: bash
         run: |
-          ADO_RUN_ID=$(echo ${{ env.ADO_SUITE_RUN_URL }} | awk -F'=' '{print $2;}' | sed 's|&_a||g')
           echo "ADO_PROJECT_URL=${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery" >> $GITHUB_OUTPUT
+          echo "ADO_RUN_ID_ARRAY=ADO_RUN_ID_ARRAY" >> $GITHUB_OUTPUT
