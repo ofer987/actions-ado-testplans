@@ -238,10 +238,8 @@ runs:
                 i+=1
             done;
             echo "ADO_PROJECT_URL=${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery" >> $GITHUB_OUTPUT
-            echo ${ADO_RUN_ID_ARRAY[@]}
-            echo ${ADO_RUN_URL_ARRAY[@]}
-            echo "ADO_RUN_ID_ARRAY=$ADO_RUN_ID_ARRAY" >> $GITHUB_OUTPUT
-            echo "ADO_RUN_URL_ARRAY=$ADO_RUN_URL_ARRAY" >> $GITHUB_OUTPUT
+            echo "ADO_RUN_ID_ARRAY=${ADO_RUN_ID_ARRAY[@]}" >> $GITHUB_OUTPUT
+            echo "ADO_RUN_URL_ARRAY=${ADO_RUN_URL_ARRAY[@]}" >> $GITHUB_OUTPUT
 
       - name: Erase SpecSync License Files
         if: always()
