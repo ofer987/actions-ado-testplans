@@ -93,14 +93,14 @@ inputs:
     required: false
     default: 'true'
 outputs:
-  cucumber_pr_url:
+  CUCUMBER_PR_URL:
     value: ${{ steps.pr_url_step.outputs.CUCUMBER_PR_URL }}
     description: Cucumber PR URL
-  ado_run_id:
-    value: ${{ steps.pr_url_step.outputs.ADO_RUN_ID_ARRAY }}
+  ADO_RUN_ID:
+    value: ${{ steps.ado_run_step.outputs.ADO_RUN_ID_ARRAY }}
     description: ADO RUN ID
-  ado_run_url:
-    value: ${{ steps.pr_url_step.outputs.ADO_RUN_URL_ARRAY }}
+  ADO_RUN_URL:
+    value: ${{ steps.ado_run_step.outputs.ADO_RUN_URL_ARRAY }}
     description: ADO RUN URL
 
 runs:
