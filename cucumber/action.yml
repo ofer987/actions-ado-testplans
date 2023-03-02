@@ -98,10 +98,10 @@ outputs:
     description: Cucumber PR URL
   ADO_RUN_ID:
     value: ${{ steps.ado_run_step.outputs.ADO_RUN_ID_ARRAY }}
-    description: ADO RUN ID
+    description: ADO RUN ID SHELL ARRAY
   ADO_RUN_URL:
     value: ${{ steps.ado_run_step.outputs.ADO_RUN_URL_ARRAY }}
-    description: ADO RUN URL
+    description: ADO RUN URL SHELL ARRAY
 
 runs:
   using: 'composite'
@@ -228,17 +228,17 @@ runs:
                 echo "ADO_SUITE_RUN_URL=$ADO_SUITE_RUN_URL" >> $GITHUB_OUTPUT
                 echo "TestSuite Run [${DIR}](${ADO_SUITE_RUN_URL})" >> $GITHUB_STEP_SUMMARY
                 ADO_RUN_ID=$(echo $ADO_SUITE_RUN_URL | awk -F'=' '{print $2;}' | sed 's|&_a||g')
-                declare -a ADO_RUN_ID_ARRAY
-                declare -a ADO_RUN_URL_ARRAY
-                ADO_RUN_ID_ARRAY+=( $(echo "$ADO_RUN_ID") )
-                ADO_RUN_URL_ARRAY+=( $(echo "$ADO_SUITE_RUN_URL") )
+                ADO_RUN_ID=()
+                ADO_RUN_ID+=("$ADO_RUN_ID")
+                ADO_RUN_URL=()
+                ADO_RUN_URL+=("$ADO_SUITE_RUN_URL")            
                 cd $CWD
             done;
             echo "ADO_PROJECT_URL=${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery" >> $GITHUB_OUTPUT
-            echo "ADO_RUN_ID_ARRAY=$(echo ${ADO_RUN_ID_ARRAY[@]})" >> $GITHUB_ENV
-            echo "ADO_RUN_URL_ARRAY=$(echo ${ADO_RUN_URL_ARRAY[@]})" >> $GITHUB_ENV
-            echo "ADO_RUN_ID_ARRAY=$(echo ${ADO_RUN_ID_ARRAY[@]})" >> $GITHUB_OUTPUT
-            echo "ADO_RUN_URL_ARRAY=$(echo ${ADO_RUN_URL_ARRAY[@]})" >> $GITHUB_OUTPUT
+            echo "ADO_RUN_ID_ARRAY=$(echo "${ADO_RUN_ID[@]}")
+            echo "ADO_RUN_ID_ARRAY=$(echo "${ADO_RUN_ID[@]}") >> "$GITHUB_OUTPUT" 
+            echo "ADO_RUN_URL_ARRAY=$(echo "${ADO_RUN_URL[@]}")
+            echo "ADO_RUN_URL_ARRAY=$(echo "${ADO_RUN_URL[@]}") >> "$GITHUB_OUTPUT" 
 
       - name: Erase SpecSync License Files
         if: always()
