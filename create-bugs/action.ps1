@@ -35,6 +35,8 @@ $area = Get-ActionInput area -Required
 $assignedTo = Get-ActionInput assignedTo -Required
 $reason = Get-ActionInput reason -Required
 $tags = Get-ActionInput tags -Required
+$enable_bug_creation = Get-ActionInput enable_bug_creation -Required
+
 function GetUrl() {
     param(
         [string]$orgUrl, 

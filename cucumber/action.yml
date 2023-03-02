@@ -235,10 +235,10 @@ runs:
                 cd $CWD
             done;
             echo "ADO_PROJECT_URL=${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery" >> $GITHUB_OUTPUT
-            echo "ADO_RUN_ID_ARRAY=$(echo "${ADO_RUN_ID[@]}")
-            echo "ADO_RUN_ID_ARRAY=$(echo "${ADO_RUN_ID[@]}") >> "$GITHUB_OUTPUT" 
-            echo "ADO_RUN_URL_ARRAY=$(echo "${ADO_RUN_URL[@]}")
-            echo "ADO_RUN_URL_ARRAY=$(echo "${ADO_RUN_URL[@]}") >> "$GITHUB_OUTPUT" 
+            echo "ADO_RUN_ID_ARRAY=(echo "${ADO_RUN_ID[@]}")
+            echo "ADO_RUN_ID_ARRAY=(echo "${ADO_RUN_ID[@]}") >> "$GITHUB_OUTPUT" 
+            echo "ADO_RUN_URL_ARRAY=(echo "${ADO_RUN_URL[@]}")
+            echo "ADO_RUN_URL_ARRAY=(echo "${ADO_RUN_URL[@]}") >> "$GITHUB_OUTPUT" 
 
       - name: Erase SpecSync License Files
         if: always()
