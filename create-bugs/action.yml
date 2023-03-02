@@ -31,7 +31,7 @@ inputs:
   testRunName:
     description: 'Run Name'
     required: false 
-  runId:
+  adoRunId:
     description: 'Run ID'
     required: false     
   workItemType:

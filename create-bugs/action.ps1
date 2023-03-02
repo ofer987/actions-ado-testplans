@@ -28,14 +28,17 @@ $organization = Get-ActionInput organization -Required
 $project   = Get-ActionInput project -Required
 $personalToken   = Get-ActionInput ado_pat -Required
 $testRunName = Get-ActionInput testRunName -Required
-$runId = Get-ActionInput runId -Required
-$runId = [int]$runId
+$adoRunId = Get-ActionInput adoRunId -Required
 $workItemType = Get-ActionInput workItemType -Required
 $area = Get-ActionInput area -Required
 $assignedTo = Get-ActionInput assignedTo -Required
 $reason = Get-ActionInput reason -Required
 $tags = Get-ActionInput tags -Required
 $enable_bug_creation = Get-ActionInput enable_bug_creation -Required
+
+function removeSpace {$args[0] -split ',' | % { $_.Trim() } }
+
+$script:runIdArray = (removeSpace $inputs.runId) -join ","
 
 function GetUrl() {
     param(
@@ -92,186 +95,192 @@ $projects.value | ForEach-Object {
     Write-Host $_.name
 }
 
-# Runs - List
-Write-Host "Getting list of Test Runs"  -ForegroundColor Green
-$projects.value  | ForEach-Object {
-    $projectVariable = $_.name
-    $testAreaId = "3b95fb80-fdda-4218-b60e-1052d070ae6b"
-    $testRunName = "$testRunName" # YOUR testRunName
-    $adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
 
-Write-Host "ADO Base URL: $adoBaseUrl"
+foreach ( $runId in $script:runIdArray )
+{
+    $runId = [int]$runId
+        # Runs - List
+    Write-Host "Getting list of Test Runs"  -ForegroundColor Green
+    $projects.value  | ForEach-Object {
+        $projectVariable = $_.name
+        $testAreaId = "3b95fb80-fdda-4218-b60e-1052d070ae6b"
+        $testRunName = "$testRunName" # YOUR testRunName
+        $adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
 
-    #  https://docs.microsoft.com/en-us/rest/api/azure/devops/test/runs/list?view=azure-devops-rest-6.0
-    if ($projectVariable -eq $project) {
-        $testRunUrl = "$adoBaseUrl/$project/_apis/test/runs?api-version=6.0"
-        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        $testRunResultsUri = Invoke-RestMethod -Uri $testRunUrl -Method Get -ContentType "application/json" -Headers $header
-        $runResultDefs = $testRunResultsUri.value
-        if ($runResultDefs.Count -gt 0) {
-            Write-Host "$project has $($runResultDefs.count) test runs" -ForegroundColor Blue
-            $lastRunResult = $runResultDefs[-1]
-            if ($runId -eq '') {
-                if ($lastRunResult.name -match $testRunName) {
-                    $lastRunId = $lastRunResult.id
-                    $lastTestName = $lastRunResult.name
-                    Write-Host "Last test run id: " $lastRunId
-                    Write-Host "Last test run name: " $lastTestName
-                }                
-            }
-            else {
-                $lastRunId = $runId
-            }
-        }
-    }
-}
+    Write-Host "ADO Base URL: $adoBaseUrl"
 
-# Get test results for a test run.
-Write-Host "Getting passed/failed results from last run" -ForegroundColor Green
-$projects.value  | ForEach-Object {
-    $projectVariable = $_.name
-    $workTrackingAreaId = "85f8c7b6-92fe-4ba6-8b6d-fbb67c809341"
-    $AssignedTo = "${assignedTo}"
-    $Reason = "${reason}"
-    $AREA_ONLY = "${area}"
-    $tags = "${tags}"
-    $adoWorkTrackingItemUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $workTrackingAreaId
-    Write-Host "adoWorkTrackingItemUrl: $adoWorkTrackingItemUrl"
-    $script:adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
-    Write-Host "adoBaseUrl: $script:adoBaseUrl"
-
-    # https://docs.microsoft.com/en-us/rest/api/azure/devops/test/results/list?view=azure-devops-rest-6.0
-    if ($projectVariable -eq $project) {
-            $testResultsRunUrl = "$script:adoBaseUrl/$project/_apis/test/Runs/$lastRunId/results?api-version=6.0"
-            Write-Host "testResultsRunUrl: $testResultsRunUrl"
-        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        $lastTestSuiteResult = Invoke-RestMethod $testResultsRunUrl -Method Get -ContentType "application/json" -Headers $header
-        $lastTestSuiteScenariosRunResults = $lastTestSuiteResult.value
-        if ($lastTestSuiteScenariosRunResults.Count -gt 0) {
-            Write-Host "$lastTestName $($lastTestSuiteScenariosRunResults.count) test cases found" -ForegroundColor Blue
-            for ($i = 0; $i -lt $lastTestSuiteScenariosRunResults.Count; $i++) {
-                $currentTestCase = $lastTestSuiteScenariosRunResults[$i]
-                if ($currentTestCase.outcome -ne "Passed") {
-                    Write-Host "Creating bug for failed test case" -ForegroundColor Green
-                    # https://docs.microsoft.com/en-us/rest/api/azure/devops/wit/work%20items/create?view=azure-devops-rest-6.0
-                    $createBugWorkItemUrl = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + "$" + $workitemType + "?api-version=7.0"
-                    Write-Host "createBugWorkItemUrl: $createBugWorkItemUrl"
-                    $resultID = $currentTestCase.id
-                    $testCaseID = $currentTestCase.testCase.id
-                    $getLinkedBugURI = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $testCaseID + "?%24expand=1" + "&api-version=7.0"
-                    Write-Host "getLinkedBugURI: $getLinkedBugURI"
-                    $bodyDesc = "Get full details of error message & stack trace on below link:" + "`n" + "https://$adoBaseUrl/$project/_TestManagement/Runs?runId=" + $lastRunId + "&_a=resultSummary&resultId=" + $resultID + " "
-                    $err = ""
-                    $errLen = $currentTestCase.stackTrace.Length
-                    if ($errLen -gt 1) {
-                        $err = $currentTestCase.stackTrace -replace '[^a-zA-Z0-9.]', ' '
-                    }
-                    else {
-                        Write-Host "Not enough content in stack trace"
-                        $err = $currentTestCase.stackTrace
-                    }
-                    $body = @"
-                    [
-                    {
-                        "op" : "add",
-                        "path" : "/fields/System.Title",
-                        "value" : "$($currentTestCase.testCaseTitle) test case failed in GH Run# $($env:GITHUB_RUN_NUMBER)"
-                    },
-                    {
-                        "op" : "add",
-                        "path" : "/fields/System.Reason",
-                        "value" : "$($Reason)"
-                    },
-                    {
-                        "op" : "add",
-                        "path" : "/fields/System.AreaPath",
-                        "value" : "$($currentTestCase.project.name)\\$($AREA_ONLY)"
-                    },
-                    {
-                        "op": "add",
-                        "path": "/fields/System.AssignedTo",
-                        "value": "$($AssignedTo)"
-                    },
-                    {
-                        "op": "add",
-                        "path": "/fields/System.Description",
-                        "value": "$($bodyDesc)"
-                    },
-                    {
-                        "op": "add",
-                        "path": "/fields/Microsoft.VSTS.TCM.ReproSteps",
-                        "value": "$($err)"
-                    },
-                    {
-                        "op": "add",
-                        "path": "/fields/System.Tags",
-                        "value": "$($tags)"
-                    },
-                    {
-                        "op": "add",
-                        "path": "/relations/-",
-                        "value": {
-                        "rel": "System.LinkTypes.Hierarchy-Reverse",
-                        "url": "https://dev.azure.com/$organization/_apis/wit/workItems/$testCaseID",
-                        "attributes": {
-                                        "comment": "Created by TR ADO Test Automation"
-                                    }
-                                }
-                    }
-                ] 
-"@
-                    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-                    Invoke-RestMethod $getLinkedBugURI -Method GET -ContentType "application/json" -Headers $header -outFile work.json
-                    $parentRelation = "System.LinkTypes.Hierarchy-Forward"
-                    $autoDefectComment= "Created by TR ADO Test Automation"
-                    $json=Get-Content -Raw -Path 'work.json' | Out-String | ConvertFrom-Json
-                    $outputBug = $json.relations | Where-Object ({($_.rel -match $parentRelation) -and ($_.attributes.comment -match $autoDefectComment ) -and ($_.attributes.name -match "child")})
-                    $existingDefectCount = ($outputBug.url | Measure-Object -Property length -Minimum -Maximum -Sum -Average).Count
-                    $existingDefectUrl = $outputBug.url
-                    if ($existingDefectCount -eq 1 ) {
-                        $existingBugId = $existingDefectUrl.url.Split('/')[8]
-                        Write-Host "existingBugId: $existingBugId"
-                        $getWorkItem = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $existingBugId + "?api-version=7.0"
-                        Write-Host "getWorkItem: $getWorkItem"
-                        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-                        $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
-                        $bugWorkItemStatus = $bugWorkItem.fields."System.Reason"
-                        "Existing bug: [$existingBugId](existingDefectUrl) - $bugWorkItemStatus" >> $env:GITHUB_STEP_SUMMARY            
-                        }
-                    else {
-                        "Existing Defect(s) found for Failed Test Case: [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID)" >> $env:GITHUB_STEP_SUMMARY
-                        $bugUrlArray =$existingDefectUrl.Split(" ")
-                        foreach ( $node in $bugUrlArray )
-                        {
-                            $bugId = $node.Split('/')[8]
-                            $existingBugId = $bugId
-                            $getWorkItem = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $existingBugId + "?api-version=7.0"
-                            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-                            $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
-                            $bugStatus = $bugWorkItem.fields."System.Reason"
-                            $bugHash = @{}
-                            $bugHash["$bugId"] = "$bugStatus"
-                            "[$bugId](https://dev.azure.com/$organization/$project/_workitems/edit/$bugId): $bugStatus" >> $env:GITHUB_STEP_SUMMARY
-                        }
-                    }
-                    if ($existingBugId -eq "" -and $bugWorkItemStatus -eq "Done") {
-                        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-                        $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
-                        Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
-                        $bugID = $bugWorkItemURI.id
-                        "Failed Test ID: [$testCaseID](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) Linked with New Bug Id: [$bugID](https://dev.azure.com/$organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY
-                    }
-                    else {
-                        Write-Host "Already active bug present for test case: $testCaseId - Bug: $existingBugId"
-                    }
+        #  https://docs.microsoft.com/en-us/rest/api/azure/devops/test/runs/list?view=azure-devops-rest-6.0
+        if ($projectVariable -eq $project) {
+            $testRunUrl = "$adoBaseUrl/$project/_apis/test/runs?api-version=6.0"
+            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+            $testRunResultsUri = Invoke-RestMethod -Uri $testRunUrl -Method Get -ContentType "application/json" -Headers $header
+            $runResultDefs = $testRunResultsUri.value
+            if ($runResultDefs.Count -gt 0) {
+                Write-Host "$project has $($runResultDefs.count) test runs" -ForegroundColor Blue
+                $lastRunResult = $runResultDefs[-1]
+                if ($runId -eq '') {
+                    if ($lastRunResult.name -match $testRunName) {
+                        $lastRunId = $lastRunResult.id
+                        $lastTestName = $lastRunResult.name
+                        Write-Host "Last test run id: " $lastRunId
+                        Write-Host "Last test run name: " $lastTestName
+                    }                
                 }
                 else {
-                    Write-Host "All Tests Passed"
+                    $lastRunId = $runId
                 }
             }
         }
-        else {
-            Write-Host "lastTestSuiteScenariosRunResults: 0"
+    }
+
+    # Get test results for a test run.
+    Write-Host "Getting passed/failed results from last run" -ForegroundColor Green
+    $projects.value  | ForEach-Object {
+        $projectVariable = $_.name
+        $workTrackingAreaId = "85f8c7b6-92fe-4ba6-8b6d-fbb67c809341"
+        $AssignedTo = "${assignedTo}"
+        $Reason = "${reason}"
+        $AREA_ONLY = "${area}"
+        $tags = "${tags}"
+        $adoWorkTrackingItemUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $workTrackingAreaId
+        Write-Host "adoWorkTrackingItemUrl: $adoWorkTrackingItemUrl"
+        $script:adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
+        Write-Host "adoBaseUrl: $script:adoBaseUrl"
+
+        # https://docs.microsoft.com/en-us/rest/api/azure/devops/test/results/list?view=azure-devops-rest-6.0
+        if ($projectVariable -eq $project) {
+                $testResultsRunUrl = "$script:adoBaseUrl/$project/_apis/test/Runs/$lastRunId/results?api-version=6.0"
+                Write-Host "testResultsRunUrl: $testResultsRunUrl"
+            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+            $lastTestSuiteResult = Invoke-RestMethod $testResultsRunUrl -Method Get -ContentType "application/json" -Headers $header
+            $lastTestSuiteScenariosRunResults = $lastTestSuiteResult.value
+            if ($lastTestSuiteScenariosRunResults.Count -gt 0) {
+                Write-Host "$lastTestName $($lastTestSuiteScenariosRunResults.count) test cases found" -ForegroundColor Blue
+                for ($i = 0; $i -lt $lastTestSuiteScenariosRunResults.Count; $i++) {
+                    $currentTestCase = $lastTestSuiteScenariosRunResults[$i]
+                    if ($currentTestCase.outcome -ne "Passed") {
+                        Write-Host "Creating bug for failed test case" -ForegroundColor Green
+                        # https://docs.microsoft.com/en-us/rest/api/azure/devops/wit/work%20items/create?view=azure-devops-rest-6.0
+                        $createBugWorkItemUrl = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + "$" + $workitemType + "?api-version=7.0"
+                        Write-Host "createBugWorkItemUrl: $createBugWorkItemUrl"
+                        $resultID = $currentTestCase.id
+                        $testCaseID = $currentTestCase.testCase.id
+                        $getLinkedBugURI = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $testCaseID + "?%24expand=1" + "&api-version=7.0"
+                        Write-Host "getLinkedBugURI: $getLinkedBugURI"
+                        $bodyDesc = "Get full details of error message & stack trace on below link:" + "`n" + "https://$adoBaseUrl/$project/_TestManagement/Runs?runId=" + $lastRunId + "&_a=resultSummary&resultId=" + $resultID + " "
+                        $err = ""
+                        $errLen = $currentTestCase.stackTrace.Length
+                        if ($errLen -gt 1) {
+                            $err = $currentTestCase.stackTrace -replace '[^a-zA-Z0-9.]', ' '
+                        }
+                        else {
+                            Write-Host "Not enough content in stack trace"
+                            $err = $currentTestCase.stackTrace
+                        }
+                        $body = @"
+                        [
+                        {
+                            "op" : "add",
+                            "path" : "/fields/System.Title",
+                            "value" : "$($currentTestCase.testCaseTitle) test case failed in GH Run# $($env:GITHUB_RUN_NUMBER)"
+                        },
+                        {
+                            "op" : "add",
+                            "path" : "/fields/System.Reason",
+                            "value" : "$($Reason)"
+                        },
+                        {
+                            "op" : "add",
+                            "path" : "/fields/System.AreaPath",
+                            "value" : "$($currentTestCase.project.name)\\$($AREA_ONLY)"
+                        },
+                        {
+                            "op": "add",
+                            "path": "/fields/System.AssignedTo",
+                            "value": "$($AssignedTo)"
+                        },
+                        {
+                            "op": "add",
+                            "path": "/fields/System.Description",
+                            "value": "$($bodyDesc)"
+                        },
+                        {
+                            "op": "add",
+                            "path": "/fields/Microsoft.VSTS.TCM.ReproSteps",
+                            "value": "$($err)"
+                        },
+                        {
+                            "op": "add",
+                            "path": "/fields/System.Tags",
+                            "value": "$($tags)"
+                        },
+                        {
+                            "op": "add",
+                            "path": "/relations/-",
+                            "value": {
+                            "rel": "System.LinkTypes.Hierarchy-Reverse",
+                            "url": "https://dev.azure.com/$organization/_apis/wit/workItems/$testCaseID",
+                            "attributes": {
+                                            "comment": "Created by TR ADO Test Automation"
+                                        }
+                                    }
+                        }
+                    ] 
+"@
+                        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+                        Invoke-RestMethod $getLinkedBugURI -Method GET -ContentType "application/json" -Headers $header -outFile work.json
+                        $parentRelation = "System.LinkTypes.Hierarchy-Forward"
+                        $autoDefectComment= "Created by TR ADO Test Automation"
+                        $json=Get-Content -Raw -Path 'work.json' | Out-String | ConvertFrom-Json
+                        $outputBug = $json.relations | Where-Object ({($_.rel -match $parentRelation) -and ($_.attributes.comment -match $autoDefectComment ) -and ($_.attributes.name -match "child")})
+                        $existingDefectCount = ($outputBug.url | Measure-Object -Property length -Minimum -Maximum -Sum -Average).Count
+                        $existingDefectUrl = $outputBug.url
+                        if ($existingDefectCount -eq 1 ) {
+                            $existingBugId = $existingDefectUrl.url.Split('/')[8]
+                            Write-Host "existingBugId: $existingBugId"
+                            $getWorkItem = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $existingBugId + "?api-version=7.0"
+                            Write-Host "getWorkItem: $getWorkItem"
+                            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+                            $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
+                            $bugWorkItemStatus = $bugWorkItem.fields."System.Reason"
+                            "Existing bug: [$existingBugId](existingDefectUrl) - $bugWorkItemStatus" >> $env:GITHUB_STEP_SUMMARY            
+                            }
+                        else {
+                            "Existing Defect(s) found for Failed Test Case: [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID)" >> $env:GITHUB_STEP_SUMMARY
+                            $bugUrlArray =$existingDefectUrl.Split(" ")
+                            foreach ( $node in $bugUrlArray )
+                            {
+                                $bugId = $node.Split('/')[8]
+                                $existingBugId = $bugId
+                                $getWorkItem = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $existingBugId + "?api-version=7.0"
+                                [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+                                $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
+                                $bugStatus = $bugWorkItem.fields."System.Reason"
+                                $bugHash = @{}
+                                $bugHash["$bugId"] = "$bugStatus"
+                                "[$bugId](https://dev.azure.com/$organization/$project/_workitems/edit/$bugId): $bugStatus" >> $env:GITHUB_STEP_SUMMARY
+                            }
+                        }
+                        if ($existingBugId -eq "" -and $bugWorkItemStatus -eq "Done") {
+                            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+                            $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
+                            Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
+                            $bugID = $bugWorkItemURI.id
+                            "Failed Test ID: [$testCaseID](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) Linked with New Bug Id: [$bugID](https://dev.azure.com/$organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY
+                        }
+                        else {
+                            Write-Host "Already active bug present for test case: $testCaseId - Bug: $existingBugId"
+                        }
+                    }
+                    else {
+                        Write-Host "All Tests Passed"
+                    }
+                }
+            }
+            else {
+                Write-Host "lastTestSuiteScenariosRunResults: 0"
+            }
         }
     }
+
 }
