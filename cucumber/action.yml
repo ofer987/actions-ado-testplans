@@ -202,9 +202,9 @@ runs:
         id: ado_run_step
         shell: bash
         run: |
-          i=0
-          ADO_RUN_ID_ARRAY=''
-          ADO_RUN_URL_ARRAY=''          
+          echo "i=0" >> $GITHUB_ENV
+          echo "ADO_RUN_ID_ARRAY=''" >> $GITHUB_ENV
+          "ADO_RUN_URL_ARRAY=''" >> $GITHUB_ENV
           find ${{ inputs.cucumber_path }} -type f -name "*.feature" | while read line;
             do
                 CWD=$PWD
@@ -237,7 +237,7 @@ runs:
                 ADO_RUN_URL_ARRAY+=","
                 cd $CWD
                 i+=i
-            done;
+            done < <(find . -type f)
             ADO_PROJECT_URL=${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery
             ADO_RUN_ID_ARRAY=$( echo $ADO_RUN_ID_ARRAY | sed 's/,$//g' )
             ADO_RUN_URL_ARRAY=$( echo $ADO_RUN_URL_ARRAY | sed 's/,$//g' )
