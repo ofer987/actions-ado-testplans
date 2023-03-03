@@ -228,6 +228,8 @@ runs:
                 echo "ADO_SUITE_RUN_URL=$ADO_SUITE_RUN_URL" >> $GITHUB_OUTPUT
                 echo "TestSuite Run [${DIR}](${ADO_SUITE_RUN_URL})" >> $GITHUB_STEP_SUMMARY
                 ADO_RUN_ID=$(echo $ADO_SUITE_RUN_URL | awk -F'=' '{print $2;}' | sed 's|&_a||g')
+                ADO_RUN_ID_ARRAY=''
+                ADO_RUN_URL_ARRAY=''
                 ADO_RUN_ID_ARRAY+=$ADO_RUN_ID
                 ADO_RUN_ID_ARRAY+=","
                 ADO_RUN_URL_ARRAY+=$ADO_SUITE_RUN_URL
