@@ -202,6 +202,7 @@ runs:
         id: ado_run_step
         shell: bash
         run: |
+          i=0
           find ${{ inputs.cucumber_path }} -type f -name "*.feature" | while read line;
             do
                 CWD=$PWD
@@ -226,7 +227,7 @@ runs:
                 ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
                 echo "ADO_SUITE_RUN_URL=$ADO_SUITE_RUN_URL" >> $GITHUB_ENV
                 echo "ADO_SUITE_RUN_URL=$ADO_SUITE_RUN_URL" >> $GITHUB_OUTPUT
-                echo "TestSuite Run [${DIR}](${ADO_SUITE_RUN_URL})" >> $GITHUB_STEP_SUMMARY
+                echo "TestSuite# $i [${DIR}](${ADO_SUITE_RUN_URL})" >> $GITHUB_STEP_SUMMARY
                 ADO_RUN_ID=$(echo $ADO_SUITE_RUN_URL | awk -F'=' '{print $2;}' | sed 's|&_a||g')
                 ADO_RUN_ID_ARRAY=''
                 ADO_RUN_URL_ARRAY=''
@@ -235,10 +236,17 @@ runs:
                 ADO_RUN_URL_ARRAY+=$ADO_SUITE_RUN_URL
                 ADO_RUN_URL_ARRAY+=","
                 cd $CWD
+                i+=i
             done;
-            echo "ADO_PROJECT_URL=${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery" >> $GITHUB_OUTPUT
-            echo "ADO_RUN_ID_ARRAY=$( echo $ADO_RUN_ID_ARRAY | sed 's/,$//g' )" >> "$GITHUB_OUTPUT"
-            echo "ADO_RUN_URL_ARRAY=$( echo $ADO_RUN_URL_ARRAY | sed 's/,$//g' )" >> "$GITHUB_OUTPUT"
+            ADO_PROJECT_URL=${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery
+            ADO_RUN_ID_ARRAY=$( echo $ADO_RUN_ID_ARRAY | sed 's/,$//g' )
+            ADO_RUN_URL_ARRAY=$( echo $ADO_RUN_URL_ARRAY | sed 's/,$//g' )
+            echo "ADO_PROJECT_URL=$ADO_PROJECT_URL" >> $GITHUB_ENV
+            echo "ADO_RUN_ID_ARRAY=$ADO_RUN_ID_ARRAY" >> $GITHUB_ENV
+            echo "ADO_RUN_URL_ARRAY=$ADO_RUN_URL_ARRAY" >> $GITHUB_ENV         
+            echo "ADO_PROJECT_URL=$ADO_PROJECT_URL" >> $GITHUB_OUTPUT
+            echo "ADO_RUN_ID_ARRAY=$ADO_RUN_ID_ARRAY" >> $GITHUB_OUTPUT
+            echo "ADO_RUN_URL_ARRAY=$ADO_RUN_URL_ARRAY" >> $GITHUB_OUTPUT
 
       - name: Erase SpecSync License Files
         if: always()
