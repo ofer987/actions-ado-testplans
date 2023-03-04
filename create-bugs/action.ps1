@@ -24,21 +24,23 @@ Import-Module GitHubActions
 ##
 
 ## Pull in some inputs
-$organization = Get-ActionInput organization -Required
-$project   = Get-ActionInput project -Required
-$personalToken   = Get-ActionInput ado_pat -Required
-$testRunName = Get-ActionInput testRunName -Required
-$adoRunId = Get-ActionInput adoRunId -Required
-$workItemType = Get-ActionInput workItemType -Required
-$area = Get-ActionInput area -Required
-$assignedTo = Get-ActionInput assignedTo -Required
-$reason = Get-ActionInput reason -Required
-$tags = Get-ActionInput tags -Required
-$enable_bug_creation = Get-ActionInput enable_bug_creation -Required
+$inputs = @{
+    organization = Get-ActionInput organization -Required
+    project   = Get-ActionInput project -Required
+    personalToken   = Get-ActionInput ado_pat -Required
+    testRunName = Get-ActionInput testRunName -Required
+    adoRunId = Get-ActionInput adoRunId -Required
+    workItemType = Get-ActionInput workItemType -Required
+    area = Get-ActionInput area -Required
+    assignedTo = Get-ActionInput assignedTo -Required
+    reason = Get-ActionInput reason -Required
+    tags = Get-ActionInput tags -Required
+    enable_bug_creation = Get-ActionInput enable_bug_creation -Required 
+}
 
-function removeSpace {$args[0] -split ' ' | % { $_.Trim() } }
+function removeSpace {$args[0] -split ' ' | ForEach-Object { $_.Trim() } }
 
-$script:adoRunIdArray = (removeSpace $inputs.adoRunId) -join ","
+$script:adoRunId = (removeSpace $inputs.adoRunId) -join ","
 
 Write-Host "Run Ids that need to be analyzed for bug creation: $script:runIdArray"
 
@@ -69,11 +71,11 @@ function GetUrl() {
     return $areaUrl
 }
 
-foreach ( $runId in $script:adoRunIdArray )
+foreach ( $runId in $script:adoRunId )
 {
-    $orgUrl = "https://dev.azure.com/$organization"
-    $area_path = "$project\\$area"
-    $personalToken = "$personalToken"
+    $orgUrl = "https://dev.azure.com/$inputs.organization"
+    $area_path = "$inputs.project\\$inputs.area"
+    $personalToken = "$inputs.personalToken"
 
     Write-Host "Initialize authentication context" -ForegroundColor Yellow
     $token = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(":$($personalToken)"))
@@ -106,15 +108,15 @@ foreach ( $runId in $script:adoRunIdArray )
     $projects.value  | ForEach-Object {
         $projectVariable = $_.name
         $testAreaId = "3b95fb80-fdda-4218-b60e-1052d070ae6b"
-        $testRunName = "$testRunName" # YOUR testRunName
+        $testRunName = "$inputs.testRunName" # YOUR testRunName
         $adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
 
     Write-Host "ADO Base URL: $adoBaseUrl"
         #  https://docs.microsoft.com/en-us/rest/api/azure/devops/test/runs/list?view=azure-devops-rest-6.0
         # Count how many test runs are present
         # print last run id
-        if ($projectVariable -eq $project) {
-            $testRunUrl = "$adoBaseUrl/$project/_apis/test/runs?api-version=6.0"
+        if ($projectVariable -eq $inputs.project) {
+            $testRunUrl = "$adoBaseUrl/$inputs.project/_apis/test/runs?api-version=6.0"
             [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
             $testRunResultsUri = Invoke-RestMethod -Uri $testRunUrl -Method Get -ContentType "application/json" -Headers $header
             $runResultDefs = $testRunResultsUri.value
@@ -141,18 +143,18 @@ foreach ( $runId in $script:adoRunIdArray )
     $projects.value  | ForEach-Object {
         $projectVariable = $_.name
         $workTrackingAreaId = "85f8c7b6-92fe-4ba6-8b6d-fbb67c809341"
-        $AssignedTo = "${assignedTo}"
-        $Reason = "${reason}"
-        $AREA_ONLY = "${area}"
-        $tags = "${tags}"
+        $AssignedTo = "$inputs.assignedTo"
+        $Reason = "$inputs.reason"
+        $AREA_ONLY = "$inputs.area"
+        $tags = "$inputs.tags"
         $adoWorkTrackingItemUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $workTrackingAreaId
         Write-Host "adoWorkTrackingItemUrl: $adoWorkTrackingItemUrl"
         $script:adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
         Write-Host "adoBaseUrl: $script:adoBaseUrl"
 
         # https://docs.microsoft.com/en-us/rest/api/azure/devops/test/results/list?view=azure-devops-rest-6.0
-        if ($projectVariable -eq $project) {
-                $testResultsRunUrl = "$script:adoBaseUrl/$project/_apis/test/Runs/$lastRunId/results?api-version=6.0"
+        if ($projectVariable -eq $inputs.project) {
+                $testResultsRunUrl = "$script:adoBaseUrl/$inputs.project/_apis/test/Runs/$lastRunId/results?api-version=6.0"
                 Write-Host "testResultsRunUrl: $testResultsRunUrl"
             [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
             $lastTestSuiteResult = Invoke-RestMethod $testResultsRunUrl -Method Get -ContentType "application/json" -Headers $header
@@ -164,11 +166,11 @@ foreach ( $runId in $script:adoRunIdArray )
                     if ($currentTestCase.outcome -ne "Passed") {
                         Write-Host "Creating bug for failed test case" -ForegroundColor Green
                         # https://docs.microsoft.com/en-us/rest/api/azure/devops/wit/work%20items/create?view=azure-devops-rest-6.0
-                        $createBugWorkItemUrl = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + "$" + $workitemType + "?api-version=7.0"
+                        $createBugWorkItemUrl = "$adoWorkTrackingItemUrl" + "$inputs.project/_apis/wit/workitems/" + "$" + $inputs.workitemType + "?api-version=7.0"
                         Write-Host "createBugWorkItemUrl: $createBugWorkItemUrl"
                         $resultID = $currentTestCase.id
                         $testCaseID = $currentTestCase.testCase.id
-                        $getLinkedBugURI = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $testCaseID + "?%24expand=1" + "&api-version=7.0"
+                        $getLinkedBugURI = "$adoWorkTrackingItemUrl" + "$inputs.project/_apis/wit/workitems/" + $testCaseID + "?%24expand=1" + "&api-version=7.0"
                         Write-Host "getLinkedBugURI: $getLinkedBugURI"
                         $bodyDesc = "Get full details of error message & stack trace on below link:" + "`n" + "https://$adoBaseUrl/$project/_TestManagement/Runs?runId=" + $lastRunId + "&_a=resultSummary&resultId=" + $resultID + " "
                         $err = ""
@@ -222,7 +224,7 @@ foreach ( $runId in $script:adoRunIdArray )
                             "path": "/relations/-",
                             "value": {
                             "rel": "System.LinkTypes.Hierarchy-Reverse",
-                            "url": "https://dev.azure.com/$organization/_apis/wit/workItems/$testCaseID",
+                            "url": "https://dev.azure.com/$inputs.organization/_apis/wit/workItems/$testCaseID",
                             "attributes": {
                                             "comment": "Created by TR ADO Test Automation"
                                         }
@@ -249,19 +251,19 @@ foreach ( $runId in $script:adoRunIdArray )
                             "Existing bug: [$existingBugId](existingDefectUrl) - $bugWorkItemStatus" >> $env:GITHUB_STEP_SUMMARY            
                             }
                         else {
-                            "Existing Defect(s) found for Failed Test Case: [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID)" >> $env:GITHUB_STEP_SUMMARY
+                            "Existing Defect(s) found for Failed Test Case: [$testCaseId](https://dev.azure.com/$inputs.organization/$inputs.project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID)" >> $env:GITHUB_STEP_SUMMARY
                             $bugUrlArray =$existingDefectUrl.Split(" ")
                             foreach ( $node in $bugUrlArray )
                             {
                                 $bugId = $node.Split('/')[8]
                                 $existingBugId = $bugId
-                                $getWorkItem = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $existingBugId + "?api-version=7.0"
+                                $getWorkItem = "$adoWorkTrackingItemUrl" + "$inputs.project/_apis/wit/workitems/" + $existingBugId + "?api-version=7.0"
                                 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                                 $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
                                 $bugStatus = $bugWorkItem.fields."System.Reason"
                                 $bugHash = @{}
                                 $bugHash["$bugId"] = "$bugStatus"
-                                "[$bugId](https://dev.azure.com/$organization/$project/_workitems/edit/$bugId): $bugStatus" >> $env:GITHUB_STEP_SUMMARY
+                                "[$bugId](https://dev.azure.com/$inputs.organization/$inputs.project/_workitems/edit/$bugId): $bugStatus" >> $env:GITHUB_STEP_SUMMARY
                             }
                         }
                         if ($existingBugId -eq "" -and $bugWorkItemStatus -eq "Done") {
@@ -269,7 +271,7 @@ foreach ( $runId in $script:adoRunIdArray )
                             $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
                             Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
                             $bugID = $bugWorkItemURI.id
-                            "Failed Test ID: [$testCaseID](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) Linked with New Bug Id: [$bugID](https://dev.azure.com/$organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY
+                            "Failed Test ID: [$testCaseID](https://dev.azure.com/$inputs.organization/$inputs.project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) Linked with New Bug Id: [$bugID](https://dev.azure.com/$inputs.organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY
                         }
                         else {
                             Write-Host "Already active bug present for test case: $testCaseId - Bug: $existingBugId"
