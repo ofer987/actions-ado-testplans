@@ -28,7 +28,6 @@ $organization = Get-ActionInput organization -Required
 $project   = Get-ActionInput project -Required
 $personalToken   = Get-ActionInput ado_pat -Required
 $testRunName = Get-ActionInput testRunName -Required
-$adoRunId = Get-ActionInput adoRunId -Required
 $workItemType = Get-ActionInput workItemType -Required
 $area = Get-ActionInput area -Required
 $assignedTo = Get-ActionInput assignedTo -Required
@@ -36,9 +35,12 @@ $reason = Get-ActionInput reason -Required
 $tags = Get-ActionInput tags -Required
 $enable_bug_creation = Get-ActionInput enable_bug_creation -Required
 
-function removeSpace {$args[0] -split ' ' | % { $_.Trim() } }
+$inputs = @{
+    $adoRunId = Get-ActionInput adoRunId -Required
+}
+function removeSpace {$args[0] -split ',' | ForEach-Object { $_.Trim() } }
 
-$script:adoRunIdArray = (removeSpace $inputs.adoRunId) -join ","
+$adoRunIdArray = (removeSpace $inputs.adoRunId) -join ","
 
 Write-Host "Run Ids that need to be analyzed for bug creation: $script:runIdArray"
 
@@ -69,7 +71,7 @@ function GetUrl() {
     return $areaUrl
 }
 
-foreach ( $runId in $script:adoRunIdArray )
+foreach ( $runId in $adoRunIdArray )
 {
     $orgUrl = "https://dev.azure.com/$organization"
     $area_path = "$project\\$area"
