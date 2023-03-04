@@ -36,9 +36,9 @@ $reason = Get-ActionInput reason -Required
 $tags = Get-ActionInput tags -Required
 $enable_bug_creation = Get-ActionInput enable_bug_creation -Required
 
-function removeSpace {$args[0] -split ',' | % { $_.Trim() } }
+function removeSpace {$args[0] -split ' ' | % { $_.Trim() } }
 
-$script:runIdArray = (removeSpace $inputs.runId) -join ","
+$script:runIdArray = (removeSpace $inputs.adoRunId) -join ","
 
 function GetUrl() {
     param(
