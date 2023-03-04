@@ -15,15 +15,15 @@ if (-not (Get-Module -ListAvailable GitHubActions)) {
     Install-Module GitHubActions -Force
 }
 
-if (-not (Get-Module -ListAvailable MarkdownPS)) {
+if (-not (Get-Module -ListAvailable PSDocs)) {
     ## Make sure the GH Actions module is installed from the Gallery
-    Install-Module MarkdownPS -Force
+    Install-Module PSDocs -Force
 }
 
 ## Load up some common functionality for interacting
 ## with the GitHub Actions/Workflow environment
 Import-Module GitHubActions
-Import-Module MarkdownPS
+Import-Module PSDocs
 ##
 ## ***** Put your logic here *****
 ##
@@ -40,9 +40,8 @@ $reason = Get-ActionInput reason -Required
 $tags = Get-ActionInput tags -Required
 $enable_bug_creation = Get-ActionInput enable_bug_creation -Required
 $adoRunId = Get-ActionInput adoRunId -Required
-function splitListInput { $args[0] -split ',' | ForEach-Object { $_.Trim() } }
+function splitListInput { $args[0] -split ' ' | ForEach-Object { $_.Trim() } }
 $script:adoRunId = (splitListInput $adoRunId) -join ","
-
 
 Write-Host "Run Ids that need to be analyzed for bug creation: $script:runIdArray"
 
