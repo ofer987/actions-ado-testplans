@@ -202,9 +202,7 @@ runs:
         id: ado_run_step
         shell: bash
         run: |
-          i=0
-          ADO_RUN_ID_ARRAY=''
-          ADO_RUN_URL_ARRAY=''
+          TMP_HOME=$PWD
           while read line;
             do
                 CWD=$PWD
@@ -231,22 +229,21 @@ runs:
                 echo "ADO_SUITE_RUN_URL=$ADO_SUITE_RUN_URL" >> $GITHUB_OUTPUT
                 echo "TestSuite# $i [${DIR}](${ADO_SUITE_RUN_URL})" >> $GITHUB_STEP_SUMMARY
                 ADO_RUN_ID=$(echo $ADO_SUITE_RUN_URL | awk -F'=' '{print $2;}' | sed 's|&_a||g')
-                ADO_RUN_ID_ARRAY+=$ADO_RUN_ID
-                ADO_RUN_ID_ARRAY+=","
-                ADO_RUN_URL_ARRAY+=$ADO_SUITE_RUN_URL
-                ADO_RUN_URL_ARRAY+=","
+                echo $ADO_RUN_ID >> $TMP_HOME/run_id.txt
+                echo "," >> $TMP_HOME/run_id.txt
+                echo $ADO_SUITE_RUN_URL >> $TMP_HOME/run_url.txt
+                echo "," >> $TMP_HOME/run_url.txt
                 cd $CWD
                 i+=i
             done < < (find ${{ inputs.cucumber_path }} -type f -name "*.feature")
             ADO_PROJECT_URL=${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery
-            ADO_RUN_ID_ARRAY=$( echo $ADO_RUN_ID_ARRAY | sed 's/,$//g' )
-            ADO_RUN_URL_ARRAY=$( echo $ADO_RUN_URL_ARRAY | sed 's/,$//g' )
-            echo "ADO_PROJECT_URL=$ADO_PROJECT_URL" >> $GITHUB_ENV
-            echo "ADO_RUN_ID_ARRAY=$ADO_RUN_ID_ARRAY" >> $GITHUB_ENV
-            echo "ADO_RUN_URL_ARRAY=$ADO_RUN_URL_ARRAY" >> $GITHUB_ENV         
-            echo "ADO_PROJECT_URL=$ADO_PROJECT_URL" >> $GITHUB_OUTPUT
-            echo "ADO_RUN_ID_ARRAY=$ADO_RUN_ID_ARRAY" >> $GITHUB_OUTPUT
-            echo "ADO_RUN_URL_ARRAY=$ADO_RUN_URL_ARRAY" >> $GITHUB_OUTPUT
+            echo "ADO_RUN_ID_ARRAY=$(cat $TMP_HOME/run_id.txt | sed 's/,$//g')" >> $GITHUB_ENV
+            echo "ADO_RUN_URL_ARRAY=$(cat $TMP_HOME/run_url.txt | sed 's/,$//g')" >> $GITHUB_ENV            
+            echo "ADO_RUN_ID_ARRAY=$(cat $TMP_HOME/run_id.txt | sed 's/,$//g')" >> $GITHUB_OUTPUT
+            echo "ADO_RUN_URL_ARRAY=$(cat $TMP_HOME/run_url.txt | sed 's/,$//g')" >> $GITHUB_OUTPUT
+            rm -rf $TMP_HOME/run_id.txt
+            rm -rf $TMP_HOME/run_url.txt
+
 
       - name: Erase SpecSync License Files
         if: always()
