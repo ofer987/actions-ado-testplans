@@ -237,7 +237,7 @@ runs:
                 ADO_RUN_URL_ARRAY+=","
                 cd $CWD
                 i+=i
-            done < < find ${{ inputs.cucumber_path }} -type f -name "*.feature"
+            done < < (find ${{ inputs.cucumber_path }} -type f -name "*.feature")
             ADO_PROJECT_URL=${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery
             ADO_RUN_ID_ARRAY=$( echo $ADO_RUN_ID_ARRAY | sed 's/,$//g' )
             ADO_RUN_URL_ARRAY=$( echo $ADO_RUN_URL_ARRAY | sed 's/,$//g' )
