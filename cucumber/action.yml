@@ -234,10 +234,10 @@ runs:
                 cd $CWD
             done;
             ADO_PROJECT_URL=${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery
-            OIFS=$IFS; IFS=$'\n'; ADO_RUN_ID_ARRAY=($(cat $TMP_HOME/run_id.txt)); IFS=$OIFS; echo "${ADO_RUN_ID_ARRAY[*]}"
-            OIFS=$IFS; IFS=$'\n'; ADO_RUN_URL_ARRAY=($(cat $TMP_HOME/run_url.txt)); IFS=$OIFS; echo "${ADO_RUN_URL_ARRAY[*]}"
-            OIFS=$IFS; IFS=$'\n'; ADO_RUN_ID_ARRAY=($(cat $TMP_HOME/run_id.txt)); IFS=$OIFS; echo "${ADO_RUN_ID_ARRAY[*]}"
-            OIFS=$IFS; IFS=$'\n'; ADO_RUN_URL_ARRAY=($(cat $TMP_HOME/run_url.txt)); IFS=$OIFS; echo "${ADO_RUN_URL_ARRAY[*]}"
+            OIFS=$IFS; IFS=$','; ADO_RUN_ID_ARRAY=($(cat $TMP_HOME/run_id.txt)); IFS=$OIFS; echo "${ADO_RUN_ID_ARRAY[*]}"
+            OIFS=$IFS; IFS=$','; ADO_RUN_URL_ARRAY=($(cat $TMP_HOME/run_url.txt)); IFS=$OIFS; echo "${ADO_RUN_URL_ARRAY[*]}"
+            OIFS=$IFS; IFS=$','; ADO_RUN_ID_ARRAY=($(cat $TMP_HOME/run_id.txt)); IFS=$OIFS; echo "${ADO_RUN_ID_ARRAY[*]}"
+            OIFS=$IFS; IFS=$','; ADO_RUN_URL_ARRAY=($(cat $TMP_HOME/run_url.txt)); IFS=$OIFS; echo "${ADO_RUN_URL_ARRAY[*]}"
             echo "ADO_RUN_ID_OUTPUT=${ADO_RUN_ID_ARRAY[*]}" >> $GITHUB_ENV
             echo "ADO_RUN_URL_OUTPUT=${ADO_RUN_URL_ARRAY[*]}" >> $GITHUB_ENV          
             echo "ADO_RUN_ID_OUTPUT=${ADO_RUN_ID_ARRAY[*]}" >> $GITHUB_OUTPUT

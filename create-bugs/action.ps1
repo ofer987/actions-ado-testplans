@@ -36,8 +36,6 @@ $reason = Get-ActionInput reason -Required
 $tags = Get-ActionInput tags -Required
 $enable_bug_creation = Get-ActionInput enable_bug_creation -Required
 
-$script:runIdArray = ( $adoRunId | $args[0] -split ' ' | % { $_.Trim() } ) -join ","
-
 Write-Host "Run Ids that need to be analyzed for bug creation: $script:runIdArray"
 
 function GetUrl() {
@@ -67,7 +65,7 @@ function GetUrl() {
     return $areaUrl
 }
 
-foreach ( $runId in $script:runIdArray )
+foreach ( $runId in $adoRunId )
 {
     $orgUrl = "https://dev.azure.com/$organization"
     $area_path = "$project\\$area"
