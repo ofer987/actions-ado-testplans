@@ -203,7 +203,7 @@ runs:
         shell: bash
         run: |
           TMP_HOME=$PWD
-          while read line;
+          find ${{ inputs.cucumber_path }} -type f -name "*.feature" | while read line;
             do
                 CWD=$PWD
                 line=$(echo $line)
@@ -235,7 +235,7 @@ runs:
                 echo "," >> $TMP_HOME/run_url.txt
                 cd $CWD
                 i+=i
-            done < < (find ${{ inputs.cucumber_path }} -type f -name "*.feature")
+            done;
             ADO_PROJECT_URL=${ADO_PROJECT_URL}/_testManagement/runs?_a=runQuery
             echo "ADO_RUN_ID_ARRAY=$(cat $TMP_HOME/run_id.txt | sed 's/,$//g')" >> $GITHUB_ENV
             echo "ADO_RUN_URL_ARRAY=$(cat $TMP_HOME/run_url.txt | sed 's/,$//g')" >> $GITHUB_ENV            
