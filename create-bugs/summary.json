@@ -1,0 +1,10 @@
+[
+    {
+        "Test Run ID": "1234",
+        "Test Case ID": "9999",
+        "Status": "Failed ❌",
+        "Existing Active Bugs": "Yes",
+        "Existing Bugs": null,
+        "New Bug ID": null
+    }
+]

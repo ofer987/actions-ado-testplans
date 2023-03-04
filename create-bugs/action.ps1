@@ -35,10 +35,9 @@ $assignedTo = Get-ActionInput assignedTo -Required
 $reason = Get-ActionInput reason -Required
 $tags = Get-ActionInput tags -Required
 $enable_bug_creation = Get-ActionInput enable_bug_creation -Required
-
 function removeSpace {$args[0] -split ' ' | % { $_.Trim() } }
-
-$script:runIdArray = (removeSpace $inputs.adoRunId) -join ","
+$script:runIdArray = ( removeSpace $inputs.adoRunId ) -join ","
+Write-Host "Run Ids that need to be analyzed for bug creation: $script:runIdArray"
 
 function GetUrl() {
     param(
@@ -67,37 +66,36 @@ function GetUrl() {
     return $areaUrl
 }
 
-$orgUrl = "https://dev.azure.com/$organization"
-$area_path = "$project\\$area"
-$personalToken = "$personalToken"
-
-Write-Host "Initialize authentication context" -ForegroundColor Yellow
-$token = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(":$($personalToken)"))
-$header = @{authorization = "Basic $token" }
-
-# Projects - List
-Write-Host "Getting list of projects" -ForegroundColor Green
-$coreAreaId = "79134c72-4a58-4b42-976c-04e7115f32bf"
-$adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $coreAreaId
-
-Write-Host "ADO Base URL: $adoBaseUrl"
-# https://docs.microsoft.com/en-us/rest/api/azure/devops/core/projects/list?view=azure-devops-rest-5.1
-$projectsUrl = "$($adoBaseUrl)_apis/projects?api-version=6.0"
-Write-Host "ADO Projects URL: $projectsUrl"
-
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-$projects = Invoke-RestMethod -Uri $projectsUrl -Method Get -ContentType "application/json" -Headers $header
-
-Write-Host "ADO Projects: $projects"
-
-
-$projects.value | ForEach-Object {
-    Write-Host $_.name
-}
-
-Write-Host "Run Ids that need to be analyzed for bug creation: $script:runIdArray"
 foreach ( $runId in $script:runIdArray )
 {
+    $orgUrl = "https://dev.azure.com/$organization"
+    $area_path = "$project\\$area"
+    $personalToken = "$personalToken"
+
+    Write-Host "Initialize authentication context" -ForegroundColor Yellow
+    $token = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(":$($personalToken)"))
+    $header = @{authorization = "Basic $token" }
+
+    # Projects - List
+    Write-Host "Getting list of projects" -ForegroundColor Green
+    $coreAreaId = "79134c72-4a58-4b42-976c-04e7115f32bf"
+    $adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $coreAreaId
+
+    Write-Host "ADO Base URL: $adoBaseUrl"
+    # https://docs.microsoft.com/en-us/rest/api/azure/devops/core/projects/list?view=azure-devops-rest-5.1
+    $projectsUrl = "$($adoBaseUrl)_apis/projects?api-version=6.0"
+    Write-Host "ADO Projects URL: $projectsUrl"
+
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+    $projects = Invoke-RestMethod -Uri $projectsUrl -Method Get -ContentType "application/json" -Headers $header
+
+    Write-Host "ADO Projects: $projects"
+
+
+    $projects.value | ForEach-Object {
+        Write-Host $_.name
+    }
+
     Write-Host "working on run id: $runId"
     $runId = [int]$runId
         # Runs - List
