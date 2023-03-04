@@ -17,13 +17,13 @@ if (-not (Get-Module -ListAvailable GitHubActions)) {
 
 if (-not (Get-Module -ListAvailable PSDocs)) {
     ## Make sure the GH Actions module is installed from the Gallery
-    Install-Module PSDocs -Force
+    Install-Module -Name 'MarkdownPS' -Repository PSGallery;
 }
 
 ## Load up some common functionality for interacting
 ## with the GitHub Actions/Workflow environment
 Import-Module GitHubActions
-Import-Module PSDocs
+Import-Module MarkdownPS
 ##
 ## ***** Put your logic here *****
 ##
