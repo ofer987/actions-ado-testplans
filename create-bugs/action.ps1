@@ -15,10 +15,15 @@ if (-not (Get-Module -ListAvailable GitHubActions)) {
     Install-Module GitHubActions -Force
 }
 
+if (-not (Get-Module -ListAvailable MarkdownPS)) {
+    ## Make sure the GH Actions module is installed from the Gallery
+    Install-Module MarkdownPS -Force
+}
+
 ## Load up some common functionality for interacting
 ## with the GitHub Actions/Workflow environment
 Import-Module GitHubActions
-
+Import-Module MarkdownPS
 ##
 ## ***** Put your logic here *****
 ##
@@ -34,13 +39,11 @@ $assignedTo = Get-ActionInput assignedTo -Required
 $reason = Get-ActionInput reason -Required
 $tags = Get-ActionInput tags -Required
 $enable_bug_creation = Get-ActionInput enable_bug_creation -Required
+$adoRunId = Get-ActionInput adoRunId -Required
+function splitListInput { $args[0] -split ',' | ForEach-Object { $_.Trim() } }
+$script:adoRunId = (splitListInput $adoRunId) -join ","
 
-$inputs = @{
-    $adoRunId = Get-ActionInput adoRunId -Required
-}
-function removeSpace {$args[0] -split ',' | ForEach-Object { $_.Trim() } }
-
-$adoRunIdArray = (removeSpace $inputs.adoRunId) -join ","
+$script:adoRunIdArray = (removeSpace $adoRunId) -join ","
 
 Write-Host "Run Ids that need to be analyzed for bug creation: $script:runIdArray"
 
@@ -71,7 +74,7 @@ function GetUrl() {
     return $areaUrl
 }
 
-foreach ( $runId in $adoRunIdArray )
+foreach ( $runId in $script:adoRunIdArray )
 {
     $orgUrl = "https://dev.azure.com/$organization"
     $area_path = "$project\\$area"
