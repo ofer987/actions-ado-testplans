@@ -95,9 +95,10 @@ $projects.value | ForEach-Object {
     Write-Host $_.name
 }
 
-
+Write-Host "Run Ids that need to be analyzed for bug creation: $script:runIdArray"
 foreach ( $runId in $script:runIdArray )
 {
+    Write-Host "working on run id: $runId"
     $runId = [int]$runId
         # Runs - List
     Write-Host "Getting list of Test Runs"  -ForegroundColor Green
@@ -108,8 +109,9 @@ foreach ( $runId in $script:runIdArray )
         $adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
 
     Write-Host "ADO Base URL: $adoBaseUrl"
-
         #  https://docs.microsoft.com/en-us/rest/api/azure/devops/test/runs/list?view=azure-devops-rest-6.0
+        # Count how many test runs are present
+        # print last run id
         if ($projectVariable -eq $project) {
             $testRunUrl = "$adoBaseUrl/$project/_apis/test/runs?api-version=6.0"
             [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
