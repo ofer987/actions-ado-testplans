@@ -202,9 +202,9 @@ runs:
         id: ado_run_step
         shell: bash
         run: |
-          echo "i=0" >> $GITHUB_ENV
-          echo "ADO_RUN_ID_ARRAY=''" >> $GITHUB_ENV
-          "ADO_RUN_URL_ARRAY=''" >> $GITHUB_ENV
+          i=0
+          ADO_RUN_ID_ARRAY=''
+          ADO_RUN_URL_ARRAY=''
           while read line;
             do
                 CWD=$PWD
