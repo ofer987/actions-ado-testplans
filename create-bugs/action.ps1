@@ -35,8 +35,9 @@ $assignedTo = Get-ActionInput assignedTo -Required
 $reason = Get-ActionInput reason -Required
 $tags = Get-ActionInput tags -Required
 $enable_bug_creation = Get-ActionInput enable_bug_creation -Required
-function removeSpace {$args[0] -split ' ' | % { $_.Trim() } }
-$script:runIdArray = ( removeSpace $inputs.adoRunId ) -join ","
+
+$script:runIdArray = ( $adoRunId | $args[0] -split ' ' | % { $_.Trim() } ) -join ","
+
 Write-Host "Run Ids that need to be analyzed for bug creation: $script:runIdArray"
 
 function GetUrl() {
