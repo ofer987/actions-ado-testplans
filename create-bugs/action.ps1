@@ -43,7 +43,6 @@ $adoRunId = Get-ActionInput adoRunId -Required
 function splitListInput { $args[0] -split ',' | ForEach-Object { $_.Trim() } }
 $script:adoRunId = (splitListInput $adoRunId) -join ","
 
-$script:adoRunIdArray = (removeSpace $adoRunId) -join ","
 
 Write-Host "Run Ids that need to be analyzed for bug creation: $script:runIdArray"
 
@@ -74,7 +73,7 @@ function GetUrl() {
     return $areaUrl
 }
 
-foreach ( $runId in $script:adoRunIdArray )
+foreach ( $runId in $script:adoRunId )
 {
     $orgUrl = "https://dev.azure.com/$organization"
     $area_path = "$project\\$area"
