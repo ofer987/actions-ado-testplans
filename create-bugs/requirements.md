@@ -1,3 +1,9 @@
+› **Note**
+> This is a note
+
+› **Warning**
+> This is a warning
+
 # Headings
 ## The second largest heading
 ###### The smallest heading

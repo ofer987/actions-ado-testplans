@@ -259,8 +259,8 @@ foreach ( $runId in $adoRunIdArray )
                             Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
                             $bugID = $bugWorkItemURI.id
                             "Failed Test ID: [$testCaseID](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) Linked with New Bug Id: [$bugID](https://dev.azure.com/$organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY                           
-                            }                        
-                        elseif ($existingDefectCount -eq 1 ) {
+                            }
+                        elseif ($existingDefectCount -eq 1 -OR $existingDefectCount -gt 1) {
                             $existingBugId = $existingDefectUrl.url.Split('/')[8]
                             Write-Host "existingBugId: $existingBugId"
                             $getWorkItem = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $existingBugId + "?api-version=7.0"
@@ -269,10 +269,9 @@ foreach ( $runId in $adoRunIdArray )
                             $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
                             $bugWorkItemStatus = $bugWorkItem.fields."System.Reason"
                             Write-Host "Already active bug present for test case: $testCaseId - Bug: $existingBugId"
-                            "Existing bug: [$existingBugId](existingDefectUrl) - $bugWorkItemStatus" >> $env:GITHUB_STEP_SUMMARY            
-                            }
-                        else {
-                            "Existing Defects found for Failed Test Case: [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID)" >> $env:GITHUB_STEP_SUMMARY
+                            "### Test Suite [$lastRunId](https://dev.azure.com/$organization/$project/_TestManagement/Runs?runId=$lastRunId&_a=runCharts)" >> $env:GITHUB_STEP_SUMMARY 
+                            "› **Note**" >> $GITHUB_STEP_SUMMARY
+                            "> Existing Defect(s) found for Failed Test Case: [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID)" >> $GITHUB_STEP_SUMMARY
                             $bugUrlArray =$existingDefectUrl.Split(" ")
                             foreach ( $node in $bugUrlArray )
                             {
@@ -284,7 +283,7 @@ foreach ( $runId in $adoRunIdArray )
                                 $bugStatus = $bugWorkItem.fields."System.Reason"
                                 $bugHash = @{}
                                 $bugHash["$bugId"] = "$bugStatus"
-                                "[$bugId](https://dev.azure.com/$organization/$project/_workitems/edit/$bugId): $bugStatus" >> $env:GITHUB_STEP_SUMMARY
+                                "- [$bugId](https://dev.azure.com/$organization/$project/_workitems/edit/$bugId): $bugStatus" >> $env:GITHUB_STEP_SUMMARY
                             }
                         }
                     }
