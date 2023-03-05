@@ -79,7 +79,7 @@ function GetUrl() {
     return $areaUrl
 }
 
-
+"## Azure DevOps Bug Reporting" >> $env:GITHUB_STEP_SUMMARY
 Write-Host "Run Ids that need to be analyzed for bug creation: $adoRunIdArray"
 
 
@@ -158,12 +158,11 @@ foreach ( $runId in $adoRunIdArray )
         $AssignedTo = "${assignedTo}"
         $Reason = "${reason}"
         $AREA_ONLY = "${area}"
-        $tags = "${tags}"
+        $tags = "${tags}" + "," + "${lastRunId}"
         $adoWorkTrackingItemUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $workTrackingAreaId
         Write-Host "adoWorkTrackingItemUrl: $adoWorkTrackingItemUrl"
         $script:adoBaseUrl = GetUrl -orgUrl $orgUrl -header $header -AreaId $testAreaId
         Write-Host "adoBaseUrl: $script:adoBaseUrl"
-
         # https://docs.microsoft.com/en-us/rest/api/azure/devops/test/results/list?view=azure-devops-rest-6.0
         if ($projectVariable -eq $project) {
                 $testResultsRunUrl = "$script:adoBaseUrl/$project/_apis/test/Runs/$lastRunId/results?api-version=6.0"
@@ -184,8 +183,9 @@ foreach ( $runId in $adoRunIdArray )
                         $testCaseID = $currentTestCase.testCase.id
                         $getLinkedBugURI = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $testCaseID + "?%24expand=1" + "&api-version=7.0"
                         Write-Host "getLinkedBugURI: $getLinkedBugURI"
-                        $bodyDesc = "Get full details of error message & stack trace on below link:" + "`n" + "https://$adoBaseUrl/$project/_TestManagement/Runs?runId=" + $lastRunId + "&_a=resultSummary&resultId=" + $resultID + " "
+                        $bodyDesc = "Get full details of error message & stack trace on below link:" + "`n" + "https://{project_url}/_TestManagement/Runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID"
                         $err = ""
+                        $comments = "Bug Reported by [GH Action Run Failure](https://github.com/$Env:GITHUB_REPOSITORY/actions/runs/$Env:GITHUB_RUN_ID) and [ADO Test Run Failure](https://$adoBaseUrl/$project/_TestManagement/Runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID)"
                         $errLen = $currentTestCase.stackTrace.Length
                         if ($errLen -gt 1) {
                             $err = $currentTestCase.stackTrace -replace '[^a-zA-Z0-9.]', ' '
@@ -228,6 +228,11 @@ foreach ( $runId in $adoRunIdArray )
                         },
                         {
                             "op": "add",
+                            "path": "/fields/Microsoft.VSTS.CMMI.Comments",
+                            "value": "$($comments)"
+                        },                        
+                        {
+                            "op": "add",
                             "path": "/fields/System.Tags",
                             "value": "$($tags)"
                         },
@@ -252,7 +257,6 @@ foreach ( $runId in $adoRunIdArray )
                         $outputBug = $json.relations | Where-Object ({($_.rel -match $parentRelation) -and ($_.attributes.comment -match $autoDefectComment ) -and ($_.attributes.name -match "child")})
                         $existingDefectCount = ($outputBug.url | Measure-Object -Property length -Minimum -Maximum -Sum -Average).Count
                         $existingDefectUrl = $outputBug.url
-                        "## Azure DevOps Bug Reporting Automation" >> $env:GITHUB_STEP_SUMMARY
                         if ($existingDefectCount -eq 0 ) {
                             Write-Output "No Existing Defect(s) found"
                             [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
