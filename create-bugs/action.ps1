@@ -271,8 +271,8 @@ foreach ( $runId in $adoRunIdArray )
                             $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
                             $bugWorkItemStatus = $bugWorkItem.fields."System.Reason"
                             Write-Host "Already active bug present for test case: $testCaseId - Bug: $existingBugId"
-                            "### Test Suite [$lastRunId](https://dev.azure.com/$organization/$project/_TestManagement/Runs?runId=$lastRunId&_a=runCharts)" >> $env:GITHUB_STEP_SUMMARY 
-                            "#### Test Case [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID)" >> $env:GITHUB_STEP_SUMMARY
+                            "#### Test Suite [$lastRunId](https://dev.azure.com/$organization/$project/_TestManagement/Runs?runId=$lastRunId&_a=runCharts)" >> $env:GITHUB_STEP_SUMMARY 
+                            "##### Test Case [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID)" >> $env:GITHUB_STEP_SUMMARY
                             "> **Note**" >> $env:GITHUB_STEP_SUMMARY
                             "> Active Bugs Exists" >> $env:GITHUB_STEP_SUMMARY                            
                             $bugUrlArray =$existingDefectUrl.Split(" ")

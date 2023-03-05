@@ -227,8 +227,9 @@ runs:
                 ADO_SUITE_RUN_URL=$(grep 'results as Test Run' output.txt | sed 's/.*[(] *//'| sed 's/).//g')
                 echo "ADO_SUITE_RUN_URL=$ADO_SUITE_RUN_URL" >> $GITHUB_ENV
                 echo "ADO_SUITE_RUN_URL=$ADO_SUITE_RUN_URL" >> $GITHUB_OUTPUT
-                echo "TestSuite# $i [${DIR}](${ADO_SUITE_RUN_URL})" >> $GITHUB_STEP_SUMMARY
                 ADO_RUN_ID=$(echo $ADO_SUITE_RUN_URL | awk -F'=' '{print $2;}' | sed 's|&_a||g')
+                echo "#### Test Run Summary" >> $GITHUB_STEP_SUMMARY
+                echo "Test Run [${ADO_RUN_ID}-${DIR}](${ADO_SUITE_RUN_URL})" >> $GITHUB_STEP_SUMMARY
                 echo $ADO_RUN_ID >> $TMP_HOME/run_id.txt
                 echo $ADO_SUITE_RUN_URL >> $TMP_HOME/run_url.txt
                 cd $CWD
