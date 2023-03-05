@@ -254,6 +254,11 @@ foreach ( $runId in $adoRunIdArray )
                         $existingDefectUrl = $outputBug.url
                         if ($existingDefectCount -eq 0 ) {
                             Write-Output "No Existing Defect(s) found"
+                            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+                            $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
+                            Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
+                            $bugID = $bugWorkItemURI.id
+                            "Failed Test ID: [$testCaseID](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) Linked with New Bug Id: [$bugID](https://dev.azure.com/$organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY                           
                             }                        
                         elseif ($existingDefectCount -eq 1 ) {
                             $existingBugId = $existingDefectUrl.url.Split('/')[8]
@@ -263,6 +268,7 @@ foreach ( $runId in $adoRunIdArray )
                             [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                             $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
                             $bugWorkItemStatus = $bugWorkItem.fields."System.Reason"
+                            Write-Host "Already active bug present for test case: $testCaseId - Bug: $existingBugId"
                             "Existing bug: [$existingBugId](existingDefectUrl) - $bugWorkItemStatus" >> $env:GITHUB_STEP_SUMMARY            
                             }
                         else {
@@ -281,19 +287,6 @@ foreach ( $runId in $adoRunIdArray )
                                 "[$bugId](https://dev.azure.com/$organization/$project/_workitems/edit/$bugId): $bugStatus" >> $env:GITHUB_STEP_SUMMARY
                             }
                         }
-                        if ($existingBugId -eq "") {
-                            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-                            $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
-                            Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
-                            $bugID = $bugWorkItemURI.id
-                            "Failed Test ID: [$testCaseID](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) Linked with New Bug Id: [$bugID](https://dev.azure.com/$organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY
-                        }
-                        else {
-                            Write-Host "Already active bug present for test case: $testCaseId - Bug: $existingBugId"
-                        }
-                    }
-                    else {
-                        Write-Host "All Tests Passed"
                     }
                 }
             }
