@@ -31,8 +31,7 @@ This Action defines the following formal inputs.
 
 Failed Test Case ID, Test Run URL along with corresponding Bug ID and Bug URL will be printed on Summary as below.
 
-<img width="824" alt="image" src="https://user-images.githubusercontent.com/86745613/222978511-918d7e07-2be3-4444-9b8a-e4f1fb742812.png">
-
+<img width="830" alt="image" src="https://user-images.githubusercontent.com/86745613/222991548-bc9fb791-2cbe-4345-beec-4484417d4309.png">
 
 
 
