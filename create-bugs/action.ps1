@@ -263,11 +263,11 @@ foreach ( $runId in $adoRunIdArray )
                             $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
                             Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
                             $bugID = $bugWorkItemURI.id
-                            "### 🪣 Test Suite [$lastRunId](https://dev.azure.com/$organization/$project/_TestManagement/Runs?runId=$lastRunId&_a=runCharts)" >> $env:GITHUB_STEP_SUMMARY 
-                            "#### 📝 Test Case [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) : ❌ Failed" >> $env:GITHUB_STEP_SUMMARY                            
-                            "> **Note**" >> $env:GITHUB_STEP_SUMMARY
+                            "### Test Suite 📁 [$lastRunId](https://dev.azure.com/$organization/$project/_TestManagement/Runs?runId=$lastRunId&_a=runCharts)" >> $env:GITHUB_STEP_SUMMARY 
+                            "#### Test Case 📝 [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) : ❌ Failed" >> $env:GITHUB_STEP_SUMMARY                            
+                            "> **Note** ❕" >> $env:GITHUB_STEP_SUMMARY
                             "> No active bug(s) found" >> $env:GITHUB_STEP_SUMMARY
-                            "Action has Created New Bug : [$bugID](https://dev.azure.com/$organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY
+                            "Action has Created New Bug 🪲 : [$bugID](https://dev.azure.com/$organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY
                             }
                         elseif ($existingDefectCount -eq 1 -OR $existingDefectCount -gt 1) {
                             if ($existingDefectUrl -ne '') {
@@ -280,9 +280,9 @@ foreach ( $runId in $adoRunIdArray )
                             $bugWorkItem = Invoke-RestMethod $getWorkItem -Method GET -ContentType "application/json" -Headers $header
                             $bugWorkItemStatus = $bugWorkItem.fields."System.Reason"
                             Write-Host "Already active bug present for test case: $testCaseId - Bug: $existingBugId"
-                            "### Test Suite [$lastRunId](https://dev.azure.com/$organization/$project/_TestManagement/Runs?runId=$lastRunId&_a=runCharts)" >> $env:GITHUB_STEP_SUMMARY 
-                            "#### Test Case [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) : ❌ Failed" >> $env:GITHUB_STEP_SUMMARY
-                            "> **Note**" >> $env:GITHUB_STEP_SUMMARY
+                            "### Test Suite 📁 [$lastRunId](https://dev.azure.com/$organization/$project/_TestManagement/Runs?runId=$lastRunId&_a=runCharts)" >> $env:GITHUB_STEP_SUMMARY 
+                            "#### Test Case 📝 [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) : ❌ Failed" >> $env:GITHUB_STEP_SUMMARY
+                            "> **Note** ❕" >> $env:GITHUB_STEP_SUMMARY
                             "> Active Bugs Exists" >> $env:GITHUB_STEP_SUMMARY                     
                             $bugUrlArray =$existingDefectUrl.Split(" ")
                             foreach ( $node in $bugUrlArray )
@@ -295,7 +295,7 @@ foreach ( $runId in $adoRunIdArray )
                                 $bugStatus = $bugWorkItem.fields."System.Reason"
                                 $bugHash = @{}
                                 $bugHash["$bugId"] = "$bugStatus"
-                                "- 🪲 Bug [$bugId](https://dev.azure.com/$organization/$project/_workitems/edit/$bugId) : $bugStatus" >> $env:GITHUB_STEP_SUMMARY
+                                "- Bug 🪲 [$bugId](https://dev.azure.com/$organization/$project/_workitems/edit/$bugId) : $bugStatus" >> $env:GITHUB_STEP_SUMMARY
                             }
                         }
                     }
