@@ -40,7 +40,7 @@ $reason = Get-ActionInput reason -Required
 $tags = Get-ActionInput tags -Required
 $enable_bug_creation = Get-ActionInput enable_bug_creation -Required
 $adoRunId = Get-ActionInput adoRunId -Required
-function splitListInput { [int]$args[0] -split ' ' | ForEach-Object { $_.Trim() } }
+function splitListInput { $args[0] -split ' ' | ForEach-Object { [int]$_ } }
 $script:adoRunId = (splitListInput $adoRunId) -join ","
 
 $adoRunIdArray = @($script:adoRunId)
