@@ -41,9 +41,9 @@ $tags = Get-ActionInput tags -Required
 $enable_bug_creation = Get-ActionInput enable_bug_creation -Required
 $adoRunId = Get-ActionInput adoRunId -Required
 function splitListInput { $args[0] -split ' ' | ForEach-Object { [int]$_ } }
-$script:adoRunId = (splitListInput $adoRunId) -join ","
 
-$adoRunIdArray = @($script:adoRunId)
+[int32[]]$script:adoRunId = (splitListInput $adoRunId) -join ", "
+
 
 function GetUrl() {
     param(
@@ -72,12 +72,11 @@ function GetUrl() {
     return $areaUrl
 }
 
-$adoRunIdArray = Write-Output $script:adoRunId
 
 Write-Host "Run Ids that need to be analyzed for bug creation: $adoRunIdArray"
 
 
-foreach ( $runId in $adoRunIdArray )
+foreach ( $runId in $script:adoRunId )
 {
     $orgUrl = "https://dev.azure.com/$organization"
     $area_path = "$project\\$area"
