@@ -252,7 +252,10 @@ foreach ( $runId in $adoRunIdArray )
                         $outputBug = $json.relations | Where-Object ({($_.rel -match $parentRelation) -and ($_.attributes.comment -match $autoDefectComment ) -and ($_.attributes.name -match "child")})
                         $existingDefectCount = ($outputBug.url | Measure-Object -Property length -Minimum -Maximum -Sum -Average).Count
                         $existingDefectUrl = $outputBug.url
-                        if ($existingDefectCount -eq 1 ) {
+                        if ($existingDefectCount -eq 0 ) {
+                            Write-Output "No Existing Defect(s) found"
+                            }                        
+                        elseif ($existingDefectCount -eq 1 ) {
                             $existingBugId = $existingDefectUrl.url.Split('/')[8]
                             Write-Host "existingBugId: $existingBugId"
                             $getWorkItem = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $existingBugId + "?api-version=7.0"
@@ -263,7 +266,7 @@ foreach ( $runId in $adoRunIdArray )
                             "Existing bug: [$existingBugId](existingDefectUrl) - $bugWorkItemStatus" >> $env:GITHUB_STEP_SUMMARY            
                             }
                         else {
-                            "Existing Defect(s) found for Failed Test Case: [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID)" >> $env:GITHUB_STEP_SUMMARY
+                            "Existing Defects found for Failed Test Case: [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID)" >> $env:GITHUB_STEP_SUMMARY
                             $bugUrlArray =$existingDefectUrl.Split(" ")
                             foreach ( $node in $bugUrlArray )
                             {
@@ -278,7 +281,7 @@ foreach ( $runId in $adoRunIdArray )
                                 "[$bugId](https://dev.azure.com/$organization/$project/_workitems/edit/$bugId): $bugStatus" >> $env:GITHUB_STEP_SUMMARY
                             }
                         }
-                        if ($existingBugId -eq "" -and $bugWorkItemStatus -eq "Done") {
+                        if ($existingBugId -eq "") {
                             [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                             $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
                             Write-Host "Bug created for failed test case" $bugWorkItemURI.id -ForegroundColor Blue
