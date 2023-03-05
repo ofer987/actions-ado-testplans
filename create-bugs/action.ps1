@@ -40,10 +40,10 @@ $reason = Get-ActionInput reason -Required
 $tags = Get-ActionInput tags -Required
 $enable_bug_creation = Get-ActionInput enable_bug_creation -Required
 $adoRunId = Get-ActionInput adoRunId -Required
-function splitListInput { $args[0] -split ' ' | ForEach-Object { [int]$_ } }
+$adoRunId = $adoRunId.Replace("`"","")
+function splitListInput { $args[0] -split ' ' | ForEach-Object { $_.Trim(" ") } }
 
-[int32[]]$script:adoRunId = (splitListInput $adoRunId) -join ", "
-
+$script:adoRunId = (splitListInput $adoRunId) -join ","
 
 function GetUrl() {
     param(
