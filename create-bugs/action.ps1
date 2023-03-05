@@ -49,7 +49,7 @@ $adoRunId = Get-ActionInput adoRunId -Required
 # $script:adoRunId = (splitListInput $adoRunId)
 
 $adoRunId.GetType()
-$adoRunIdArray = Write-Output $adoRunId
+$adoRunIdArray = $adoRunId.Split(" ")
 $adoRunIdArray.GetType()
 
 function GetUrl() {
