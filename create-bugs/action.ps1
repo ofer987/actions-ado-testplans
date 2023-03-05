@@ -40,10 +40,16 @@ $reason = Get-ActionInput reason -Required
 $tags = Get-ActionInput tags -Required
 $enable_bug_creation = Get-ActionInput enable_bug_creation -Required
 $adoRunId = Get-ActionInput adoRunId -Required
-$adoRunId = $adoRunId.Replace("`"","")
-function splitListInput { $args[0] -split ' ' | ForEach-Object { $_.Trim(" ") } }
+# $adoRunId = $adoRunId.Replace("`"","")
+# $adoRunId = $adoRunId.Replace("'","")
 
-$script:adoRunId = (splitListInput $adoRunId) -join ","
+# $adoRunIdArray=@()
+# function splitListInput { $args[0] -split ' ' | ForEach-Object { $adoRunIdArray+=$_ } }
+
+# $script:adoRunId = (splitListInput $adoRunId)
+
+$adoRunId.GetType()
+Write-Output $adoRunId
 
 function GetUrl() {
     param(
@@ -75,6 +81,8 @@ function GetUrl() {
 
 Write-Host "Run Ids that need to be analyzed for bug creation: $adoRunIdArray"
 
+
+$script:adoRunId.GetType()
 
 foreach ( $runId in $script:adoRunId )
 {
