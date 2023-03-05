@@ -83,9 +83,7 @@ function GetUrl() {
 Write-Host "Run Ids that need to be analyzed for bug creation: $adoRunIdArray"
 
 
-$script:adoRunId.GetType()
-
-foreach ( $runId in $script:adoRunId )
+foreach ( $runId in $adoRunIdArray )
 {
     $orgUrl = "https://dev.azure.com/$organization"
     $area_path = "$project\\$area"
