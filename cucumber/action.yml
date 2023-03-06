@@ -174,6 +174,9 @@ runs:
         if: ${{ inputs.test_cases_sync == 'true' }}
         shell: bash
         run: |
+          NEW_TESTS_CREATED=0
+          NEW_TESTS_MODIFIED=0
+          NEW_TESTS_DELETED=0
           find . -type f -name "*.feature" | while read line;
             do
               CWD=$PWD
@@ -196,6 +199,10 @@ runs:
               dotnet specsync pull --verbose --user "${{ inputs.ado_pat }}" --license ${{ env.LICENSE_PATH }};
               cd $CWD
             done;
+            echo "### Azure DevOps Test Case Sync :robot: :magic_wand:" >> $GITHUB_STEP_SUMMARY
+            echo "Total Tests Created : $NEW_TESTS_CREATED"  >> $GITHUB_STEP_SUMMARY
+            echo "Total Tests Modified : $NEW_TESTS_MODIFIED"  >> $GITHUB_STEP_SUMMARY
+            echo "Total Tests Deleted : $NEW_TESTS_DELETED"  >> $GITHUB_STEP_SUMMARY
 
       - name: Run Test Results Synchronization
         if: ${{ inputs.test_results_sync == 'true'}}
@@ -203,7 +210,7 @@ runs:
         shell: bash
         run: |
           TMP_HOME=$PWD
-          echo "### Azure DevOps Test Results Sync" >> $GITHUB_STEP_SUMMARY          
+          echo "### Azure DevOps Test Results Sync :repeat:" >> $GITHUB_STEP_SUMMARY          
           find ${{ inputs.cucumber_path }} -type f -name "*.feature" | while read line;
             do
                 CWD=$PWD
