@@ -79,7 +79,7 @@ function GetUrl() {
     return $areaUrl
 }
 
-"### Azure DevOps Bug Reporting" >> $env:GITHUB_STEP_SUMMARY
+"### Azure DevOps Bug Analysis" >> $env:GITHUB_STEP_SUMMARY
 Write-Host "Run Ids that need to be analyzed for bug creation: $adoRunIdArray"
 
 
@@ -265,7 +265,7 @@ foreach ( $runId in $adoRunIdArray )
                             $bugID = $bugWorkItemURI.id
                             "### Test Suite 📁 [$lastRunId](https://dev.azure.com/$organization/$project/_TestManagement/Runs?runId=$lastRunId&_a=runCharts)" >> $env:GITHUB_STEP_SUMMARY 
                             "#### Test Case 📝 [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) : ❌ Failed" >> $env:GITHUB_STEP_SUMMARY                            
-                            "> **Note** ❕" >> $env:GITHUB_STEP_SUMMARY
+                            "> **Note** ❕❕" >> $env:GITHUB_STEP_SUMMARY
                             "> No active bug(s) found" >> $env:GITHUB_STEP_SUMMARY
                             ":octocat: Action has Created New Bug 🪲 : [$bugID](https://dev.azure.com/$organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY
                             }
@@ -295,7 +295,7 @@ foreach ( $runId in $adoRunIdArray )
                                 $bugStatus = $bugWorkItem.fields."System.Reason"
                                 $bugHash = @{}
                                 $bugHash["$bugId"] = "$bugStatus"
-                                "- Bug 🪲 [$bugId](https://dev.azure.com/$organization/$project/_workitems/edit/$bugId) : $bugStatus" >> $env:GITHUB_STEP_SUMMARY
+                                "- Active Bug 🪲 [$bugId](https://dev.azure.com/$organization/$project/_workitems/edit/$bugId) : $bugStatus" >> $env:GITHUB_STEP_SUMMARY
                             }
                         }
                     }
