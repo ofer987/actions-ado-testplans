@@ -79,7 +79,7 @@ function GetUrl() {
     return $areaUrl
 }
 
-"### Azure DevOps Bug Analysis" >> $env:GITHUB_STEP_SUMMARY
+"### Azure DevOps Bug Analysis :robot: :magic_wand:" >> $env:GITHUB_STEP_SUMMARY
 Write-Host "Run Ids that need to be analyzed for bug creation: $adoRunIdArray"
 
 
