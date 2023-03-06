@@ -267,7 +267,7 @@ foreach ( $runId in $adoRunIdArray )
                             "#### Test Case :test_tube: [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) : :x: Failed" >> $env:GITHUB_STEP_SUMMARY                            
                             "> **Note** :bangbang:" >> $env:GITHUB_STEP_SUMMARY
                             "> No active bug(s) found" >> $env:GITHUB_STEP_SUMMARY
-                            ":octocat: Action has Created New Bug :lady_beetle: : [$bugID](https://dev.azure.com/$organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY
+                            ":octocat: Action has Created :new: New Bug :lady_beetle: : [$bugID](https://dev.azure.com/$organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY
                             }
                         elseif ($existingDefectCount -eq 1 -OR $existingDefectCount -gt 1) {
                             if ($existingDefectUrl -ne '') {
