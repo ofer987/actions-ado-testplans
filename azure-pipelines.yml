@@ -20,6 +20,6 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: '**/TEST-*.xml'
+    testResultsFiles: '**/TESTS-*.xml'
     mergeTestResults: true
     testRunTitle: 'prism-data-room'
