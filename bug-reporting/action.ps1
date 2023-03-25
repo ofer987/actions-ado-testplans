@@ -271,7 +271,7 @@ foreach ( $runId in $adoRunIdArray )
                             }
                         elseif ($existingDefectCount -eq 1 -OR $existingDefectCount -gt 1) {
                             if ($existingDefectUrl -ne '') {
-                                $existingBugId = $existingDefectUrl.url.Split('/')[8]
+                                $existingBugId = $existingDefectUrl.Split('/')[8]
                                 Write-Host "existingBugId: $existingBugId"
                                 $getWorkItem = "$adoWorkTrackingItemUrl" + "$project/_apis/wit/workitems/" + $existingBugId + "?api-version=7.0"
                                 Write-Host "getWorkItem: $getWorkItem"    
