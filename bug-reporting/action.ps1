@@ -186,13 +186,16 @@ foreach ( $runId in $adoRunIdArray )
                         $bodyDesc = "Get full details of error message & stack trace on below link:" + "`n" + "https://{project_url}/_TestManagement/Runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID"
                         $err = ""
                         $comments = "Bug Reported by [GH Action Run Failure](https://github.com/$Env:GITHUB_REPOSITORY/actions/runs/$Env:GITHUB_RUN_ID) and [ADO Test Run Failure](https://$adoBaseUrl/$project/_TestManagement/Runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID)"
-                        $errLen = $currentTestCase.stackTrace.Length
+                        $resultDetailsApi="$script:adoBaseUrl/$project/_apis/test/runs/$resultId?&api-version=7.0"
+                        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+                        $testResultDetails = Invoke-RestMethod $resultDetailsApi -Method GET -ContentType "application/json" -Headers $header
+                        $errLen = $testResultDetails.value[0].errorMessage.Length
                         if ($errLen -gt 1) {
-                            $err = $currentTestCase.stackTrace -replace '[^a-zA-Z0-9.]', ' '
+                            $err = $testResultDetails.value[0].errorMessage -replace '[^a-zA-Z0-9.]', ' '
                         }
                         else {
                             Write-Host "Not enough content in stack trace"
-                            $err = $currentTestCase.stackTrace
+                            $err = $testResultDetails.value[0].errorMessage
                         }
                         $body = @"
                         [
