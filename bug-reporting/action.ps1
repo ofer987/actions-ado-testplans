@@ -187,12 +187,13 @@ foreach ( $runId in $adoRunIdArray )
                         $err = ""
                         $comments = "Bug Reported by [GH Action Run Failure](https://github.com/$Env:GITHUB_REPOSITORY/actions/runs/$Env:GITHUB_RUN_ID) and [ADO Test Run Failure](https://$adoBaseUrl/$project/_TestManagement/Runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID)"
                         $errLen = $currentTestCase.stackTrace.Length
+                        
                         if ($errLen -gt 1) {
                             $err = $currentTestCase.stackTrace -replace '[^a-zA-Z0-9.]', ' '
                         }
                         else {
                             Write-Host "Not enough content in stack trace"
-                            $err = $currentTestCase.stackTrace
+                            $err = $currentTestCase.errorMessage
                         }
                         $body = @"
                         [
