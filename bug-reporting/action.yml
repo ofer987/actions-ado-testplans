@@ -46,7 +46,7 @@ inputs:
     required: true     
   enable_bug_creation:
     description: 'Flag for enabling Automated Bug Creation'
-    default: 'true'
+    default: 'false'
     required: false
 ## Here you describe your *formal* outputs.
 outputs:

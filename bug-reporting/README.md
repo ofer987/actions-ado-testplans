@@ -1,7 +1,6 @@
 # Create Bugs
 
-This custom workflow examines the last test run id using the Run ID or Run Name Input and creates bugs automatically for the failures in Azure DevOps
-
+This custom workflow examines the last test run id using the Run ID or Run Name Input and creates bugs automatically for the failures in Azure DevOps. Read our blog post on [Quality Engineering CoP](https://trten.sharepoint.com/sites/intr-quality-engineering-coe/SitePages/Azure-DevOps-Test-and-Bug-Automation.aspx)
 
 ## Samples
 
@@ -25,12 +24,10 @@ This Action defines the following formal inputs.
 | **`assignedTo`**  | true | Name of the person being assigned to
 | **`testRunName`**  | conditional | Name of test run.
 | **`runId`**  | conditional | Run Id.
-
+| **`enable_bug_creation`** | false | Set to "true" To allow GitHub Action Create Bugs Automatically.
 
 ### Outputs
 
 Failed Test Case ID, Test Run URL along with corresponding Bug ID and Bug URL will be printed on Summary as below.
 
 <img width="791" alt="image" src="https://user-images.githubusercontent.com/86745613/223530826-347a5960-f7a3-4d3a-b7cf-8b4ee85710f0.png">
-
-

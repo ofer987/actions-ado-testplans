@@ -258,7 +258,7 @@ foreach ( $runId in $adoRunIdArray )
                         $outputBug = $json.relations | Where-Object ({($_.rel -match $parentRelation) -and ($_.attributes.comment -match $autoDefectComment ) -and ($_.attributes.name -match "child")})
                         $existingDefectCount = ($outputBug.url | Measure-Object -Property length -Minimum -Maximum -Sum -Average).Count
                         $existingDefectUrl = $outputBug.url
-                        if ($existingDefectCount -eq 0 ) {
+                        if ($existingDefectCount -eq 0 -And $enable_bug_creation -eq 'true') {
                             Write-Output "No Existing Defect(s) found"
                             [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                             $bugWorkItemURI = Invoke-RestMethod $createBugWorkItemUrl -Method POST -ContentType "application/json-patch+json" -Headers $header -Body $body
@@ -270,6 +270,14 @@ foreach ( $runId in $adoRunIdArray )
                             "> No active bug(s) found" >> $env:GITHUB_STEP_SUMMARY
                             ":octocat: Action has Created New Bug :new: :lady_beetle: : [$bugID](https://dev.azure.com/$organization/$project/_workitems/edit/$bugID)" >> $env:GITHUB_STEP_SUMMARY
                             }
+                            elseif ($existingDefectCount -eq 0 -AND $enable_bug_creation -eq 'false') {
+                                Write-Output "No Existing Defect(s) found"
+                                "### Test Suite :file_folder: [$lastRunId](https://dev.azure.com/$organization/$project/_TestManagement/Runs?runId=$lastRunId&_a=runCharts)" >> $env:GITHUB_STEP_SUMMARY 
+                                "#### Test Case :test_tube: [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) : :x: Failed" >> $env:GITHUB_STEP_SUMMARY                            
+                                "> **Warning** :bangbang:" >> $env:GITHUB_STEP_SUMMARY
+                                "> No active bug(s) found" >> $env:GITHUB_STEP_SUMMARY
+                                ":octocat: Action Bug Automation is been Disabled" >> $env:GITHUB_STEP_SUMMARY
+                                }                            
                         elseif ($existingDefectCount -eq 1 -OR $existingDefectCount -gt 1) {
                             if ($existingDefectUrl -ne '') {
                                 $existingBugId = $existingDefectUrl.Split('/')[8]
