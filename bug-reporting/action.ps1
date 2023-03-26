@@ -291,7 +291,7 @@ foreach ( $runId in $adoRunIdArray )
                             Write-Host "Already active bug present for test case: $testCaseId - Bug: $existingBugId"
                             "### Test Suite :file_folder: [$lastRunId](https://dev.azure.com/$organization/$project/_TestManagement/Runs?runId=$lastRunId&_a=runCharts)" >> $env:GITHUB_STEP_SUMMARY 
                             "#### Test Case :test_tube: [$testCaseId](https://dev.azure.com/$organization/$project/_testManagement/runs?runId=$lastRunId&_a=resultSummary&resultId=$resultID) : :x: Failed" >> $env:GITHUB_STEP_SUMMARY
-                            "> **Warning** :exclamation:" >> $env:GITHUB_STEP_SUMMARY
+                            "> **Info** :information_source:" >> $env:GITHUB_STEP_SUMMARY
                             "> Active Bugs Exists" >> $env:GITHUB_STEP_SUMMARY                     
                             $bugUrlArray =$existingDefectUrl.Split(" ")
                             foreach ( $node in $bugUrlArray )
