@@ -1,6 +1,6 @@
 # cicd_gh-actions-ado-testplans
 
-This is a TR Internal GitHub Action for Azure DevOps Test and Bug Management Automation to enable Continous Delivery and Testing.
+This is a TR Internal GitHub Action for Azure DevOps Test and Bug Management Automation to enable Continous Delivery and Testing. To learn [For more details click here...](https://trten.sharepoint.com/sites/intr-quality-engineering-coe/SitePages/Azure-DevOps-Test-and-Bug-Automation.aspx)
 
 ## 1. Framework Architecture
 
