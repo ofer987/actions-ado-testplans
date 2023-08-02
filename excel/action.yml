@@ -164,7 +164,7 @@ runs:
         run: |
           export PATH="$PATH:/root/.dotnet/tools"
           dotnet new tool-manifest
-          dotnet add package SpecSync.AzureDevOps.SpecFlow.3-9 --version 3.4.6
+          dotnet tool install --local SpecSync.AzureDevOps.SpecFlow.3-9 --version 3.4.6
           dotnet tool install --local SpecSync.AzureDevOps --version 3.4.6
           dotnet specsync version
 
