@@ -140,6 +140,10 @@ runs:
           synchronization.areaPath.value: ${{ inputs.ado_area_path }}
           synchronization.iterationPath.value: ${{ inputs.ado_iteration_path }}
 
+      - name: print specsync.json
+        shell: bash
+        run: cat specsync.json
+        
       - name: Download SpecSync License From Artifactory
         shell: bash
         env:
