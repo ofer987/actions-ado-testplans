@@ -194,7 +194,8 @@ runs:
                   cp ${{ env.SPECSYNC_JSON_PATH }} ./
                   sed -i "s/Dummy-Test-Suite-Name/$SUBDIR/g" ./specsync.json
               fi           
-              dotnet specsync push --user "${{ inputs.ado_pat }}" --license ${{ env.LICENSE_PATH }};
+              dotnet specsync push --verbose --user "${{ inputs.ado_pat }}" --license ${{ env.LICENSE_PATH }};
+              dotnet specsync pull --verbose --user "${{ inputs.ado_pat }}" --license ${{ env.LICENSE_PATH }};
               cd ${TMP_HOME}
             done;
 
