@@ -246,14 +246,14 @@ runs:
         with:
           filters: |
             excel:
-              - added|modified: "${{ inputs.excel_path }}/*/**"
+              - added|deleted|modified: '**.xlsx'
 
       - name: Create Pull Request
         id: create_pr
         if: ${{ steps.filter.outputs.excel == 'true' }}        
         uses: peter-evans/create-pull-request@v5.0.2
         with:
-          add-paths: "${{ inputs.excel_path }}/**"
+          add-paths: ${{ steps.filter.outputs.excel }}
           token: ${{ inputs.github_token }}
           commit-message: Updated Excel with Azure DevOps Tags
           committer: GitHub <noreply@github.com>
