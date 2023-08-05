@@ -245,7 +245,7 @@ runs:
         with:
           filters: |
             excel:
-              - added|deleted|modified: '**.xlsx'
+              - added|modified: '${{ inputs.excel_path }}/**'
 
       - name: Create Pull Request
         id: create_pr
