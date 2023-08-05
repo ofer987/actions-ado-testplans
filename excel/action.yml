@@ -119,7 +119,7 @@ runs:
         if: ${{ inputs.standard_specsync_json }}
         shell: bash
         run: |
-          curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN} -O 'https://tr1.jfrog.io/artifactory/generic-local/devops-experience/cucumber/specsync.json'
+          curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN} -O 'https://tr1.jfrog.io/artifactory/generic-local/devops-experience/excel/specsync.json'
           CWD=$PWD
           SPECSYNC_JSON_PATH=$CWD/specsync.json
           echo SPECSYNC_JSON_PATH=${SPECSYNC_JSON_PATH} >> $GITHUB_ENV
