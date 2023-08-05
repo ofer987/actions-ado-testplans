@@ -239,7 +239,7 @@ runs:
         shell: bash
         run: rm -rf ${{ inputs.excel_path }}/specsync.lic
         
-      - uses: dorny/paths-filter@v2
+      - uses: dorny/paths-filter@v2.11.1
         if: ${{ inputs.test_cases_sync == 'true' }}
         id: filter
         with:
@@ -250,7 +250,7 @@ runs:
       - name: Create Pull Request
         id: create_pr
         if: ${{ steps.filter.outputs.excel == 'true' }}        
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v5.0.2
         with:
           add-paths: '**.xlsx'
           token: ${{ inputs.github_token }}
