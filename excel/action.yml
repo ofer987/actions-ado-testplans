@@ -240,20 +240,22 @@ runs:
         shell: bash
         run: rm -rf ${{ inputs.excel_path }}/specsync.lic
         
-      - uses: dorny/paths-filter@v2.11.1
+      - uses: tj-actions/changed-files@v37.5.2
         if: ${{ inputs.test_cases_sync == 'true' }}
         id: filter
         with:
           filters: |
             excel:
+              - added|deleted|modified: '**/*.xlsx'
+              - added|deleted|modified: '*.xlsx'
               - added|deleted|modified: '**.xlsx'
 
       - name: Create Pull Request
         id: create_pr
-        if: ${{ steps.filter.outputs.excel == 'true' }}        
+        if: steps.filter.outputs.excel == 'true'         
         uses: peter-evans/create-pull-request@v5.0.2
         with:
-          add-paths: ${{ steps.filter.outputs.excel }}
+          add-paths: ${{ steps.filter.outputs.all_changed_files }}
           token: ${{ inputs.github_token }}
           commit-message: Updated Excel with Azure DevOps Tags
           committer: GitHub <noreply@github.com>
