@@ -240,17 +240,15 @@ runs:
         shell: bash
         run: rm -rf ${{ inputs.excel_path }}/specsync.lic
         
-      - name: Get all test, doc and src files that have changed
-        id: changed-files-yaml
+      - name: Get changed files in the docs folder
+        id: changed-files-specific
         uses: tj-actions/changed-files@v37
         with:
-          excel_files: |
-            excel:
-              - "{{ inputs.excel_path }}/*.xlsx"
-
+          files: "{{ inputs.excel_path }}/*.xlsx"  # Alternatively using: `docs/**` or `docs`
+        
       - name: Create Pull Request
         id: create_pr
-        if: steps.excel_files.outputs.test_any_changed == 'true'         
+        if: steps.changed-files-specific.outputs.any_changed == 'true'     
         uses: peter-evans/create-pull-request@v5.0.2
         with:
           add-paths: ${{ steps.test_any_changed.outputs.all_changed_files }}
