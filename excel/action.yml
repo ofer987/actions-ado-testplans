@@ -244,7 +244,7 @@ runs:
         id: changed-files-specific
         uses: tj-actions/changed-files@v37
         with:
-          files: "{{ inputs.excel_path }}/*.xlsx"  # Alternatively using: `docs/**` or `docs`
+          files: '**.xlsx'  # Alternatively using: `docs/**` or `docs`
         
       - name: Create Pull Request
         id: create_pr
