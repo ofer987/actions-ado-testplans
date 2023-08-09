@@ -167,7 +167,7 @@ runs:
         shell: bash
         run: |
           export PATH="$PATH:/root/.dotnet/tools"
-          dotnet new tool-manifest
+          dotnet new tool-manifest --force
           dotnet tool install --local SpecSync.AzureDevOps --version 3.4.4
           dotnet specsync version
 
