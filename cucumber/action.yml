@@ -21,14 +21,14 @@ inputs:
     description: 'GitHub API Access Token'
     default: ${{ github.token }}
     required: false
-  test_cases_sync:  
+  test_cases_sync:
     description: 'Test Cases Sync'
     required: true
     default: 'false'
   test_results_sync:
     description: 'Test Results Sync - Format Supported'
     required: false
-    default: 'false'  
+    default: 'false'
   ado_pat:
     description: 'Azure DevOps PAT'
     required: true
@@ -37,7 +37,7 @@ inputs:
     required: true
   ado_area_path:
     description: 'ADO Area Path'
-    required: true 
+    required: true
   ado_iteration_path:
     description: 'ADO Iteration Path'
     required: true
@@ -52,7 +52,7 @@ inputs:
   cucumber_path:
     description: 'Cucumber Path'
     required: false
-    default: 'features'    
+    default: 'features'
   cucumber_branch_name:
     description: 'Default Github Actions Name'
     required: false
@@ -60,7 +60,7 @@ inputs:
   temp_cucumber_branch_name:
     description: 'Default Github Actions Name'
     required: false
-    default: 'temp-cucumber-ado-sync-${{ github.run_number }}'    
+    default: 'temp-cucumber-ado-sync-${{ github.run_number }}'
   test_results_run_name:
     description: 'Test Result - Run NAme'
     required: false
@@ -84,11 +84,11 @@ inputs:
     default: ${{ runner.os }}-${{ runner.arch }}
   run_comment:
     description: 'Run Comment'
-    required: false  
+    required: false
   run_result_comment:
     description: 'Run Result Comment'
-    required: false   
-  standard_specsync_json: 
+    required: false
+  standard_specsync_json:
     description: 'Using Own SpecSync Json'
     required: false
     default: 'true'
@@ -115,7 +115,7 @@ runs:
           echo TEST_RESULTS_CONFIG=${{ inputs.test_results_config }} >> $GITHUB_ENV
 
       - name: download specsync json from jfrog
-        env: 
+        env:
           ARTIFACTORY_USER: ${{ inputs.artifactory_user }}
           ARTIFACTORY_TOKEN: ${{ inputs.artifactory_token }}
         working-directory: ${{ github.workspace }}
@@ -131,7 +131,7 @@ runs:
           echo SPECSYNC_JSON=${SPECSYNC_JSON} >> $GITHUB_ENV
           echo "SpecSync Json: $SPECSYNC_JSON"
 
-      - uses: TomaszKandula/variable-substitution@v1.0.1
+      - uses: ofer987/variable-substitution@master
         if: ${{ inputs.standard_specsync_json }}
         with:
           files: ${{ env.SPECSYNC_JSON_PATH }}
@@ -154,7 +154,7 @@ runs:
           LICENSE_PATH=$CWD/specsync.lic
           echo LICENSE_PATH=${LICENSE_PATH} >> $GITHUB_ENV
           echo "SpecSync License Path: $LICENSE_PATH"
-          
+
       - name: Set up .NET 7
         if: ${{ inputs.test_cases_sync || inputs.test_results_sync }}
         uses: actions/setup-dotnet@v3
@@ -169,7 +169,7 @@ runs:
           dotnet new tool-manifest
           dotnet tool install SpecSync.AzureDevOps --version 3.4.0
           dotnet specsync version
-                    
+
       - name: Run Test Case Synchronization
         if: ${{ inputs.test_cases_sync == 'true' }}
         shell: bash
@@ -189,7 +189,7 @@ runs:
               FILE=specsync.json
               if [ -f "$FILE" ]; then
               echo "$FILE exists."
-              else 
+              else
                   echo "$FILE does not exist."
                   cp ${{ env.SPECSYNC_JSON_PATH }} ./
                   tmp=$(mktemp)
@@ -210,7 +210,7 @@ runs:
         shell: bash
         run: |
           TMP_HOME=$PWD
-          echo "### Azure DevOps Test Results Sync :repeat:" >> $GITHUB_STEP_SUMMARY          
+          echo "### Azure DevOps Test Results Sync :repeat:" >> $GITHUB_STEP_SUMMARY
           find ${{ inputs.cucumber_path }} -type f -name "*.feature" | while read line;
             do
                 CWD=$PWD
@@ -223,7 +223,7 @@ runs:
                 FILE=specsync.json
                 if [ -f "$FILE" ]; then
                 echo "$FILE exists."
-                else 
+                else
                     echo "$FILE does not exist."
                     cp ${{ env.SPECSYNC_JSON_PATH }} ./
                   tmp=$(mktemp)
@@ -247,9 +247,9 @@ runs:
             OIFS=$IFS; IFS=$'\n'; ADO_RUN_ID_ARRAY=($(cat $TMP_HOME/run_id.txt)); IFS=$OIFS; echo "${ADO_RUN_ID_ARRAY[*]}"
             OIFS=$IFS; IFS=$'\n'; ADO_RUN_URL_ARRAY=($(cat $TMP_HOME/run_url.txt)); IFS=$OIFS; echo "${ADO_RUN_URL_ARRAY[*]}"
             echo "ADO_RUN_ID_OUTPUT=${ADO_RUN_ID_ARRAY[*]}" >> $GITHUB_ENV
-            echo "ADO_RUN_URL_OUTPUT=${ADO_RUN_URL_ARRAY[*]}" >> $GITHUB_ENV          
+            echo "ADO_RUN_URL_OUTPUT=${ADO_RUN_URL_ARRAY[*]}" >> $GITHUB_ENV
             echo "ADO_RUN_ID_OUTPUT=${ADO_RUN_ID_ARRAY[*]}" >> $GITHUB_OUTPUT
-            echo "ADO_RUN_URL_OUTPUT=${ADO_RUN_URL_ARRAY[*]}" >> $GITHUB_OUTPUT            
+            echo "ADO_RUN_URL_OUTPUT=${ADO_RUN_URL_ARRAY[*]}" >> $GITHUB_OUTPUT
             rm -rf $TMP_HOME/run_id.txt
             rm -rf $TMP_HOME/run_url.txt
 
@@ -258,7 +258,7 @@ runs:
         if: always()
         shell: bash
         run: rm -rf ${{ inputs.cucumber_path }}/specsync.lic
-        
+
       - uses: dorny/paths-filter@v2
         if: ${{ inputs.test_cases_sync == 'true' }}
         id: filter
